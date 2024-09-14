@@ -19,6 +19,7 @@ a.active hr {
   display: block;
 }
 
+/* Hide the scrollbar in the browser in Product Page when there are multiple images */
 ::-webkit-scrollbar {
   display: none;
 }
