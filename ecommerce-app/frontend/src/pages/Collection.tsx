@@ -14,25 +14,45 @@ const Collection = () => {
   const [subCategory, setSubCategory] = useState<string[]>([]);
   const [sortType, setSortType] = useState("relavent");
 
-  useEffect(() => {
-    setFilterProducts(products);
-  }, [products]);
-
   const toggleCategory = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (category.includes(e.target.value)) {
-      setCategory((prev) => prev.filter((a) => a !== e.target.value));
+    if (category.includes(e.target.value.trim())) {
+      setCategory((prev: string[]) => prev.filter((a) => a !== e.target.value));
     } else {
-      setCategory((prev) => [...prev, e.target.value]);
+      setCategory((prev: string[]) => [...prev, e.target.value]);
     }
   };
 
   const toggleSubCategory = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (subCategory.includes(e.target.value)) {
-      setSubCategory((prev) => prev.filter((a) => a !== e.target.value));
+    if (subCategory.includes(e.target.value.trim())) {
+      setSubCategory((prev: string[]) =>
+        prev.filter((a) => a !== e.target.value)
+      );
     } else {
-      setSubCategory((prev) => [...prev, e.target.value]);
+      setSubCategory((prev: string[]) => [...prev, e.target.value]);
     }
   };
+
+  const applyFilter = () => {
+    let productsCopy = products.slice();
+    if (category.length > 0) {
+      productsCopy = productsCopy.filter((item) =>
+        category.includes(item.category)
+      );
+    }
+
+    if (subCategory.length > 0) {
+      productsCopy = productsCopy.filter((item) =>
+        subCategory.includes(item.subCategory)
+      );
+    }
+
+    setFilterProducts(productsCopy);
+  };
+
+  useEffect(() => {
+    applyFilter();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [category, subCategory]);
 
   return (
     <div className="flex flex-col sm:flex-row gap-1 sm:gap-10 pt-10 border-t">
@@ -72,7 +92,7 @@ const Collection = () => {
             <p className="flex gap-2">
               <input
                 className="w-3"
-                value={"Women"}
+                value="Women"
                 onChange={toggleCategory}
                 type="checkbox"
               />
@@ -81,7 +101,7 @@ const Collection = () => {
             <p className="flex gap-2">
               <input
                 className="w-3"
-                value={"Kids"}
+                value="Kids"
                 onChange={toggleCategory}
                 type="checkbox"
               />
@@ -103,7 +123,7 @@ const Collection = () => {
             <p className="flex gap-2">
               <input
                 className="w-3"
-                value={"Topwear"}
+                value="Topwear"
                 onChange={toggleSubCategory}
                 type="checkbox"
               />
@@ -112,7 +132,7 @@ const Collection = () => {
             <p className="flex gap-2">
               <input
                 className="w-3"
-                value={"Bottomwear"}
+                value="Bottomwear"
                 onChange={toggleSubCategory}
                 type="checkbox"
               />
@@ -121,7 +141,7 @@ const Collection = () => {
             <p className="flex gap-2">
               <input
                 className="w-3"
-                value={"Winterwear"}
+                value="Winterwear"
                 onChange={toggleSubCategory}
                 type="checkbox"
               />
