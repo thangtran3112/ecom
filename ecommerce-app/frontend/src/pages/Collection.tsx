@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useContext, useEffect, useState } from "react";
 import { ShopContext } from "../context/ShopContext";
 import { cn } from "../lib/utils";
@@ -6,13 +7,23 @@ import Title from "../components/Title";
 import { Product } from "../interfaces/Product";
 import ProductItem from "../components/ProductItem";
 
+enum SortType {
+  Relavent = "relavent",
+  LowHigh = "low-high",
+  HighLow = "high-low",
+}
+
+//Do not Search if the search input is less than 3 character
+//This is to avoid constant re-rendering
+const MIN_SEARCH_LENGTH = 3;
+
 const Collection = () => {
-  const { products } = useContext(ShopContext);
+  const { products, search, showSearch } = useContext(ShopContext);
   const [showFilter, setShowFilter] = useState(false);
   const [filterProducts, setFilterProducts] = useState<Product[]>([]);
   const [category, setCategory] = useState<string[]>([]);
   const [subCategory, setSubCategory] = useState<string[]>([]);
-  const [sortType, setSortType] = useState("relavent");
+  const [sortType, setSortType] = useState<SortType>(SortType.Relavent);
 
   const toggleCategory = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (category.includes(e.target.value.trim())) {
@@ -34,6 +45,14 @@ const Collection = () => {
 
   const applyFilter = () => {
     let productsCopy = products.slice();
+
+    // If search is set, search by product name
+    if (showSearch && search && search.length >= MIN_SEARCH_LENGTH) {
+      productsCopy = productsCopy.filter((item) =>
+        item.name.toLowerCase().includes(search.toLowerCase())
+      );
+    }
+
     if (category.length > 0) {
       productsCopy = productsCopy.filter((item) =>
         category.includes(item.category)
@@ -49,10 +68,38 @@ const Collection = () => {
     setFilterProducts(productsCopy);
   };
 
+  const sortProduct = async () => {
+    const fpCopy = filterProducts.slice();
+
+    switch (sortType) {
+      case "low-high":
+        setFilterProducts(fpCopy.sort((a, b) => a.price - b.price));
+        break;
+
+      case "high-low":
+        setFilterProducts(fpCopy.sort((a, b) => b.price - a.price));
+        break;
+
+      default:
+        applyFilter();
+        break;
+    }
+  };
+
   useEffect(() => {
-    applyFilter();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [category, subCategory]);
+    const handler = setTimeout(() => {
+      applyFilter();
+    }, 1000); // Avoid constant re-rendering. This could be done with useDebounce hook as well
+
+    // Cleanup function to clear the timeout if dependencies change
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [category, subCategory, search, showSearch]);
+
+  useEffect(() => {
+    sortProduct();
+  }, [sortType]);
 
   return (
     <div className="flex flex-col sm:flex-row gap-1 sm:gap-10 pt-10 border-t">
@@ -159,14 +206,14 @@ const Collection = () => {
 
           {/* Product Sort */}
           <select
-            onChange={(e) => setSortType(e.target.value)}
+            onChange={(e) => setSortType(e.target.value as SortType)}
             className="border-2 border-gray-300 text-sm px-2"
             name=""
             id=""
           >
-            <option value="relavent">Sort by: Relavent</option>
-            <option value="low-high">Sort by: Low to High</option>
-            <option value="high-low">Sort by: High to Low</option>
+            <option value={SortType.Relavent}>Sort by: Relavent</option>
+            <option value={SortType.LowHigh}>Sort by: Low to High</option>
+            <option value={SortType.HighLow}>Sort by: High to Low</option>
           </select>
         </div>
 
