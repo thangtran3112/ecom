@@ -23,6 +23,7 @@ a.active hr {
   display: none;
 }
 
+/* This is for the mobile Navbar, it will highlight the active link in black */
 @media (max-width: 640px) {
   a.active {
     background-color: black;
