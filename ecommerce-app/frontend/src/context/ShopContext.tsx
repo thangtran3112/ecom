@@ -2,6 +2,20 @@
 import { createContext, useEffect, useState } from "react";
 import { products } from "../assets/assets";
 import { Product } from "../interfaces/Product";
+import { toast } from "react-toastify";
+
+/**
+ * CartItems will look like this:
+ * {
+ *    "product_id": {
+ *    "size": quantity
+ * }
+ */
+interface CartItemsProps {
+  [key: string]: {
+    [key: string]: number;
+  };
+}
 
 interface ShopContextProps {
   products: Product[];
@@ -12,7 +26,9 @@ interface ShopContextProps {
   showSearch: boolean;
   setShowSearch: React.Dispatch<React.SetStateAction<boolean>>;
   cartItems: any;
+  // eslint-disable-next-line no-unused-vars
   addToCart: (itemId: string, size: string) => Promise<void>;
+  getCartCount: () => number;
 }
 
 export const ShopContext = createContext<ShopContextProps>(
@@ -26,9 +42,14 @@ const ShopContextProvider = (props: any) => {
   const [showSearch, setShowSearch] = useState<boolean>(true);
 
   //this could be replaced by using local storage, or with Zustand Persist
-  const [cartItems, setCartItems] = useState<any>({});
+  const [cartItems, setCartItems] = useState<CartItemsProps>({});
 
   const addToCart = async (itemId: string, size: string) => {
+    if (!size) {
+      toast.error("Select product size");
+      return;
+    }
+
     const cartData = structuredClone(cartItems);
 
     if (cartData[itemId]) {
@@ -46,6 +67,22 @@ const ShopContextProvider = (props: any) => {
     setCartItems(cartData);
   };
 
+  const getCartCount = () => {
+    let totalCount = 0;
+    for (const items in cartItems) {
+      for (const item in cartItems[items]) {
+        try {
+          if (cartItems[items][item] > 0) {
+            totalCount += cartItems[items][item];
+          }
+        } catch (error) {
+          console.error(error);
+        }
+      }
+    }
+    return totalCount;
+  };
+
   useEffect(() => {
     console.log(cartItems);
   }, [cartItems]);
@@ -60,6 +97,7 @@ const ShopContextProvider = (props: any) => {
     setShowSearch,
     cartItems,
     addToCart,
+    getCartCount,
   };
 
   return (
