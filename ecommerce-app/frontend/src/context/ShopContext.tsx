@@ -5,6 +5,7 @@ import { createContext, useEffect, useState } from "react";
 import { products } from "../assets/assets";
 import { Product } from "../interfaces/Product";
 import { toast } from "react-toastify";
+import { NavigateFunction, useNavigate } from "react-router-dom";
 
 /**
  * CartItems will look like this:
@@ -36,6 +37,8 @@ interface ShopContextProps {
     size: string,
     quantity: number
   ) => Promise<void>;
+  getCartAmount: () => number;
+  navigate: NavigateFunction;
 }
 
 export const ShopContext = createContext<ShopContextProps>(
@@ -45,6 +48,7 @@ export const ShopContext = createContext<ShopContextProps>(
 const ShopContextProvider = (props: any) => {
   const currency = "$";
   const delivery_fee = 10;
+  const navigate = useNavigate();
   const [search, setSearch] = useState<string>("");
   const [showSearch, setShowSearch] = useState<boolean>(true);
 
@@ -100,6 +104,29 @@ const ShopContextProvider = (props: any) => {
     return totalCount;
   };
 
+  const getCartAmount = () => {
+    let totalAmount = 0;
+    for (const productId in cartItems) {
+      const itemInfo = products.find((product) => product._id === productId);
+
+      if (!itemInfo) {
+        toast.error(`Unknown Error, Product not found for ${productId}`);
+        continue;
+      }
+
+      for (const productSize in cartItems[productId]) {
+        try {
+          if (cartItems[productId][productSize] > 0) {
+            totalAmount += itemInfo.price * cartItems[productId][productSize];
+          }
+        } catch (error) {
+          console.error(error);
+        }
+      }
+    }
+    return totalAmount;
+  };
+
   useEffect(() => {
     console.log(cartItems);
   }, [cartItems]);
@@ -116,6 +143,8 @@ const ShopContextProvider = (props: any) => {
     addToCart,
     getCartCount,
     updateQuantity,
+    getCartAmount,
+    navigate,
   };
 
   return (
