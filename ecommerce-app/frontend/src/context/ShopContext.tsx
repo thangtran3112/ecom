@@ -1,4 +1,6 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
+
 import { createContext, useEffect, useState } from "react";
 import { products } from "../assets/assets";
 import { Product } from "../interfaces/Product";
@@ -10,6 +12,7 @@ import { toast } from "react-toastify";
  *    "product_id": {
  *    "size": quantity
  * }
+ * size can be S, M, L, XL
  */
 interface CartItemsProps {
   [key: string]: {
@@ -26,9 +29,13 @@ interface ShopContextProps {
   showSearch: boolean;
   setShowSearch: React.Dispatch<React.SetStateAction<boolean>>;
   cartItems: any;
-  // eslint-disable-next-line no-unused-vars
   addToCart: (itemId: string, size: string) => Promise<void>;
   getCartCount: () => number;
+  updateQuantity: (
+    itemId: string,
+    size: string,
+    quantity: number
+  ) => Promise<void>;
 }
 
 export const ShopContext = createContext<ShopContextProps>(
@@ -67,13 +74,23 @@ const ShopContextProvider = (props: any) => {
     setCartItems(cartData);
   };
 
+  const updateQuantity = async (
+    itemId: string,
+    size: string,
+    quantity: number
+  ) => {
+    const cartData = structuredClone(cartItems);
+    cartData[itemId][size] = quantity;
+    setCartItems(cartData);
+  };
+
   const getCartCount = () => {
     let totalCount = 0;
-    for (const items in cartItems) {
-      for (const item in cartItems[items]) {
+    for (const productId in cartItems) {
+      for (const productSize in cartItems[productId]) {
         try {
-          if (cartItems[items][item] > 0) {
-            totalCount += cartItems[items][item];
+          if (cartItems[productId][productSize] > 0) {
+            totalCount += cartItems[productId][productSize];
           }
         } catch (error) {
           console.error(error);
@@ -98,6 +115,7 @@ const ShopContextProvider = (props: any) => {
     cartItems,
     addToCart,
     getCartCount,
+    updateQuantity,
   };
 
   return (
