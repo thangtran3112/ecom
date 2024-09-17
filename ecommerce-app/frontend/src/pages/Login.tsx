@@ -44,14 +44,14 @@ const Login = () => {
         {currentState === AuthState.Login ? (
           <p
             onClick={() => setCurrentState(AuthState.SignUp)}
-            className="cursor-pointer text-blue-500 hover:underline"
+            className="cursor-pointer text-rose-500 hover:underline"
           >
             Create account
           </p>
         ) : (
           <p
             onClick={() => setCurrentState(AuthState.Login)}
-            className="cursor-pointer text-blue-500 hover:underline"
+            className="cursor-pointer text-rose-500 hover:underline"
           >
             Login here
           </p>
