@@ -1,5 +1,7 @@
 import { Request, Response } from "express";
-
+import { v2 as cloudinary } from "cloudinary";
+import { IProduct } from "../models/productModel";
+import ProductModel from "../models/productModel";
 /**
  * req: Request object after modifying by multer middleware
  * */
@@ -20,17 +22,37 @@ const addProduct = async (req: any, res: Response) => {
     const image3 = req?.files?.image3 && req.files.image3[0];
     const image4 = req?.files?.image4 && req.files.image4[0];
 
-    console.log(
+    const images = [image1, image2, image3, image4].filter(Boolean);
+
+    //upload images to cloudinary, from the images local storage
+    const imagesUrl = await Promise.all(
+      images.map(async (item) => {
+        const result = await cloudinary.uploader.upload(item.path, {
+          resource_type: "image",
+          folder: "fashionify",
+        });
+        return result.secure_url;
+      })
+    );
+
+    const productData: IProduct = {
       name,
       description,
-      price,
       category,
+      price: Number(price),
       subCategory,
-      sizes,
-      bestseller
-    );
-    console.log(image1, image2, image3, image4);
-    res.json({ success: true });
+      bestseller: bestseller === "true" ? true : false,
+      sizes: JSON.parse(sizes),
+      image: imagesUrl,
+      date: Date.now(),
+    };
+
+    console.log(productData);
+
+    const product = new ProductModel(productData);
+    await product.save();
+
+    res.json({ success: true, message: "Product Added" });
   } catch (error: any) {
     console.log(error);
     res.json({ success: false, message: error.message });
