@@ -59,11 +59,36 @@ const addProduct = async (req: any, res: Response) => {
   }
 };
 
-const listProducts = async (req: Request, res: Response) => {};
+const listProducts = async (req: Request, res: Response) => {
+  try {
+    const products = await ProductModel.find({});
+    res.json({ success: true, products });
+  } catch (error: any) {
+    console.log(error);
+    res.json({ success: false, message: error.message });
+  }
+};
 
-const removeProduct = async (req: Request, res: Response) => {};
+const removeProduct = async (req: Request, res: Response) => {
+  try {
+    await ProductModel.findByIdAndDelete(req.body.id);
+    res.json({ success: true, message: "Product Deleted" });
+  } catch (error: any) {
+    console.log(error);
+    res.json({ success: false, message: error.message });
+  }
+};
 
 // function for single product info
-const singleProduct = async (req: Request, res: Response) => {};
+const singleProduct = async (req: Request, res: Response) => {
+  try {
+    const { productId } = req.body;
+    const product = await ProductModel.findById(productId);
+    res.json({ success: true, product });
+  } catch (error: any) {
+    console.log(error);
+    res.json({ success: false, message: error.message });
+  }
+};
 
 export { listProducts, addProduct, removeProduct, singleProduct };
