@@ -1,151 +1,233 @@
 {
-  "info": {
-    "_postman_id": "a5dce22e-a5eb-4353-aaf9-9dbf671359fc",
-    "name": "Fashionify",
-    "schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
-    "_exporter_id": "20378199"
-  },
-  "item": [
-    {
-      "name": "User",
-      "item": [
-        {
-          "name": "/api/user/register",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "let jsonData = pm.response.json();",
-                  "pm.environment.set(\"jwt\", jsonData.token);"
-                ],
-                "type": "text/javascript",
-                "packages": {}
-              }
-            }
-          ],
-          "request": {
-            "method": "POST",
-            "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n    \"name\": \"Thang Tran\",\n    \"email\": \"thangtran3112@gmail.com\",\n    \"password\": \"Password123\"\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": "{{FullUrl}}/api/user/register"
-          },
-          "response": []
-        },
-        {
-          "name": "/api/user/login",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "let jsonData = pm.response.json();",
-                  "pm.environment.set(\"jwt\", jsonData.token);"
-                ],
-                "type": "text/javascript",
-                "packages": {}
-              }
-            }
-          ],
-          "request": {
-            "method": "POST",
-            "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n    \"email\" : \"thang3112@gmail.com\",\n    \"password\" : \"Password123\"\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": "{{FullUrl}}/api/user/login"
-          },
-          "response": []
-        }
-      ]
-    },
-    {
-      "name": "Product",
-      "item": [
-        {
-          "name": "/api/product/add",
-          "request": {
-            "method": "POST",
-            "header": [],
-            "body": {
-              "mode": "formdata",
-              "formdata": [
-                {
-                  "key": "name",
-                  "value": "testing name",
-                  "type": "text"
-                },
-                {
-                  "key": "description",
-                  "value": "testing description",
-                  "type": "text"
-                },
-                {
-                  "key": "price",
-                  "value": "10",
-                  "type": "text"
-                },
-                {
-                  "key": "bestseller",
-                  "value": "true",
-                  "type": "text"
-                },
-                {
-                  "key": "category",
-                  "value": "Men",
-                  "type": "text"
-                },
-                {
-                  "key": "subCategory",
-                  "value": "Topwear",
-                  "type": "text"
-                },
-                {
-                  "key": "sizes",
-                  "value": "[\"M\"]",
-                  "type": "text"
-                },
-                {
-                  "key": "image1",
-                  "type": "file",
-                  "src": "/Users/thangtran/Desktop/forever-full-stack/frontend/src/assets/p_img2_1.png"
-                },
-                {
-                  "key": "image2",
-                  "type": "file",
-                  "src": "/Users/thangtran/Desktop/forever-full-stack/frontend/src/assets/p_img2_2.png"
-                },
-                {
-                  "key": "image3",
-                  "type": "file",
-                  "src": "/Users/thangtran/Desktop/forever-full-stack/frontend/src/assets/p_img2_3.png"
-                },
-                {
-                  "key": "image4",
-                  "type": "file",
-                  "src": "/Users/thangtran/Desktop/forever-full-stack/frontend/src/assets/p_img2_4.png"
-                }
-              ]
-            },
-            "url": "{{FullUrl}}/api/product/add"
-          },
-          "response": []
-        }
-      ]
-    }
-  ]
+	"info": {
+		"_postman_id": "a5dce22e-a5eb-4353-aaf9-9dbf671359fc",
+		"name": "Fashionify",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "20378199"
+	},
+	"item": [
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "/api/user/register",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let jsonData = pm.response.json();",
+									"pm.environment.set(\"jwt\", jsonData.token);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Thang Tran\",\n    \"email\": \"thangtran3112@gmail.com\",\n    \"password\": \"Password123\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{FullUrl}}/api/user/register"
+					},
+					"response": []
+				},
+				{
+					"name": "/api/user/login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let jsonData = pm.response.json();",
+									"pm.environment.set(\"jwt\", jsonData.token);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\" : \"thang3112@gmail.com\",\n    \"password\" : \"Password123\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{FullUrl}}/api/user/login"
+					},
+					"response": []
+				},
+				{
+					"name": "/api/user/admin",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let jsonData = pm.response.json();",
+									"pm.environment.set(\"jwt\", jsonData.token);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\" : \"admin@gmail.com\",\n    \"password\" : \"Password123\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{FullUrl}}/api/user/admin"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Product",
+			"item": [
+				{
+					"name": "/api/product/add",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{jwt}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "Product 4",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "testing description",
+									"type": "text"
+								},
+								{
+									"key": "price",
+									"value": "10",
+									"type": "text"
+								},
+								{
+									"key": "bestseller",
+									"value": "true",
+									"type": "text"
+								},
+								{
+									"key": "category",
+									"value": "Men",
+									"type": "text"
+								},
+								{
+									"key": "subCategory",
+									"value": "Topwear",
+									"type": "text"
+								},
+								{
+									"key": "sizes",
+									"value": "[\"M\"]",
+									"type": "text"
+								},
+								{
+									"key": "image1",
+									"type": "file",
+									"src": "/Users/thangtran/Desktop/forever-full-stack/frontend/src/assets/p_img2_1.png"
+								},
+								{
+									"key": "image2",
+									"type": "file",
+									"src": "/Users/thangtran/Desktop/forever-full-stack/frontend/src/assets/p_img2_2.png"
+								},
+								{
+									"key": "image3",
+									"type": "file",
+									"src": "/Users/thangtran/Desktop/forever-full-stack/frontend/src/assets/p_img2_3.png"
+								},
+								{
+									"key": "image4",
+									"type": "file",
+									"src": "/Users/thangtran/Desktop/forever-full-stack/frontend/src/assets/p_img2_4.png"
+								}
+							]
+						},
+						"url": "{{FullUrl}}/api/product/add"
+					},
+					"response": []
+				},
+				{
+					"name": "/api/product/remove",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\" : \"66ea37527e68ea457d03c8e9\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{FullUrl}}/api/product/remove"
+					},
+					"response": []
+				},
+				{
+					"name": "/api/product/list",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{FullUrl}}/api/product/list"
+					},
+					"response": []
+				},
+				{
+					"name": "/api/product/single",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"productId\" : \"66ea375d7e68ea457d03c8eb\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{FullUrl}}/api/product/single"
+					},
+					"response": []
+				}
+			]
+		}
+	]
 }
