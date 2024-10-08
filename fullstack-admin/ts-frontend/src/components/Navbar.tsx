@@ -17,8 +17,15 @@ import {
   useTheme,
 } from "@mui/material";
 import FlexBetween from "./FlexBetween";
+import { setMode } from "../states";
+import { DARK } from "../states/constants";
 
-const Navbar = () => {
+interface NavbarProps {
+  isSidebarOpen: boolean;
+  setIsSidebarOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const Navbar = ({ isSidebarOpen, setIsSidebarOpen }: NavbarProps) => {
   const dispatch = useAppDispatch();
   const theme = useTheme();
   return (
@@ -32,7 +39,7 @@ const Navbar = () => {
       <Toolbar sx={{ justifyContent: "space-between" }}>
         {/* LEFT SIDE */}
         <FlexBetween>
-          <IconButton onClick={() => console.log("open/close sidebar")}>
+          <IconButton onClick={() => setIsSidebarOpen(!isSidebarOpen)}>
             <MenuIcon />
           </IconButton>
           <FlexBetween
@@ -49,6 +56,18 @@ const Navbar = () => {
         </FlexBetween>
 
         {/* RIGHT SIDE */}
+        <FlexBetween>
+          <IconButton onClick={() => dispatch(setMode())}>
+            {theme.palette.mode === DARK ? (
+              <DarkModeOutlined sx={{ fontSize: "25px" }} />
+            ) : (
+              <LightModeOutlined sx={{ fontSize: "25px" }} />
+            )}
+          </IconButton>
+          <IconButton>
+            <SettingsOutlined sx={{ fontSize: "25px" }} />
+          </IconButton>
+        </FlexBetween>
       </Toolbar>
     </AppBar>
   );

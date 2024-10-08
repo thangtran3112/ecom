@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { PaletteMode } from "@mui/material";
+import { PaletteMode, Theme } from "@mui/material";
 import { DARK } from "./states/constants";
 
 interface TokenColor {
