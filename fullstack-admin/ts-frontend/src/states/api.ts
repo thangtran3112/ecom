@@ -5,7 +5,7 @@ const REACT_APP_BASE_URL = import.meta.env.VITE_REACT_APP_BASE_URL;
 export const api = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: REACT_APP_BASE_URL }),
   reducerPath: "adminApi",
-  tagTypes: ["User", "Products"],
+  tagTypes: ["User", "Products", "Customers"],
   endpoints: (build) => ({
     getUser: build.query<IUser, string>({
       query: (id) => `general/user/${id}`,
@@ -15,7 +15,12 @@ export const api = createApi({
       query: () => "client/products",
       providesTags: ["Products"],
     }),
+    getCustomers: build.query<IUser[], undefined>({
+      query: () => "client/customers",
+      providesTags: ["Customers"],
+    }),
   }),
 });
 
-export const { useGetUserQuery, useGetProductsQuery } = api;
+export const { useGetUserQuery, useGetProductsQuery, useGetCustomersQuery } =
+  api;
