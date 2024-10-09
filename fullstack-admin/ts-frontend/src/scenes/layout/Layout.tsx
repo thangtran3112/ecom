@@ -5,7 +5,6 @@ import { useState } from "react";
 import Sidebar from "../../components/Sidebar";
 import { useAppSelector } from "../../states/hooks";
 import { useGetUserQuery } from "../../states/api";
-import { IUser } from "../../states/types";
 
 const Layout = () => {
   const isNonMobile = useMediaQuery("(min-width: 600px)");
@@ -17,7 +16,7 @@ const Layout = () => {
   return (
     <Box display={isNonMobile ? "flex" : "block"} width="100%" height="100%">
       <Sidebar
-        user={(data as IUser) || {}}
+        user={data}
         isNonMobile={isNonMobile}
         drawerWidth="250px"
         isSidebarOpen={isSidebarOpen}
@@ -26,7 +25,7 @@ const Layout = () => {
       {/* Without flex-grow, the rest of Navbar will not take up the rest of horizontal space */}
       <Box flexGrow={1}>
         <Navbar
-          user={(data as IUser) || {}}
+          user={data}
           isSidebarOpen={isSidebarOpen}
           setIsSidebarOpen={setIsSidebarOpen}
         />

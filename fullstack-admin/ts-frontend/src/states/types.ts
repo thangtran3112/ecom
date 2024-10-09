@@ -11,4 +11,43 @@ export interface IUser {
   phoneNumber: string;
   transactions: string[];
   role: string;
+  createdAt?: Date;
+  updatedAt?: Date;
+}
+
+interface IMonthlyData {
+  month: string;
+  totalSales: number;
+  totalUnits: number;
+}
+
+interface IDailyData {
+  date: string;
+  totalSales: number;
+  totalUnits: number;
+}
+
+interface IProductStat {
+  _id: string;
+  productId: string;
+  yearlySalesTotal: number;
+  yearlyTotalSoldUnits: number;
+  year: number;
+  monthlyData: IMonthlyData[];
+  dailyData: IDailyData[];
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface IProduct {
+  _id: string;
+  name: string;
+  price: number;
+  description: string;
+  category: string;
+  rating: number;
+  supply: number;
+  createdAt?: Date;
+  updatedAt?: Date;
+  stat: IProductStat;
 }

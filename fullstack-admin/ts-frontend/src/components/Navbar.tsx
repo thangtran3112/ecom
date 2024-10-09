@@ -29,7 +29,7 @@ import { IUser } from "../states/types";
 import { useState } from "react";
 
 interface NavbarProps {
-  user: IUser;
+  user: IUser | undefined;
   isSidebarOpen: boolean;
   setIsSidebarOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
@@ -114,13 +114,13 @@ const Navbar = ({ user, isSidebarOpen, setIsSidebarOpen }: NavbarProps) => {
                   fontSize="0.85rem"
                   sx={{ color: theme.palette.secondary[100] }}
                 >
-                  {user.name}
+                  {user?.name}
                 </Typography>
                 <Typography
                   fontSize="0.75rem"
                   sx={{ color: theme.palette.secondary[200] }}
                 >
-                  {user.occupation}
+                  {user?.occupation}
                 </Typography>
               </Box>
               <ArrowDropDownOutlined

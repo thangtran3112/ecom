@@ -35,7 +35,7 @@ import FlexBetween from "./FlexBetween";
 import { IUser } from "../states/types";
 
 interface SidebarProps {
-  user: IUser;
+  user: IUser | undefined;
   drawerWidth: string;
   isSidebarOpen: boolean;
   setIsSidebarOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -218,7 +218,7 @@ const Sidebar = ({
                     color: theme.palette.secondary[100],
                   }}
                 >
-                  {user.name}
+                  {user?.name}
                 </Typography>
                 <Typography
                   fontSize="0.8rem"
@@ -226,7 +226,7 @@ const Sidebar = ({
                     color: theme.palette.secondary[200],
                   }}
                 >
-                  {user.occupation}
+                  {user?.occupation}
                 </Typography>
               </Box>
               <SettingsOutlined
