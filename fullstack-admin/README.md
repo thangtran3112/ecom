@@ -1,7 +1,4 @@
-# Fullstack MERN with similar styling as Airbnb
+# Fullstack MERN with Backend Focus
 
 - Techstacks: Material UI, Scss, Redux, ExpressJS, Mongo DB
-
-## Scalfolding
-
-- npm create vite@latest
+- Utilize Aggregate Mongo features for data analytics

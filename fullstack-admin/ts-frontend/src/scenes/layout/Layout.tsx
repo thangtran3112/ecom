@@ -23,7 +23,7 @@ const Layout = () => {
         isSidebarOpen={isSidebarOpen}
         setIsSidebarOpen={setIsSidebarOpen}
       />
-
+      {/* Without flex-grow, the rest of Navbar will not take up the rest of horizontal space */}
       <Box flexGrow={1}>
         <Navbar
           user={(data as IUser) || {}}
