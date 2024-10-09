@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   LightModeOutlined,
   DarkModeOutlined,
@@ -11,23 +12,42 @@ import profileImage from "../assets/profile.jpeg";
 import { useAppDispatch } from "../states/hooks";
 import {
   AppBar,
+  Box,
+  Button,
   IconButton,
   InputBase,
+  Menu,
+  MenuItem,
   Toolbar,
+  Typography,
   useTheme,
 } from "@mui/material";
 import FlexBetween from "./FlexBetween";
 import { setMode } from "../states";
 import { DARK } from "../states/constants";
+import { IUser } from "../states/types";
+import { useState } from "react";
 
 interface NavbarProps {
+  user: IUser;
   isSidebarOpen: boolean;
   setIsSidebarOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const Navbar = ({ isSidebarOpen, setIsSidebarOpen }: NavbarProps) => {
+const Navbar = ({ user, isSidebarOpen, setIsSidebarOpen }: NavbarProps) => {
   const dispatch = useAppDispatch();
-  const theme = useTheme();
+  const theme = useTheme() as any;
+
+  /**
+   * This part is from Material UI documentation for handling drop-down menu
+   * https://www.dhiwise.com/post/creative-ways-to-customize-material-ui-dropdown-menu-in-react
+   */
+  const [anchorEl, setAnchorEl] = useState(null);
+  const isOpen = Boolean(anchorEl);
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement> | any) =>
+    setAnchorEl(event.currentTarget);
+  const handleClose = () => setAnchorEl(null);
+
   return (
     <AppBar
       sx={{
@@ -67,6 +87,55 @@ const Navbar = ({ isSidebarOpen, setIsSidebarOpen }: NavbarProps) => {
           <IconButton>
             <SettingsOutlined sx={{ fontSize: "25px" }} />
           </IconButton>
+
+          <FlexBetween>
+            <Button
+              onClick={handleClick}
+              sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                textTransform: "none",
+                gap: "1rem",
+              }}
+            >
+              <Box
+                component="img"
+                alt="profile"
+                src={profileImage}
+                height="2rem"
+                width="2rem"
+                borderRadius="50%"
+                sx={{ objectFit: "cover" }}
+              />
+              <Box textAlign="left">
+                <Typography
+                  fontWeight="bold"
+                  fontSize="0.85rem"
+                  sx={{ color: theme.palette.secondary[100] }}
+                >
+                  {user.name}
+                </Typography>
+                <Typography
+                  fontSize="0.75rem"
+                  sx={{ color: theme.palette.secondary[200] }}
+                >
+                  {user.occupation}
+                </Typography>
+              </Box>
+              <ArrowDropDownOutlined
+                sx={{ color: theme.palette.secondary[300], fontSize: "25px" }}
+              />
+            </Button>
+            <Menu
+              anchorEl={anchorEl}
+              open={isOpen}
+              onClose={handleClose}
+              anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+            >
+              <MenuItem onClick={handleClose}>Log Out</MenuItem>
+            </Menu>
+          </FlexBetween>
         </FlexBetween>
       </Toolbar>
     </AppBar>
