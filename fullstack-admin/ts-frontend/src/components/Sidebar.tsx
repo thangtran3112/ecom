@@ -32,7 +32,7 @@ import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import profileImage from "../assets/profile.jpeg";
 import FlexBetween from "./FlexBetween";
-import { IUser } from "../states/types";
+import { IUser } from "../fixtures/types";
 
 interface SidebarProps {
   user: IUser | undefined;

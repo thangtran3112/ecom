@@ -24,8 +24,8 @@ import {
 } from "@mui/material";
 import FlexBetween from "./FlexBetween";
 import { setMode } from "../states";
-import { DARK } from "../states/constants";
-import { IUser } from "../states/types";
+import { DARK } from "../fixtures/constants";
+import { IUser } from "../fixtures/types";
 import { useState } from "react";
 
 interface NavbarProps {

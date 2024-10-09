@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { BACKEND_MOCK_USER_ID, DARK, LIGHT } from "./constants";
+import { BACKEND_MOCK_USER_ID, DARK, LIGHT } from "../fixtures/constants";
 import { PaletteMode } from "@mui/material";
 
 export interface IState {

@@ -10,7 +10,8 @@ export const getProducts = async (req: Request, res: Response) => {
     //this can be rewritten by Mongo Aggregate function, to Join Products and ProductStat tables
     const productsWithStats = await Promise.all(
       products.map(async (product) => {
-        const stat = await ProductStat.find({
+        //do not use find() as it return an array, while we know there is only 1 element
+        const stat = await ProductStat.findOne({
           productId: product._id,
         });
         // const productDoc = product._doc || product;

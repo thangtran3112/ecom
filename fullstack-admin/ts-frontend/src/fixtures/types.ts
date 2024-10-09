@@ -16,12 +16,14 @@ export interface IUser {
 }
 
 interface IMonthlyData {
+  _id: string;
   month: string;
   totalSales: number;
   totalUnits: number;
 }
 
 interface IDailyData {
+  _id: string;
   date: string;
   totalSales: number;
   totalUnits: number;

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { PaletteMode, Theme } from "@mui/material";
-import { DARK } from "./states/constants";
+import { DARK } from "./fixtures/constants";
 
 interface TokenColor {
   grey: { [key: string | number]: string };
