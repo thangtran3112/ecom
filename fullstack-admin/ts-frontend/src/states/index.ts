@@ -1,13 +1,15 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { DARK, LIGHT } from "./constants";
+import { BACKEND_MOCK_USER_ID, DARK, LIGHT } from "./constants";
 import { PaletteMode } from "@mui/material";
 
 export interface IState {
   mode: PaletteMode;
+  userId: string;
 }
 
 const initialState: IState = {
   mode: DARK,
+  userId: BACKEND_MOCK_USER_ID,
 };
 
 export const globalSlice = createSlice({

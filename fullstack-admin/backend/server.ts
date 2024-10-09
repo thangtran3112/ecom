@@ -9,6 +9,15 @@ import clientRoutes from "./routes/client";
 import generalRoutes from "./routes/general";
 import managementRoutes from "./routes/management";
 import salesRoutes from "./routes/sales";
+import {
+  dataAffiliateStat,
+  dataOverallStat,
+  dataProduct,
+  dataProductStat,
+  dataTransaction,
+  dataUser,
+} from "./data";
+import User from "./models/User";
 
 /* CONFIGURATION */
 dotenv.config();
@@ -19,7 +28,7 @@ app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
 app.use(morgan("common"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cors())
+app.use(cors());
 
 /** ROUTES */
 app.use("/client", clientRoutes);
@@ -35,7 +44,9 @@ mongoose
     // useUnifiedTopology: true,
   })
   .then(() => {
-    app.listen(PORT, () => console.log(`Connected to Mongo DB. Server Port: ${PORT}`));
+    app.listen(PORT, () =>
+      console.log(`Connected to Mongo DB. Server Port: ${PORT}`)
+    );
 
     /* ONLY ADD DATA ONE TIME */
     // AffiliateStat.insertMany(dataAffiliateStat);
@@ -43,6 +54,8 @@ mongoose
     // Product.insertMany(dataProduct);
     // ProductStat.insertMany(dataProductStat);
     // Transaction.insertMany(dataTransaction);
-    // User.insertMany(dataUser);
+    User.insertMany(dataUser);
   })
-  .catch((error) => console.log(`MongoDB or Server did not connect. Error: ${error}`));
+  .catch((error) =>
+    console.log(`MongoDB or Server did not connect. Error: ${error}`)
+  );
