@@ -1,5 +1,7 @@
 # Admin Dashboard Frontend
 
+- Server-side Pagination with Mongoose Aggregate functions
+
 ## Techstacks
 
 - Material UI with data grid
