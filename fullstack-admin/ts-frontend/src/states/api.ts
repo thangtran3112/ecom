@@ -1,8 +1,9 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import {
   GetTransactionsResponse,
+  IGeography,
+  IGeographyResponse,
   IProduct,
-  ITransaction,
   IUser,
 } from "../fixtures/types";
 const REACT_APP_BASE_URL = import.meta.env.VITE_REACT_APP_BASE_URL;
@@ -17,7 +18,7 @@ interface GetTransactionParamsProps {
 export const api = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: REACT_APP_BASE_URL }),
   reducerPath: "adminApi",
-  tagTypes: ["User", "Products", "Customers", "Transactions"],
+  tagTypes: ["User", "Products", "Customers", "Transactions", "Geography"],
   endpoints: (build) => ({
     getUser: build.query<IUser, string>({
       query: (id) => `general/user/${id}`,
@@ -42,6 +43,10 @@ export const api = createApi({
       }),
       providesTags: ["Transactions"],
     }),
+    getGeography: build.query<IGeography[], undefined>({
+      query: () => "client/geography",
+      providesTags: ["Geography"],
+    }),
   }),
 });
 
@@ -50,4 +55,5 @@ export const {
   useGetProductsQuery,
   useGetCustomersQuery,
   useGetTransactionsQuery,
+  useGetGeographyQuery,
 } = api;

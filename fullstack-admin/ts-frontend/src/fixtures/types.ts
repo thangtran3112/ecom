@@ -68,3 +68,8 @@ export interface GetTransactionsResponse {
   transactions: ITransaction[];
   total: number; //number of transactions, return from Express Backend
 }
+
+export interface IGeography {
+  id: string;
+  value: number;
+}

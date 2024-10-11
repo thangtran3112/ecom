@@ -4,6 +4,7 @@ import { Request, Response } from "express";
 import User from "../models/User";
 import Transaction from "../models/Transaction";
 import validator from "validator";
+import { getCountryISO3 } from "ts-country-iso-2-to-3";
 
 export const getProducts = async (req: Request, res: Response) => {
   try {
@@ -97,6 +98,34 @@ export const getTransactions = async (req: Request, res: Response) => {
       transactions,
       total,
     });
+  } catch (error: any) {
+    res.status(404).json({ message: error.message });
+  }
+};
+
+export const getGeography = async (req: Request, res: Response) => {
+  try {
+    const users = await User.find();
+
+    const mappedLocations = users.reduce((acc: any, { country }) => {
+      // console.log(getCountryISO3('br')) // BRA
+      // console.log(getCountryISO3('US')) // USA
+      const countryISO3 = getCountryISO3(country as string);
+      if (!acc[countryISO3]) {
+        acc[countryISO3] = 0;
+      }
+      acc[countryISO3]++; // keep track of the number of users in this country as a key
+      return acc;
+    }, {});
+
+    const formattedLocations = Object.entries(mappedLocations).map(
+      ([country, count]) => {
+        // in-order for nunivo frontend library to work with geography, we need countryISO3 codes
+        return { id: country, value: count };
+      }
+    );
+
+    res.status(200).json(formattedLocations);
   } catch (error: any) {
     res.status(404).json({ message: error.message });
   }
