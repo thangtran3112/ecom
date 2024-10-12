@@ -73,3 +73,16 @@ export interface IGeography {
   id: string;
   value: number;
 }
+
+export interface IOverallStat {
+  _id: string;
+  totalCustomers: number;
+  yearlySalesTotal: number;
+  yearlyTotalSoldUnits: number;
+  year: number;
+  monthlyData: Array<IMonthlyData>;
+  dailyData: Array<IDailyData>;
+  salesByCategory: Map<string, number>;
+  createdAt: Date;
+  updatedAt: Date;
+}

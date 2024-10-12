@@ -21,6 +21,7 @@ import User from "./models/User";
 import Product from "./models/Product";
 import ProductStat from "./models/ProductStat";
 import Transaction from "./models/Transaction";
+import OverallStat from "./models/OverallStat";
 
 /* CONFIGURATION */
 dotenv.config();
