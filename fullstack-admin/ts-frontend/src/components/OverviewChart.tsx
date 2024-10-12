@@ -1,23 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useMemo } from "react";
-import { Line, ResponsiveLine } from "@nivo/line";
+import { ResponsiveLine } from "@nivo/line";
 import { useTheme } from "@mui/material";
 import { useGetSalesQuery } from "../states/api";
+import { TotalLinesProps } from "../fixtures/types";
 
 interface OverviewChartProps {
   isDashboard?: boolean;
   view: string;
-}
-
-interface LineProps {
-  x: string;
-  y: number;
-}
-
-interface TotalLinesProps {
-  id: string;
-  color: any;
-  data: LineProps[];
 }
 
 const OverviewChart = ({ isDashboard = false, view }: OverviewChartProps) => {
@@ -68,6 +58,9 @@ const OverviewChart = ({ isDashboard = false, view }: OverviewChartProps) => {
   //Generate this code and passing {data} from https://nivo.rocks/line/
   return (
     <ResponsiveLine
+      enableArea={isDashboard}
+      // areaBlendMode="hard-light"
+      // areaOpacity={0.25}
       data={
         view === "sales"
           ? (totalSalesLine as TotalLinesProps[])
@@ -117,7 +110,6 @@ const OverviewChart = ({ isDashboard = false, view }: OverviewChartProps) => {
       }}
       yFormat=" >-.2f"
       curve="catmullRom"
-      enableArea={isDashboard}
       axisTop={null}
       axisRight={null}
       axisBottom={{

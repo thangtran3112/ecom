@@ -86,3 +86,14 @@ export interface IOverallStat {
   createdAt: Date;
   updatedAt: Date;
 }
+
+export interface LineProps {
+  x: string;
+  y: number;
+}
+
+export interface TotalLinesProps {
+  id: string;
+  color: any;
+  data: LineProps[];
+}
