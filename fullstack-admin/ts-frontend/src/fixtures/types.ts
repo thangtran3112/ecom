@@ -94,6 +94,6 @@ export interface LineProps {
 
 export interface TotalLinesProps {
   id: string;
-  color: any;
+  color: string;
   data: LineProps[];
 }
