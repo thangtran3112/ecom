@@ -3,9 +3,13 @@ import { Box, useTheme } from "@mui/material";
 import { useState } from "react";
 import { useGetTransactionsQuery } from "../../states/api";
 import Header from "../../components/Header";
-import { DataGrid, GridColDef, GridSortModel } from "@mui/x-data-grid";
+import {
+  DataGrid,
+  GridRenderCellParams,
+  GridSortModel,
+} from "@mui/x-data-grid";
 import { ITransaction } from "../../fixtures/types";
-import DataGridCustomToolbar from "../../components/DataGridCustomToolbar";
+import DataGridCustomToolbar from "../../components/datagrid/DataGridCustomToolbar";
 
 const Transactions = () => {
   const theme = useTheme() as any;
@@ -23,7 +27,7 @@ const Transactions = () => {
     search,
   });
 
-  const columns: GridColDef<ITransaction> = [
+  const columns = [
     {
       field: "_id",
       headerName: "ID",
@@ -44,13 +48,14 @@ const Transactions = () => {
       headerName: "# of Products",
       flex: 0.5,
       sortable: false,
-      renderCell: (params) => params.value.length,
+      renderCell: (params: GridRenderCellParams) => params.value.length,
     },
     {
       field: "cost",
       headerName: "Cost",
       flex: 1,
-      renderCell: (params) => `$${Number(params.value).toFixed(2)}`, // $600 for example
+      renderCell: (params: GridRenderCellParams) =>
+        `$${Number(params.value).toFixed(2)}`, // $600 for example
     },
   ];
 

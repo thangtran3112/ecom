@@ -1,3 +1,4 @@
+import { getAdmins } from "./../../../backend/controllers/management";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import {
   GetTransactionsResponse,
@@ -26,6 +27,7 @@ export const api = createApi({
     "Transactions",
     "Geography",
     "Sales",
+    "Admins",
   ],
   endpoints: (build) => ({
     getUser: build.query<IUser, string>({
@@ -59,6 +61,10 @@ export const api = createApi({
       query: () => "sales/sales",
       providesTags: ["Sales"],
     }),
+    getAdmins: build.query<IUser[], undefined>({
+      query: () => "management/admins",
+      providesTags: ["Admins"],
+    }),
   }),
 });
 
@@ -69,4 +75,5 @@ export const {
   useGetTransactionsQuery,
   useGetGeographyQuery,
   useGetSalesQuery,
+  useGetAdminsQuery,
 } = api;
