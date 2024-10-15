@@ -22,6 +22,7 @@ import Product from "./models/Product";
 import ProductStat from "./models/ProductStat";
 import Transaction from "./models/Transaction";
 import OverallStat from "./models/OverallStat";
+import AffiliateStat from "./models/AffiliateStat";
 
 /* CONFIGURATION */
 dotenv.config();

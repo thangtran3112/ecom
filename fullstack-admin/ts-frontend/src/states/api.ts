@@ -1,9 +1,8 @@
-import { getAdmins } from "./../../../backend/controllers/management";
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import {
   GetTransactionsResponse,
   IGeography,
-  IGeographyResponse,
   IOverallStat,
   IProduct,
   IUser,
@@ -28,6 +27,7 @@ export const api = createApi({
     "Geography",
     "Sales",
     "Admins",
+    "Performance",
   ],
   endpoints: (build) => ({
     getUser: build.query<IUser, string>({
@@ -65,6 +65,10 @@ export const api = createApi({
       query: () => "management/admins",
       providesTags: ["Admins"],
     }),
+    getUserPerformance: build.query<any, string>({
+      query: (id) => `management/performance/${id}`,
+      providesTags: ["Performance"],
+    }),
   }),
 });
 
@@ -76,4 +80,5 @@ export const {
   useGetGeographyQuery,
   useGetSalesQuery,
   useGetAdminsQuery,
+  useGetUserPerformanceQuery,
 } = api;
