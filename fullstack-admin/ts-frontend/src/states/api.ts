@@ -4,6 +4,7 @@ import {
   GetTransactionsResponse,
   IGeography,
   IOverallStat,
+  IPerformanceResponse,
   IProduct,
   IUser,
 } from "../fixtures/types";
@@ -65,7 +66,7 @@ export const api = createApi({
       query: () => "management/admins",
       providesTags: ["Admins"],
     }),
-    getUserPerformance: build.query<any, string>({
+    getUserPerformance: build.query<IPerformanceResponse, string>({
       query: (id) => `management/performance/${id}`,
       providesTags: ["Performance"],
     }),

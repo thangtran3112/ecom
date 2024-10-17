@@ -97,3 +97,45 @@ export interface TotalLinesProps {
   color: string;
   data: LineProps[];
 }
+
+interface IAffiliateStats {
+  _id: string;
+  userId: string;
+  affiliateSales: string[];
+  __v: number;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+interface IAffiliateUser {
+  _id: string;
+  name: string;
+  email: string;
+  password: string;
+  city: string;
+  state: string | null;
+  country: string;
+  occupation: string;
+  phoneNumber: string;
+  transactions: string[];
+  role: string;
+  __v: number;
+  createdAt: Date;
+  updatedAt: Date;
+  affiliateStats: IAffiliateStats;
+}
+
+interface ISale {
+  _id: string;
+  userId: string;
+  cost: string;
+  products: string[];
+  __v: number;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface IPerformanceResponse {
+  user: IAffiliateUser;
+  sales: ISale[];
+}

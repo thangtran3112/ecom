@@ -11,7 +11,7 @@ const Performance = () => {
   const userId = useAppSelector((state) => state.global.userId);
   const { data, isLoading } = useGetUserPerformanceQuery(userId);
 
-  if (data) console.log("Performance response: ", data);
+  //   if (data) console.log("Performance response: ", data);
 
   const columns = [
     {
