@@ -6,6 +6,7 @@ import {
   IOverallStat,
   IPerformanceResponse,
   IProduct,
+  ISalesDashboard,
   IUser,
 } from "../fixtures/types";
 const REACT_APP_BASE_URL = import.meta.env.VITE_REACT_APP_BASE_URL;
@@ -29,6 +30,7 @@ export const api = createApi({
     "Sales",
     "Admins",
     "Performance",
+    "Dashboard",
   ],
   endpoints: (build) => ({
     getUser: build.query<IUser, string>({
@@ -70,6 +72,10 @@ export const api = createApi({
       query: (id) => `management/performance/${id}`,
       providesTags: ["Performance"],
     }),
+    getDashboard: build.query<ISalesDashboard, undefined>({
+      query: () => "general/dashboard",
+      providesTags: ["Dashboard"],
+    }),
   }),
 });
 
@@ -82,4 +88,5 @@ export const {
   useGetSalesQuery,
   useGetAdminsQuery,
   useGetUserPerformanceQuery,
+  useGetDashboardQuery,
 } = api;

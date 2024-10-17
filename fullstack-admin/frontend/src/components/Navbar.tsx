@@ -26,13 +26,24 @@ import FlexBetween from "./FlexBetween";
 import { setMode } from "../states";
 import { DARK } from "../fixtures/constants";
 import { IUser } from "../fixtures/types";
-import { useState } from "react";
+import { PropsWithChildren, useState } from "react";
 
 interface NavbarProps {
   user: IUser | undefined;
   isSidebarOpen: boolean;
   setIsSidebarOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
+
+const FixedFlexBetween = ({ children }: PropsWithChildren) => {
+  const theme = useTheme() as any;
+
+  return (
+    //@ts-expect-error material ui typescript error on this version
+    <FlexBetween backgroundColor={theme.palette.background.alt}>
+      {children}
+    </FlexBetween>
+  );
+};
 
 const Navbar = ({ user, isSidebarOpen, setIsSidebarOpen }: NavbarProps) => {
   const dispatch = useAppDispatch();
@@ -62,17 +73,12 @@ const Navbar = ({ user, isSidebarOpen, setIsSidebarOpen }: NavbarProps) => {
           <IconButton onClick={() => setIsSidebarOpen(!isSidebarOpen)}>
             <MenuIcon />
           </IconButton>
-          <FlexBetween
-            // backgroundColor={theme.palette.background.alt}
-            borderRadius="9px"
-            gap="3rem"
-            p="0.1rem 1.5rem"
-          >
+          <FixedFlexBetween>
             <InputBase placeholder="Search..." />
             <IconButton>
               <Search />
             </IconButton>
-          </FlexBetween>
+          </FixedFlexBetween>
         </FlexBetween>
 
         {/* RIGHT SIDE */}

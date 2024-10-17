@@ -1,5 +1,7 @@
 # Backend for Admin Dashboard
 
+- Deployment on AWS Lambda with Express Adapter. [Example](https://github.com/thangtran3112/aws-serverless-samples/tree/main/serverless-full-stack-react-starter/backend)
+
 ## Express Typescript Scalfolding
 
 - [Guideline 1](https://blog.logrocket.com/how-to-set-up-node-typescript-express/)

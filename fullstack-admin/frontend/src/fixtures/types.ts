@@ -139,3 +139,25 @@ export interface IPerformanceResponse {
   user: IAffiliateUser;
   sales: ISale[];
 }
+
+// interface ISalesByCategory {
+//   shoes: number;
+//   clothing: number;
+//   accessories: number;
+//   misc: number;
+// }
+
+interface ISalesByCategory {
+  [key: string]: number;
+}
+
+export interface ISalesDashboard {
+  totalCustomers: number;
+  yearlyTotalSoldUnits: number;
+  yearlySalesTotal: number;
+  monthlyData: IMonthlyData[];
+  salesByCategory: ISalesByCategory;
+  thisMonthStats: IMonthlyData;
+  todayStats: IDailyData;
+  transactions: ITransaction[];
+}

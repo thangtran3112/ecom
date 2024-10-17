@@ -5,10 +5,10 @@ import cors from "cors";
 import dotenv from "dotenv";
 import helmet from "helmet";
 import morgan from "morgan";
-import clientRoutes from "./routes/client";
-import generalRoutes from "./routes/general";
-import managementRoutes from "./routes/management";
-import salesRoutes from "./routes/sales";
+import clientRoutes from "../routes/client";
+import generalRoutes from "../routes/general";
+import managementRoutes from "../routes/management";
+import salesRoutes from "../routes/sales";
 import {
   dataAffiliateStat,
   dataOverallStat,
@@ -16,13 +16,13 @@ import {
   dataProductStat,
   dataTransaction,
   dataUser,
-} from "./data";
-import User from "./models/User";
-import Product from "./models/Product";
-import ProductStat from "./models/ProductStat";
-import Transaction from "./models/Transaction";
-import OverallStat from "./models/OverallStat";
-import AffiliateStat from "./models/AffiliateStat";
+} from "../data";
+import User from "../models/User";
+import Product from "../models/Product";
+import ProductStat from "../models/ProductStat";
+import Transaction from "../models/Transaction";
+import OverallStat from "../models/OverallStat";
+import AffiliateStat from "../models/AffiliateStat";
 
 /* CONFIGURATION */
 dotenv.config();
@@ -42,16 +42,17 @@ app.use("/management", managementRoutes);
 app.use("/sales", salesRoutes);
 
 /* MONGOOSE SETUP */
-const PORT = process.env.PORT || 9000;
 mongoose
   .connect(process.env.MONGO_URL!, {
     // useNewUrlParser: true, this is not longer needed from Mongoose v6 or above
     // useUnifiedTopology: true,
   })
   .then(() => {
-    app.listen(PORT, () =>
-      console.log(`Connected to Mongo DB. Server Port: ${PORT}`)
-    );
+    console.log(`MongoDB Atlast connected`);
+
+    // app.listen(PORT, () =>
+    //   console.log(`Connected to Mongo DB. Server Port: ${PORT}`)
+    // );
 
     /* ONLY ADD DATA ONE TIME */
     // AffiliateStat.insertMany(dataAffiliateStat);
@@ -64,3 +65,5 @@ mongoose
   .catch((error) =>
     console.log(`MongoDB or Server did not connect. Error: ${error}`)
   );
+
+export default app;
