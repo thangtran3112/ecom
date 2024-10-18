@@ -5,9 +5,9 @@ import { ServerlessWebappStack } from "../lib/serverless-fullstack-webapp-stack"
 
 const app = new cdk.App();
 
-const AWS_ACCOUNT = "767828737909";
+const AWS_ACCOUNT = "654654352356";
 const AWS_REGION = "us-west-2";
-new ServerlessWebappStack(app, "ServerlessFullstackWebappStack", {
+new ServerlessWebappStack(app, "AdminDashboardFullstack", {
   env: {
     account: AWS_ACCOUNT,
     region: AWS_REGION,
