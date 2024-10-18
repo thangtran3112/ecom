@@ -1,6 +1,5 @@
 import { CfnOutput, Duration } from "aws-cdk-lib";
-import { DockerImageCode, DockerImageFunction } from "aws-cdk-lib/aws-lambda";
-import { Platform } from "aws-cdk-lib/aws-ecr-assets";
+import { Code, Runtime } from "aws-cdk-lib/aws-lambda";
 import {
   HttpApi,
   CorsHttpMethod,
@@ -8,6 +7,8 @@ import {
 } from "aws-cdk-lib/aws-apigatewayv2";
 import { HttpLambdaIntegration } from "aws-cdk-lib/aws-apigatewayv2-integrations";
 import { Construct } from "constructs/lib";
+import { Function } from "aws-cdk-lib/aws-lambda";
+import path = require("path");
 
 export interface BackendApiProps {
   readonly corsAllowOrigins?: string[];
@@ -20,35 +21,12 @@ export class BackendApi extends Construct {
 
     const { corsAllowOrigins: allowOrigins = ["*"] } = props;
 
-    const handler = new DockerImageFunction(this, "Handler", {
-      code: DockerImageCode.fromImageAsset("../backend", {
-        platform: Platform.LINUX_AMD64,
-      }),
-      memorySize: 512,
-      timeout: Duration.seconds(30),
-      environment: {
-        MONGO_URL:
-          "mongodb+srv://hippo:hippo@awscluster1.yerzcf1.mongodb.net/admin-dashboard?retryWrites=true&w=majority",
-      },
-    });
-
-    const handlerPublic = new DockerImageFunction(this, `Handler${id}`, {
-      code: DockerImageCode.fromImageAsset("../backend", {
-        cmd: ["handler.handler"],
-        platform: Platform.LINUX_AMD64,
-      }),
-      memorySize: 512,
-      timeout: Duration.seconds(30),
-      environment: {
-        CORS_ALLOW_ORIGINS: allowOrigins.join(","),
-      },
-    });
-
     const api = new HttpApi(this, `HttpApi${id}`, {
       corsPreflight: {
         allowHeaders: ["*"],
         allowMethods: [
           CorsHttpMethod.GET,
+          CorsHttpMethod.PATCH,
           CorsHttpMethod.HEAD,
           CorsHttpMethod.OPTIONS,
           CorsHttpMethod.POST,
@@ -59,40 +37,34 @@ export class BackendApi extends Construct {
       },
     });
 
-    {
-      const integration = new HttpLambdaIntegration(
-        `Integration${id}`,
-        handler
-      );
+    const lambdaFunction = new Function(this, `NonDockerHandler${id}`, {
+      runtime: Runtime.NODEJS_20_X,
+      memorySize: 1024,
+      timeout: Duration.seconds(30),
+      handler: "handler.handler",
+      code: Code.fromAsset(path.join(__dirname, "../../../backend/dist")),
+      environment: {
+        CORS_ALLOW_ORIGINS: allowOrigins.join(","),
+        MONGO_URL:
+          "mongodb+srv://hippo:hippo@awscluster1.yerzcf1.mongodb.net/admin-dashboard?retryWrites=true&w=majority",
+      },
+    });
 
-      api.addRoutes({
-        path: "/{proxy+}",
-        integration,
-        methods: [
-          HttpMethod.GET,
-          HttpMethod.POST,
-          HttpMethod.PUT,
-          HttpMethod.DELETE,
-        ],
-      });
-    }
-
-    {
-      const integration = new HttpLambdaIntegration(
-        `PublicIntegration${id}`,
-        handlerPublic
-      );
-      api.addRoutes({
-        path: "/public/{proxy+}",
-        integration,
-        methods: [
-          HttpMethod.GET,
-          HttpMethod.POST,
-          HttpMethod.PUT,
-          HttpMethod.DELETE,
-        ],
-      });
-    }
+    const nonDockerIntegration = new HttpLambdaIntegration(
+      `NonDockerInteg${id}`,
+      lambdaFunction
+    );
+    api.addRoutes({
+      path: "/{proxy+}",
+      integration: nonDockerIntegration,
+      methods: [
+        HttpMethod.GET,
+        HttpMethod.POST,
+        HttpMethod.PUT,
+        HttpMethod.DELETE,
+        HttpMethod.PATCH,
+      ],
+    });
 
     this.api = api;
 

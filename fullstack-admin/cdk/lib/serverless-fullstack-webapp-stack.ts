@@ -1,3 +1,4 @@
+import { LambdaUrlStack } from "./constructs/lambda-url";
 import { Stack, StackProps } from "aws-cdk-lib";
 import { BackendApi } from "./constructs/backend-api";
 import { Construct } from "constructs";
@@ -10,5 +11,6 @@ export class ServerlessWebappStack extends Stack {
     });
 
     const backend = new BackendApi(this, "AdminDashboardApi", {});
+    const lambdaUrlApi = new LambdaUrlStack(this, "AdminDashboard");
   }
 }
