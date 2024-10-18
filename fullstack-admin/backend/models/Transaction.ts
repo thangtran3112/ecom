@@ -5,7 +5,8 @@ const TransactionSchema = new mongoose.Schema(
     userId: String,
     cost: String,
     products: {
-      type: [mongoose.Types.ObjectId],
+      type: [String], //Notes: Esbuild has problems with [mongoose.Types.ObjectId]
+      // type: [mongoose.Types.ObjectId],
       of: Number,
     },
   },

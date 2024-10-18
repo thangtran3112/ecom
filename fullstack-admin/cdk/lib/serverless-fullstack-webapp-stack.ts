@@ -11,6 +11,6 @@ export class ServerlessWebappStack extends Stack {
     });
 
     const backend = new BackendApi(this, "AdminDashboardApi", {});
-    const lambdaUrlApi = new LambdaUrlStack(this, "AdminDashboard");
+    // const lambdaUrlApi = new LambdaUrlStack(this, "AdminDashboard");
   }
 }
