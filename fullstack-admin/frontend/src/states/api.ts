@@ -9,7 +9,7 @@ import {
   ISalesDashboard,
   IUser,
 } from "../fixtures/types";
-const REACT_APP_BASE_URL = import.meta.env.VITE_REACT_APP_BASE_URL;
+const BACKEND_API_URL = import.meta.env.VITE_BACKEND_API_URL;
 
 interface GetTransactionParamsProps {
   page: number;
@@ -19,7 +19,7 @@ interface GetTransactionParamsProps {
 }
 
 export const api = createApi({
-  baseQuery: fetchBaseQuery({ baseUrl: REACT_APP_BASE_URL }),
+  baseQuery: fetchBaseQuery({ baseUrl: BACKEND_API_URL }),
   reducerPath: "adminApi",
   tagTypes: [
     "User",
