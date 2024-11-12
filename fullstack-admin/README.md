@@ -23,4 +23,6 @@
     cdk deploy
 ```
 
-- Make sure to update the VITE_BACKEND_API_URL FrontEnd env variable to point to the deployed Backend Url in AWS
+- Make sure to update the VITE_BACKEND_API_URL FrontEnd env variable to point to the deployed Backend Url in AWS, if using AWS Backend URL
+
+- The Cdk already has automatically injected VITE_BACKEND_API_URL to AWS FrontEnd deployment
