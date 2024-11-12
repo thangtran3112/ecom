@@ -22,3 +22,5 @@
 ```sh
     cdk deploy
 ```
+
+- Make sure to update the VITE_BACKEND_API_URL FrontEnd env variable to point to the deployed Backend Url in AWS
