@@ -11,6 +11,36 @@ import { cn } from "../lib/utils";
 import { toast } from "react-toastify";
 import axios from "axios";
 
+const ImageUpload = ({
+  id,
+  image,
+  setImage,
+}: {
+  id: string;
+  image: File | boolean;
+  setImage: React.Dispatch<React.SetStateAction<File | boolean>>;
+}) => {
+  return (
+    <label htmlFor={id}>
+      <img
+        className="w-20"
+        src={!image ? assets.upload_area : URL.createObjectURL(image as File)}
+        alt="Uploaded Image Area"
+      />
+      <input
+        onChange={(e) => {
+          if (e.target.files) {
+            setImage(e.target.files[0]);
+          }
+        }}
+        type="file"
+        id={id}
+        hidden
+      />
+    </label>
+  );
+};
+
 const Add = ({ token }: TokenProps) => {
   const [image1, setImage1] = useState<boolean | File>(false);
   const [image2, setImage2] = useState<boolean | File>(false);
@@ -89,90 +119,10 @@ const Add = ({ token }: TokenProps) => {
       <div>
         <p className="mb-2">Upload Image</p>
         <div className="flex gap-2">
-          <label htmlFor="image1">
-            <img
-              className="w-20"
-              src={
-                !image1
-                  ? assets.upload_area
-                  : URL.createObjectURL(image1 as File)
-              }
-              alt="Uploaded Image 1 Area"
-            />
-            <input
-              onChange={(e) => {
-                if (e.target.files) {
-                  setImage1(e.target.files[0]);
-                }
-              }}
-              type="file"
-              id="image1"
-              hidden
-            />
-          </label>
-          <label htmlFor="image2">
-            <img
-              className="w-20"
-              src={
-                !image2
-                  ? assets.upload_area
-                  : URL.createObjectURL(image2 as File)
-              }
-              alt="Uploaded Image 2 Area"
-            />
-            <input
-              onChange={(e) => {
-                if (e.target.files) {
-                  setImage2(e.target.files[0]);
-                }
-              }}
-              type="file"
-              id="image2"
-              hidden
-            />
-          </label>
-          <label htmlFor="image3">
-            <img
-              className="w-20"
-              src={
-                !image3
-                  ? assets.upload_area
-                  : URL.createObjectURL(image3 as File)
-              }
-              alt="Uploaded Image 3 Area"
-            />
-            <input
-              onChange={(e) => {
-                if (e.target.files) {
-                  setImage3(e.target.files[0]);
-                }
-              }}
-              type="file"
-              id="image3"
-              hidden
-            />
-          </label>
-          <label htmlFor="image4">
-            <img
-              className="w-20"
-              src={
-                !image4
-                  ? assets.upload_area
-                  : URL.createObjectURL(image4 as File)
-              }
-              alt="Uploaded Image 4 Area"
-            />
-            <input
-              onChange={(e) => {
-                if (e.target.files) {
-                  setImage4(e.target.files[0]);
-                }
-              }}
-              type="file"
-              id="image4"
-              hidden
-            />
-          </label>
+          <ImageUpload id="image1" image={image1} setImage={setImage1} />
+          <ImageUpload id="image2" image={image2} setImage={setImage2} />
+          <ImageUpload id="image3" image={image3} setImage={setImage3} />
+          <ImageUpload id="image4" image={image4} setImage={setImage4} />
         </div>
       </div>
 
