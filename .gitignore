@@ -132,3 +132,6 @@ fullstack-admin/.DS_Store
 .DS_Store
 fullstack-admin/cdk/.DS_Store
 fullstack-admin/cdk/lib/.DS_Store
+fashionify/fullstack/backend/.env
+fashionify/fullstack/admin/.env
+fashionify/fullstack/backend/.env
