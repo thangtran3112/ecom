@@ -4,7 +4,7 @@ import userModel from "../models/userModel";
 /*
  * Using userId from req.body is not a good security practice.
  * Malicious users can send any userId and get the cart data of other user.
- * Instead, use the userId from the token.
+ * Instead, use the userId from the token, or we need to validate the userId from req.body.
  */
 export const addToCart = async (req: Request, res: Response) => {
   try {
@@ -44,7 +44,7 @@ export const addToCart = async (req: Request, res: Response) => {
 /*
  * Using userId from req.body is not a good security practice.
  * Malicious users can send any userId and get the cart data of other user.
- * Instead, use the userId from the token.
+ * Instead, use the userId from the token, or we need to validate the userId from req.body.
  */
 export const updateCart = async (req: Request, res: Response) => {
   try {
@@ -53,7 +53,20 @@ export const updateCart = async (req: Request, res: Response) => {
     const userData = await userModel.findById(userId);
     let cartData = await userData.cartData;
 
-    cartData[itemId][size] = quantity;
+    if (!cartData[itemId]) {
+      return res.json({ success: false, message: "Item not found in cart" });
+    }
+
+    // in case of update quantity to 0, remove the item from cart
+    if (quantity === 0) {
+      delete cartData[itemId][size];
+      //if we delete all sizes of an item, remove the item from cart
+      if (Object.keys(cartData[itemId]).length === 0) {
+        delete cartData[itemId];
+      }
+    } else {
+      cartData[itemId][size] = quantity;
+    }
 
     await userModel.findByIdAndUpdate(userId, { cartData });
     res.json({ success: true, message: "Cart Updated" });
@@ -66,7 +79,7 @@ export const updateCart = async (req: Request, res: Response) => {
 /*
  * Using userId from req.body is not a good security practice.
  * Malicious users can send any userId and get the cart data of other user.
- * Instead, use the userId from the token.
+ * Instead, use the userId from the token, or we need to validate the userId from req.body.
  */
 export const getUserCart = async (req: Request, res: Response) => {
   try {
