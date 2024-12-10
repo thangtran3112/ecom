@@ -7,13 +7,19 @@ import { toast } from "react-toastify";
 import { NavigateFunction, useNavigate } from "react-router-dom";
 import axios from "axios";
 
-/**
- * CartItems will look like this:
- * {
- *    "product_id": {
- *    "size": quantity
- * }
- * size can be S, M, L, XL
+/** Example of the cartItems object
+  {
+    "product1": {
+      "small": 2,
+      "medium": 1,
+      "large": 0
+    },
+    "product2": {
+      "small": 0,
+      "medium": 3,
+      "large": 1
+    }
+  }
  */
 interface CartItemsProps {
   [key: string]: {
@@ -29,8 +35,8 @@ interface ShopContextProps {
   setSearch: React.Dispatch<React.SetStateAction<string>>;
   showSearch: boolean;
   setShowSearch: React.Dispatch<React.SetStateAction<boolean>>;
-  cartItems: any;
-  setCartItems: React.Dispatch<React.SetStateAction<any>>;
+  cartItems: CartItemsProps;
+  setCartItems: React.Dispatch<React.SetStateAction<CartItemsProps>>;
   addToCart: (itemId: string, size: string) => Promise<void>;
   getCartCount: () => number;
   updateQuantity: (
@@ -64,18 +70,16 @@ const ShopContextProvider = (props: any) => {
 
   const addToCart = async (itemId: string, size: string) => {
     if (!size) {
-      toast.error("Select product size");
+      toast.error("Select Product Size");
       return;
     }
 
-    const cartData = structuredClone(cartItems);
+    let cartData = structuredClone(cartItems);
 
     if (cartData[itemId]) {
       if (cartData[itemId][size]) {
-        //when item already exists in cart
         cartData[itemId][size] += 1;
       } else {
-        //create new entry
         cartData[itemId][size] = 1;
       }
     } else {
@@ -83,6 +87,19 @@ const ShopContextProvider = (props: any) => {
       cartData[itemId][size] = 1;
     }
     setCartItems(cartData);
+
+    if (token) {
+      try {
+        await axios.post(
+          backendUrl + "/api/cart/add",
+          { itemId, size },
+          { headers: { token } }
+        );
+      } catch (error: any) {
+        console.log(error);
+        toast.error(error.message);
+      }
+    }
   };
 
   const updateQuantity = async (
@@ -90,9 +107,24 @@ const ShopContextProvider = (props: any) => {
     size: string,
     quantity: number
   ) => {
-    const cartData = structuredClone(cartItems);
+    let cartData = structuredClone(cartItems);
+
     cartData[itemId][size] = quantity;
+
     setCartItems(cartData);
+
+    if (token) {
+      try {
+        await axios.post(
+          backendUrl + "/api/cart/update",
+          { itemId, size, quantity },
+          { headers: { token } }
+        );
+      } catch (error: any) {
+        console.log(error);
+        toast.error(error.message);
+      }
+    }
   };
 
   const getCartCount = () => {
