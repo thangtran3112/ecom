@@ -97,7 +97,7 @@ const Add = ({ token }: TokenProps) => {
         setImage2(false);
         setImage3(false);
         setImage4(false);
-        setPrice("");
+        setPrice(""); //reset the form with empty price
       } else {
         toast.error(response.data.message);
       }
