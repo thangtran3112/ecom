@@ -2,10 +2,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { createContext, useEffect, useState } from "react";
-import { products } from "../assets/assets";
 import { Product } from "../interfaces/Product";
 import { toast } from "react-toastify";
 import { NavigateFunction, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 /**
  * CartItems will look like this:
@@ -30,6 +30,7 @@ interface ShopContextProps {
   showSearch: boolean;
   setShowSearch: React.Dispatch<React.SetStateAction<boolean>>;
   cartItems: any;
+  setCartItems: React.Dispatch<React.SetStateAction<any>>;
   addToCart: (itemId: string, size: string) => Promise<void>;
   getCartCount: () => number;
   updateQuantity: (
@@ -39,6 +40,9 @@ interface ShopContextProps {
   ) => Promise<void>;
   getCartAmount: () => number;
   navigate: NavigateFunction;
+  setToken: React.Dispatch<React.SetStateAction<string>>;
+  token: string;
+  backendUrl: string;
 }
 
 export const ShopContext = createContext<ShopContextProps>(
@@ -48,9 +52,12 @@ export const ShopContext = createContext<ShopContextProps>(
 const ShopContextProvider = (props: any) => {
   const currency = "$";
   const delivery_fee = 10;
+  const backendUrl = import.meta.env.VITE_BACKEND_URL;
   const navigate = useNavigate();
   const [search, setSearch] = useState<string>("");
   const [showSearch, setShowSearch] = useState<boolean>(true);
+  const [products, setProducts] = useState<Product[]>([]);
+  const [token, setToken] = useState<string>("");
 
   //this could be replaced by using local storage, or with Zustand Persist
   const [cartItems, setCartItems] = useState<CartItemsProps>({});
@@ -127,9 +134,49 @@ const ShopContextProvider = (props: any) => {
     return totalAmount;
   };
 
+  const getProductsData = async () => {
+    try {
+      const response = await axios.get(backendUrl + "/api/product/list");
+      if (response.data.success) {
+        setProducts(response.data.products.reverse());
+      } else {
+        toast.error(response.data.message);
+      }
+    } catch (error: any) {
+      console.log(error);
+      toast.error(error.message);
+    }
+  };
+
+  const getUserCart = async (token: string) => {
+    try {
+      const response = await axios.post(
+        backendUrl + "/api/cart/get",
+        {},
+        { headers: { token } }
+      );
+      if (response.data.success) {
+        setCartItems(response.data.cartData);
+      }
+    } catch (error: any) {
+      console.log(error);
+      toast.error(error.message);
+    }
+  };
+
   useEffect(() => {
-    console.log(cartItems);
-  }, [cartItems]);
+    getProductsData();
+  }, []);
+
+  useEffect(() => {
+    if (!token && localStorage.getItem("token")) {
+      setToken(localStorage.getItem("token") as string);
+      getUserCart(localStorage.getItem("token") as string);
+    }
+    if (token) {
+      getUserCart(token);
+    }
+  }, [token]);
 
   const value: ShopContextProps = {
     products,
@@ -145,6 +192,10 @@ const ShopContextProvider = (props: any) => {
     updateQuantity,
     getCartAmount,
     navigate,
+    setToken,
+    token,
+    backendUrl,
+    setCartItems,
   };
 
   return (
