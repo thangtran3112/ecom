@@ -19,3 +19,5 @@ export enum SubCategories {
   Bottomwear = "Bottomwear",
   Winterwear = "Winterwear",
 }
+
+export const CURRENCY = "$";
