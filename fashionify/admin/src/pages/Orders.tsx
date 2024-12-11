@@ -2,10 +2,13 @@ import { useCallback, useEffect, useState, ChangeEvent } from "react";
 import { TokenProps } from "../types/Token";
 import { toast } from "react-toastify";
 import axios from "axios";
-import { BACKEND_URL, CURRENCY } from "../common/constants";
+import { BACKEND_URL, CURRENCY, OrderStatus } from "../common/constants";
 import { IOrder } from "../types/Order";
 import { assets } from "../assets/assets";
 
+/**
+ * @todo: We need to implement Orders Pagination and Filtering
+ */
 const Orders = ({ token }: TokenProps) => {
   const [orders, setOrders] = useState<IOrder[]>([]);
 
@@ -118,11 +121,17 @@ const Orders = ({ token }: TokenProps) => {
               value={order.status}
               className="p-2 font-semibold"
             >
-              <option value="Order Placed">Order Placed</option>
-              <option value="Packing">Packing</option>
-              <option value="Shipped">Shipped</option>
-              <option value="Out for delivery">Out for delivery</option>
-              <option value="Delivered">Delivered</option>
+              <option value={OrderStatus.OrderPlaced}>
+                {OrderStatus.OrderPlaced}
+              </option>
+              <option value={OrderStatus.Packing}>{OrderStatus.Packing}</option>
+              <option value={OrderStatus.Shipped}>{OrderStatus.Shipped}</option>
+              <option value={OrderStatus.OutForDelivery}>
+                {OrderStatus.OutForDelivery}
+              </option>
+              <option value={OrderStatus.Delivered}>
+                {OrderStatus.Delivered}
+              </option>
             </select>
           </div>
         ))}
