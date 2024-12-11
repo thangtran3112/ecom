@@ -1,15 +1,15 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { ShopContext } from "../context/ShopContext";
-import { Product as ProductInterface } from "../interfaces/Product";
 import { assets } from "../assets/assets";
 import { cn } from "../lib/utils";
 import RelatedProducts from "../components/RelatedProducts";
+import { IProduct } from "../interfaces/Product";
 
 const Product = () => {
   const { productId } = useParams();
   const { products, addToCart, currency } = useContext(ShopContext);
-  const [productData, setProductData] = useState<ProductInterface>();
+  const [productData, setProductData] = useState<IProduct>();
   const [image, setImage] = useState<string>("");
   const [size, setSize] = useState<string>("");
 
@@ -92,7 +92,7 @@ const Product = () => {
             </div>
           </div>
           <button
-            onClick={() => addToCart(productData._id, size)}
+            onClick={() => addToCart(productData._id as string, size)}
             className="bg-black text-white px-8 py-3 text-sm active:bg-gray-700"
           >
             ADD TO CART
