@@ -17,7 +17,8 @@
     "react-router-dom": "^6.26.1",
     "react-toastify": "^10.0.6",
     "tailwind-merge": "^2.5.5",
-    "vite-plugin-preload": "^0.4.2"
+    "vite-plugin-preload": "^0.4.2",
+    "zod": "^3.24.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.9.0",
