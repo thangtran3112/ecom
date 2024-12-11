@@ -21,3 +21,12 @@ export enum SubCategories {
 }
 
 export const CURRENCY = "$";
+
+export enum OrderStatus {
+  OrderPlaced = "Order Placed",
+  Packing = "Packing",
+  Processing = "Processing",
+  Shipped = "Shipped",
+  OutForDelivery = "Out for delivery",
+  Delivered = "Delivered",
+}
