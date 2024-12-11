@@ -1,5 +1,5 @@
 import { FormEvent, useState } from "react";
-import { SetTokenProps } from "../types/interface";
+import { SetTokenProps } from "../types/Token";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { BACKEND_URL } from "../common/constants";
