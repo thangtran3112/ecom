@@ -74,7 +74,7 @@ const ShopContextProvider = (props: any) => {
       return;
     }
 
-    let cartData = structuredClone(cartItems);
+    const cartData = structuredClone(cartItems);
 
     if (cartData[itemId]) {
       if (cartData[itemId][size]) {
@@ -107,7 +107,7 @@ const ShopContextProvider = (props: any) => {
     size: string,
     quantity: number
   ) => {
-    let cartData = structuredClone(cartItems);
+    const cartData = structuredClone(cartItems);
 
     cartData[itemId][size] = quantity;
 
