@@ -1,15 +1,19 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { PaymentMethod } from "../common/constants";
-import { OrderStatus } from "../models/orderModel";
-import { ProductOrderItem } from "./Product";
+import { z } from "zod";
+import { PaymentMethod, OrderStatus } from "../common/constants";
+import { AddressSchema } from "../zod/orderValidation";
+import { IProductOrderItem } from "./Product";
+
+// Infer the type from the addressSchema
+type Address = z.infer<typeof AddressSchema>;
 
 export interface IPreOrder {
   payment: boolean;
   userId: string;
   items: IProductOrderItem[];
   amount: number;
-  address: Object;
+  address: Address;
   paymentMethod: PaymentMethod;
   date: number;
 }
@@ -20,7 +24,7 @@ export interface IOrder extends IPreOrder {
   status: OrderStatus;
 }
 
-export interface OrderProductItem extends ProductOrderItem {
+export interface OrderProductItem extends IProductOrderItem {
   status: string;
   payment: boolean;
   paymentMethod: string;

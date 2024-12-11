@@ -30,7 +30,7 @@ const productOrderItemSchema = z.object({
 });
 
 // Define the address schema
-const addressSchema = z.object({
+export const AddressSchema = z.object({
   firstName: z.string(),
   lastName: z.string(),
   email: z.string().email(),
@@ -47,5 +47,5 @@ export const PlaceOrderSchema = z.object({
   userId: z.string(),
   items: z.array(productOrderItemSchema),
   amount: z.number().positive(),
-  address: addressSchema,
+  address: AddressSchema,
 });
