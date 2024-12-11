@@ -30,6 +30,19 @@ export const placeOrder = async (req: Request, res: Response) => {
   }
 };
 
+// User Order Data For Forntend
+export const userOrders = async (req: Request, res: Response) => {
+  try {
+    const { userId } = req.body;
+
+    const orders = await orderModel.find({ userId });
+    res.json({ success: true, orders });
+  } catch (error: any) {
+    console.log(error);
+    res.json({ success: false, message: error.message });
+  }
+};
+
 // All Orders data for Admin Panel
 export const allOrders = async (req: Request, res: Response) => {
   try {
