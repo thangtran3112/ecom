@@ -1,8 +1,9 @@
 import { Request, Response } from "express";
-import orderModel, { IPreOrder } from "../models/orderModel";
+import orderModel from "../models/orderModel";
 import userModel from "../models/userModel";
 import { z } from "zod";
 import { UpdateStatusSchema } from "../zod/orderValidation";
+import { IPreOrder } from "../interfaces/Order";
 
 // Placing orders using COD Method
 export const placeOrder = async (req: Request, res: Response) => {
