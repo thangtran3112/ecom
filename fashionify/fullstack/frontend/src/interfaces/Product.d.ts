@@ -10,3 +10,8 @@ export interface Product {
   date: number;
   bestseller: boolean;
 }
+
+interface ProductOrderItem extends Product {
+  size?: string;
+  quantity?: number;
+}
