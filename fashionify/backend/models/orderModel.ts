@@ -1,14 +1,6 @@
 import mongoose from "mongoose";
 import counterModel, { MinimumCounterValue } from "./counterModel";
-
-export enum OrderStatus {
-  OrderPlaced = "Order Placed",
-  Packing = "Packing",
-  Processing = "Processing",
-  Shipped = "Shipped",
-  OutForDelivery = "Out for delivery",
-  Delivered = "Delivered",
-}
+import { OrderStatus } from "../common/constants";
 
 const orderSchema = new mongoose.Schema({
   // _id: { type: Number, required: true }, // if using random id for order._id
