@@ -2,7 +2,7 @@
 
 import { z } from "zod";
 import { PaymentMethod, OrderStatus } from "../common/constants";
-import { AddressSchema } from "../zod/orderValidation";
+import { AddressSchema } from "../zod/order-validation";
 import { IProductOrderItem } from "./Product";
 
 // Infer the type from the addressSchema

@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import orderModel from "../models/orderModel";
 import userModel from "../models/userModel";
-import { PlaceOrderSchema, UpdateStatusSchema } from "../zod/orderValidation";
+import { PlaceOrderSchema, UpdateStatusSchema } from "../zod/order-validation";
 import { IPreOrder } from "../interfaces/Order";
 import Stripe from "stripe";
 import { CURRENCY, DELIVERY_CHARGE, PaymentMethod } from "../common/constants";
