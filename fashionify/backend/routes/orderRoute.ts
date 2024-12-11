@@ -4,6 +4,7 @@ import authUser from "../middleware/auth";
 import {
   allOrders,
   placeOrder,
+  placeOrderStripe,
   updateStatus,
   userOrders,
 } from "../controllers/orderController";
@@ -16,7 +17,7 @@ orderRouter.post("/status", adminAuth, updateStatus);
 
 // Payment Features
 orderRouter.post("/place", authUser, placeOrder);
-// orderRouter.post("/stripe", authUser, placeOrderStripe);
+orderRouter.post("/stripe", authUser, placeOrderStripe);
 // orderRouter.post("/razorpay", authUser, placeOrderRazorpay);
 
 // User Feature
