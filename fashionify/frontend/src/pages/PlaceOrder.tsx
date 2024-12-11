@@ -8,9 +8,7 @@ import { cn } from "../lib/utils";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { ProductOrderItem } from "../interfaces/Product";
-
-export const STRIPE = "stripe";
-export const COD = "cod";
+import { PaymentMethod } from "../common/constants";
 
 interface IOrderForm {
   firstName: string;
@@ -25,7 +23,7 @@ interface IOrderForm {
 }
 
 const PlaceOrder = () => {
-  const [method, setMethod] = useState<string>(COD);
+  const [method, setMethod] = useState<PaymentMethod>(PaymentMethod.Cod);
   const {
     navigate,
     backendUrl,
@@ -85,7 +83,7 @@ const PlaceOrder = () => {
 
       switch (method) {
         // API Calls for COD
-        case COD: {
+        case PaymentMethod.Cod: {
           const response = await axios.post(
             backendUrl + "/api/order/place",
             orderData,
@@ -100,7 +98,7 @@ const PlaceOrder = () => {
           break;
         }
 
-        case STRIPE: {
+        case PaymentMethod.Stripe: {
           const responseStripe = await axios.post(
             backendUrl + "/api/order/stripe",
             orderData,
@@ -234,25 +232,25 @@ const PlaceOrder = () => {
           <Title text1="PAYMENT" text2="METHOD" />
           <div className="flex gap-3 flex-col lg:flex-row">
             <div
-              onClick={() => setMethod(STRIPE)}
+              onClick={() => setMethod(PaymentMethod.Stripe)}
               className="flex items-center gap-3 border p-2 px-3 cursor-pointer"
             >
               <p
                 className={cn(
                   "min-w-3.5 h-3.5 border rounded-full ",
-                  `${method === STRIPE ? "bg-green-400" : ""}`
+                  `${method === PaymentMethod.Stripe ? "bg-green-400" : ""}`
                 )}
               ></p>
               <img className="h-5 mx-4" src={assets.stripe_logo} alt="" />
             </div>
             <div
-              onClick={() => setMethod(COD)}
+              onClick={() => setMethod(PaymentMethod.Cod)}
               className="flex items-center gap-3 border p-2 px-3 cursor-pointer"
             >
               <p
                 className={cn(
                   "min-w-3.5 h-3.5 border rounded-full ",
-                  `${method === COD ? "bg-green-400" : ""}`
+                  `${method === PaymentMethod.Cod ? "bg-green-400" : ""}`
                 )}
               ></p>
               <p className=" text-gray-500 text-sm font-medium mx-4">
