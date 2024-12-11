@@ -57,18 +57,21 @@ const PlaceOrder = () => {
   const onSubmitHandler = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
-      const orderItems = [];
+      const orderItems: ProductOrderItem[] = [];
 
       for (const id in cartItems) {
         for (const item in cartItems[id]) {
           if (cartItems[id][item] > 0) {
             const itemInfo = structuredClone(
               products.find((product) => product._id === id)
-            ) as ProductOrderItem;
+            );
             if (itemInfo) {
-              itemInfo.size = item;
-              itemInfo.quantity = cartItems[id][item];
-              orderItems.push(itemInfo);
+              const productOrderItem: ProductOrderItem = {
+                ...itemInfo,
+                size: item,
+                quantity: cartItems[id][item],
+              };
+              orderItems.push(productOrderItem);
             }
           }
         }

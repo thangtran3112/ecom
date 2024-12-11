@@ -12,6 +12,6 @@ export interface Product {
 }
 
 interface ProductOrderItem extends Product {
-  size?: string;
-  quantity?: number;
+  size: string;
+  quantity: number;
 }
