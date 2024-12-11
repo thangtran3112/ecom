@@ -46,7 +46,10 @@ export const userOrders = async (req: Request, res: Response) => {
   }
 };
 
-// All Orders data for Admin Panel
+/**
+ * All Orders data for Admin Panel
+ * @todo Add Pagination, skip, limit, filter, sort, etc
+ * */
 export const allOrders = async (req: Request, res: Response) => {
   try {
     const orders = await orderModel.find({});
