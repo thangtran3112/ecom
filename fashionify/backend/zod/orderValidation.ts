@@ -5,7 +5,7 @@ import { OrderStatus } from "../models/orderModel";
  * Validate the request body for updating the order status
  */
 export const UpdateStatusSchema = z.object({
-  orderId: z.string(),
+  orderId: z.number(),
   status: z.nativeEnum(OrderStatus, {
     errorMap: (issue, _ctx) => {
       if (issue.code === "invalid_enum_value") {

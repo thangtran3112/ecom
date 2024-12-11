@@ -70,10 +70,10 @@ export const updateStatus = async (req: Request, res: Response) => {
     await orderModel.findByIdAndUpdate(orderId, { status });
     res.json({ success: true, message: "Status Updated" });
   } catch (error: any) {
-    if (error instanceof z.ZodError) {
-      // Handle validation errors
-      return res.status(400).json({ success: false, errors: error.errors });
-    }
+    // if (error instanceof z.ZodError) {
+    //   // Handle validation errors
+    //   return res.status(400).json({ success: false, errors: error.errors });
+    // }
     console.log(error);
     res.json({ success: false, message: error.message });
   }
