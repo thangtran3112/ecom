@@ -73,15 +73,16 @@ const Orders = ({ token }: TokenProps) => {
                     return (
                       <p className="py-0.5" key={index}>
                         {" "}
-                        {item.name} x {item.quantity} <span> {item.size} </span>{" "}
+                        {item.name} ---- {item.quantity}{" "}
+                        <span> {item.size} </span>{" "}
                       </p>
                     );
                   } else {
                     return (
                       <p className="py-0.5" key={index}>
                         {" "}
-                        {item.name} x {item.quantity} <span> {item.size} </span>{" "}
-                        ,
+                        {item.name} ---- {item.quantity}{" "}
+                        <span> {item.size} </span> ,
                       </p>
                     );
                   }
@@ -105,8 +106,9 @@ const Orders = ({ token }: TokenProps) => {
               <p>{order.address.phone}</p>
             </div>
             <div>
+              <p className="text-sm sm:text-[15px]">OrderId : {order._id}</p>
               <p className="text-sm sm:text-[15px]">
-                Items : {order.items.length}
+                Total Items : {order.items.length}
               </p>
               <p className="mt-3">Method : {order.paymentMethod}</p>
               <p>Payment : {order.payment ? "Done" : "Pending"}</p>
