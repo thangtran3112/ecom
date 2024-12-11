@@ -1,5 +1,5 @@
 import { assets } from "../assets/assets";
-import { SetTokenProps } from "../types/interface";
+import { SetTokenProps } from "../types/Token";
 
 const Navbar = ({ setToken }: SetTokenProps) => {
   return (

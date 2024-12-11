@@ -1,4 +1,4 @@
-import { TokenProps } from "../types/interface";
+import { TokenProps } from "../types/Token";
 import { assets } from "../assets/assets";
 import {
   BACKEND_URL,

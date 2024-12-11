@@ -1,12 +1,16 @@
 import express from "express";
 import { adminAuth } from "../middleware/adminAuth";
 import authUser from "../middleware/auth";
-import { placeOrder, userOrders } from "../controllers/orderController";
+import {
+  allOrders,
+  placeOrder,
+  userOrders,
+} from "../controllers/orderController";
 
 const orderRouter = express.Router();
 
 // Admin Features
-// orderRouter.post("/list", adminAuth, allOrders);
+orderRouter.post("/list", adminAuth, allOrders);
 // orderRouter.post("/status", adminAuth, updateStatus);
 
 // Payment Features

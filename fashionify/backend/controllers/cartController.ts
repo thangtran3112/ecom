@@ -2,9 +2,7 @@ import { Request, Response } from "express";
 import userModel from "../models/userModel";
 
 /*
- * Using userId from req.body is not a good security practice.
- * Malicious users can send any userId and get the cart data of other user.
- * Instead, use the userId from the token, or we need to validate the userId from req.body.
+ * userId is attached through authUser middleware, it is authortative and safe
  */
 export const addToCart = async (req: Request, res: Response) => {
   try {
@@ -42,9 +40,7 @@ export const addToCart = async (req: Request, res: Response) => {
 };
 
 /*
- * Using userId from req.body is not a good security practice.
- * Malicious users can send any userId and get the cart data of other user.
- * Instead, use the userId from the token, or we need to validate the userId from req.body.
+ * userId is attached through authUser middleware, it is authortative and safe
  */
 export const updateCart = async (req: Request, res: Response) => {
   try {
@@ -77,9 +73,7 @@ export const updateCart = async (req: Request, res: Response) => {
 };
 
 /*
- * Using userId from req.body is not a good security practice.
- * Malicious users can send any userId and get the cart data of other user.
- * Instead, use the userId from the token, or we need to validate the userId from req.body.
+ * userId is attached through authUser middleware, it is authortative and safe
  */
 export const getUserCart = async (req: Request, res: Response) => {
   try {

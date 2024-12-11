@@ -1,5 +1,5 @@
 import axios from "axios";
-import { IProduct, TokenProps } from "../types/interface";
+import { TokenProps } from "../types/Token";
 
 const List = ({ token }: TokenProps) => {
   const [list, setList] = useState<IProduct[]>([]);
@@ -87,3 +87,4 @@ export default List;
 import { useEffect, useState } from "react";
 import { BACKEND_URL, CURRENCY } from "../common/constants";
 import { toast } from "react-toastify";
+import { IProduct } from "../types/Product";
