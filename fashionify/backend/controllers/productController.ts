@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { v2 as cloudinary } from "cloudinary";
-import { IProduct } from "../models/productModel";
 import ProductModel from "../models/productModel";
+import { IProduct } from "../interfaces/Product";
 /**
  * req: Request object after modifying by multer middleware
  * */
