@@ -1,8 +1,10 @@
 import { Request, Response } from "express";
 import userModel from "../models/userModel";
 import validator from "validator";
-import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+
+//Using this to avoid esbuild bundling issue: https://github.com/kelektiv/node.bcrypt.js/issues/964
+const bcrypt = require("bcryptjs");
 
 const createToken = (id: string) => {
   //if we are using expriresIn, we need to delete the user if the token expires

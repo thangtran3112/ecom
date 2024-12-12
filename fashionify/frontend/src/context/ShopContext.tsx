@@ -58,7 +58,7 @@ export const ShopContext = createContext<ShopContextProps>(
 const ShopContextProvider = (props: any) => {
   const currency = "$";
   const delivery_fee = 10;
-  const backendUrl = import.meta.env.VITE_BACKEND_URL;
+  const backendUrl = import.meta.env.VITE_BACKEND_API_URL;
   const navigate = useNavigate();
   const [search, setSearch] = useState<string>("");
   const [showSearch, setShowSearch] = useState<boolean>(true);
