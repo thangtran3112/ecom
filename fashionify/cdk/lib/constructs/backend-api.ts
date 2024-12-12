@@ -52,6 +52,7 @@ export class BackendApi extends Construct {
         JWT_SECRET: process.env.JWT_SECRET as string,
         ADMIN_EMAIL: process.env.ADMIN_EMAIL as string,
         ADMIN_PASSWORD: process.env.ADMIN_PASSWORD as string,
+        STRIPE_SECRET_KEY: process.env.STRIPE_SECRET_KEY as string,
       },
     });
 

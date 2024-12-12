@@ -1,5 +1,7 @@
 # Ecommerce website with traditional MERN stacks
 
+- ![Serverless Architecture on AWS](./Architecture.png)
+
 ## Notes
 
 - Upgrade to Express v5 and React 19.

@@ -16,6 +16,7 @@ import { IHttpApi } from "aws-cdk-lib/aws-apigatewayv2";
 export interface FrontendProps {
   readonly backendApi: IHttpApi;
   readonly accessLogBucket: IBucket;
+  readonly relativePath: string;
 }
 
 export class Frontend extends Construct {
@@ -76,7 +77,7 @@ export class Frontend extends Construct {
     new NodejsBuild(this, `ReactBuild${id}`, {
       assets: [
         {
-          path: "../frontend",
+          path: props.relativePath, // "../frontend" or "../admin"
           exclude: ["node_modules", "dist"],
           commands: ["npm ci"],
           // prevent too frequent frontend deployment, for temporary use

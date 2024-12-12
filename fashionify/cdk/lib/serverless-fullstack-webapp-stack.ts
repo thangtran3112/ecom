@@ -35,14 +35,38 @@ export class ServerlessWebappStack extends Stack {
       }
     );
 
+    const adminDashboardAccessLog = new Bucket(
+      this,
+      `${id}AdminDashboardAccessLogs`,
+      {
+        encryption: BucketEncryption.S3_MANAGED,
+        blockPublicAccess: BlockPublicAccess.BLOCK_ALL,
+        enforceSSL: true,
+        removalPolicy: RemovalPolicy.DESTROY,
+        objectOwnership: ObjectOwnership.OBJECT_WRITER,
+        autoDeleteObjects: true,
+      }
+    );
+
     const backend = new BackendApi(this, `${id}BackendApi`, {});
     // const lambdaUrlApi = new LambdaUrlStack(this, "AdminDashboard");
     const frontend = new Frontend(this, `${id}Frontend`, {
       backendApi: backend.api,
       accessLogBucket: frontEndaccessLogBucket,
+      relativePath: "../frontend",
     });
+
     new CfnOutput(this, `${id}FrontendDomainName`, {
       value: `https://${frontend.cloudFrontWebDistribution.distributionDomainName}`,
+    });
+
+    const adminDashboard = new Frontend(this, `${id}AdminDashboard`, {
+      backendApi: backend.api,
+      accessLogBucket: adminDashboardAccessLog,
+      relativePath: "../admin",
+    });
+    new CfnOutput(this, `${id}AdminDashboardDomainName`, {
+      value: `https://${adminDashboard.cloudFrontWebDistribution.distributionDomainName}`,
     });
   }
 }
