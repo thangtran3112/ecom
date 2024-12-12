@@ -135,3 +135,4 @@ fullstack-admin/cdk/lib/.DS_Store
 fashionify/fullstack/backend/.env
 fashionify/fullstack/admin/.env
 fashionify/fullstack/backend/.env
+fashionify/cdk/.env

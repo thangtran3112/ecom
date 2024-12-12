@@ -12,10 +12,10 @@
     "dev": "nodemon local.ts"
   },
   "keywords": [],
-  "author": "",
+  "author": "thangtran3112@gmail.com",
   "license": "ISC",
   "dependencies": {
-    "@codegenie/serverless-express": "^4.14.1",
+    "@codegenie/serverless-express": "^4.16.0",
     "body-parser": "^1.20.3",
     "cors": "^2.8.5",
     "country-iso-2-to-3": "^1.1.0",
