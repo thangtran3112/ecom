@@ -97,6 +97,26 @@ export const placeOrderStripe = async (req: Request, res: Response) => {
   }
 };
 
+// Verify Stripe
+export const verifyStripe = async (req: Request, res: Response) => {
+  const { orderId, success, userId } = req.body;
+
+  try {
+    if (success === "true") {
+      await orderModel.findByIdAndUpdate(orderId, { payment: true });
+      //When payment is successful, clear the cart data
+      await userModel.findByIdAndUpdate(userId, { cartData: {} });
+      res.json({ success: true });
+    } else {
+      await orderModel.findByIdAndDelete(orderId);
+      res.json({ success: false });
+    }
+  } catch (error: any) {
+    console.log(error);
+    res.json({ success: false, message: error.message });
+  }
+};
+
 // User Order Data For Forntend
 export const userOrders = async (req: Request, res: Response) => {
   try {

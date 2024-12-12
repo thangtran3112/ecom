@@ -11,6 +11,8 @@ import orderRouter from "./routes/orderRoute";
 // App Config
 const app = express();
 const port = process.env.PORT || 4000;
+
+//put these connections outside of Lambda handler to reuse database connection
 connectDB();
 connectCloudinary();
 
@@ -33,5 +35,4 @@ app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
 
-/** This optional, only needed for wrapping in AWS Lambda Handler */
 export default app;
