@@ -17,3 +17,8 @@
 * AI Infrastructure: AWS Bedrock, AWS Sagemaker, Pytorch, NLP, Transformer Neural Network.
 * Self-training Chatbot to learn about application, through API and SQL.
 * Both Backend and Frontend deployments are on AWS
+
+## My other static React Frontend portfolios:
+* Gongcha commercial website prototype for Gongcha Kelowna, Canada: [Gongcha Kelowna prototype](https://gongcha.thangtrandev.net)
+* Sushi Ichiban Macleod, Calgary, Alberta, Canada: [Sushi Ichiban](https://sushiichibanmacleod.com)
+* Cabin booking React website: [Cabins Booking](https://cabin.thangtrandev.net)
