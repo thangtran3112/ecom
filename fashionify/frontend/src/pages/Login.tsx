@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { ShopContext } from "../context/ShopContext";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { BACKEND_URL } from "../common/constants";
 
 enum AuthState {
   Login = "Login",
@@ -10,7 +11,7 @@ enum AuthState {
 
 const Login = () => {
   const [currentState, setCurrentState] = useState<AuthState>(AuthState.Login);
-  const { token, setToken, navigate, backendUrl } = useContext(ShopContext);
+  const { token, setToken, navigate } = useContext(ShopContext);
   const [name, setName] = useState<string>("");
   const [password, setPasword] = useState<string>("");
   const [email, setEmail] = useState<string>("");
@@ -19,7 +20,7 @@ const Login = () => {
     e.preventDefault();
     try {
       if (currentState === AuthState.SignUp) {
-        const response = await axios.post(backendUrl + "/api/user/register", {
+        const response = await axios.post(BACKEND_URL + "/api/user/register", {
           name,
           email,
           password,
@@ -32,7 +33,7 @@ const Login = () => {
         }
       } else {
         //Login case
-        const response = await axios.post(backendUrl + "/api/user/login", {
+        const response = await axios.post(BACKEND_URL + "/api/user/login", {
           email,
           password,
         });

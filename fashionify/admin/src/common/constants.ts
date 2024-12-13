@@ -1,4 +1,5 @@
 export const BACKEND_URL = import.meta.env.VITE_BACKEND_API_URL;
+export const SHOP_URL = import.meta.env.VITE_SHOP_URL;
 export const TOKEN = "token";
 export enum Sizes {
   S = "S",

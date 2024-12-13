@@ -3,9 +3,10 @@ import { ShopContext } from "../context/ShopContext";
 import Title from "../components/Title";
 import axios from "axios";
 import { IOrder, OrderProductItem } from "../interfaces/Order";
+import { BACKEND_URL } from "../common/constants";
 
 const Orders = () => {
-  const { backendUrl, token, currency } = useContext(ShopContext);
+  const { token, currency } = useContext(ShopContext);
   const [orderData, setOrderData] = useState<OrderProductItem[]>([]);
 
   const loadOrderData = async () => {
@@ -15,7 +16,7 @@ const Orders = () => {
       }
 
       const response = await axios.post(
-        backendUrl + "/api/order/userorders",
+        BACKEND_URL + "/api/order/userorders",
         {},
         { headers: { token } }
       );

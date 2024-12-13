@@ -6,9 +6,10 @@ import { useSearchParams } from "react-router-dom";
 import { useEffect } from "react";
 import { toast } from "react-toastify";
 import axios from "axios";
+import { BACKEND_URL } from "../common/constants";
 
 const Verify = () => {
-  const { navigate, token, setCartItems, backendUrl } = useContext(ShopContext);
+  const { navigate, token, setCartItems } = useContext(ShopContext);
   const [searchParams] = useSearchParams();
 
   const success = searchParams.get("success");
@@ -21,7 +22,7 @@ const Verify = () => {
       }
 
       const response = await axios.post(
-        backendUrl + "/api/order/verifyStripe",
+        BACKEND_URL + "/api/order/verifyStripe",
         { success, orderId },
         { headers: { token } }
       );
@@ -37,7 +38,7 @@ const Verify = () => {
       console.log(error);
       toast.error(error.message);
     }
-  }, [backendUrl, navigate, orderId, setCartItems, success, token]);
+  }, [navigate, orderId, setCartItems, success, token]);
 
   useEffect(() => {
     verifyPayment();

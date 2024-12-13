@@ -4,6 +4,7 @@ import { assets } from "../assets/assets";
 import { useState } from "react";
 import { cn } from "../lib/utils";
 import { ShopContext } from "../context/ShopContext";
+import { ADMIN_DASHBOARD_URL } from "../common/constants";
 
 const Navbar = () => {
   const [visible, setVisble] = useState(false);
@@ -52,6 +53,30 @@ const Navbar = () => {
       </ul>
 
       <div className="flex items-center gap-6">
+        <a
+          href={ADMIN_DASHBOARD_URL}
+          className="flex flex-row items-center gap-1 text-fuchsia-500 hover:-translate-y-1 hover:underline hover:text-sky-500 transition-all duration-500"
+        >
+          <img className="w-36" src={assets.admin_logo} alt="Logo" />
+          {/* <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            className="lucide lucide-user-round-pen"
+          >
+            <path d="M2 21a8 8 0 0 1 10.821-7.487" />
+            <path d="M21.378 16.626a1 1 0 0 0-3.004-3.004l-4.01 4.012a2 2 0 0 0-.506.854l-.837 2.87a.5.5 0 0 0 .62.62l2.87-.837a2 2 0 0 0 .854-.506z" />
+            <circle cx="10" cy="8" r="5" />
+          </svg>
+          <p>Admin</p>
+          <hr className="w-2/4 border-none h-[1.5px] bg-gray-700 hidden" /> */}
+        </a>
         <img
           onClick={() => setShowSearch(true)}
           className="w-5 cursor-pointer"

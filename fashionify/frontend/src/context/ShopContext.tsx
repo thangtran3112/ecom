@@ -2,10 +2,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { createContext, useEffect, useState } from "react";
-import { Product } from "../interfaces/Product";
 import { toast } from "react-toastify";
 import { NavigateFunction, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { IProduct } from "../interfaces/Product";
+import { BACKEND_URL } from "../common/constants";
 
 /** Example of the cartItems object
   {
@@ -28,7 +29,7 @@ interface CartItemsProps {
 }
 
 interface ShopContextProps {
-  products: Product[];
+  products: IProduct[];
   currency: string;
   delivery_fee: number;
   search: string;
@@ -48,7 +49,6 @@ interface ShopContextProps {
   navigate: NavigateFunction;
   setToken: React.Dispatch<React.SetStateAction<string>>;
   token: string;
-  backendUrl: string;
 }
 
 export const ShopContext = createContext<ShopContextProps>(
@@ -58,11 +58,10 @@ export const ShopContext = createContext<ShopContextProps>(
 const ShopContextProvider = (props: any) => {
   const currency = "$";
   const delivery_fee = 10;
-  const backendUrl = import.meta.env.VITE_BACKEND_API_URL;
   const navigate = useNavigate();
   const [search, setSearch] = useState<string>("");
   const [showSearch, setShowSearch] = useState<boolean>(true);
-  const [products, setProducts] = useState<Product[]>([]);
+  const [products, setProducts] = useState<IProduct[]>([]);
   const [token, setToken] = useState<string>("");
 
   //this could be replaced by using local storage, or with Zustand Persist
@@ -91,7 +90,7 @@ const ShopContextProvider = (props: any) => {
     if (token) {
       try {
         await axios.post(
-          backendUrl + "/api/cart/add",
+          BACKEND_URL + "/api/cart/add",
           { itemId, size },
           { headers: { token } }
         );
@@ -116,7 +115,7 @@ const ShopContextProvider = (props: any) => {
     if (token) {
       try {
         await axios.post(
-          backendUrl + "/api/cart/update",
+          BACKEND_URL + "/api/cart/update",
           { itemId, size, quantity },
           { headers: { token } }
         );
@@ -168,7 +167,7 @@ const ShopContextProvider = (props: any) => {
 
   const getProductsData = async () => {
     try {
-      const response = await axios.get(backendUrl + "/api/product/list");
+      const response = await axios.get(BACKEND_URL + "/api/product/list");
       if (response.data.success) {
         setProducts(response.data.products.reverse());
       } else {
@@ -183,7 +182,7 @@ const ShopContextProvider = (props: any) => {
   const getUserCart = async (token: string) => {
     try {
       const response = await axios.post(
-        backendUrl + "/api/cart/get",
+        BACKEND_URL + "/api/cart/get",
         {},
         { headers: { token } }
       );
@@ -226,7 +225,6 @@ const ShopContextProvider = (props: any) => {
     navigate,
     setToken,
     token,
-    backendUrl,
     setCartItems,
   };
 
