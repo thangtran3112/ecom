@@ -87,6 +87,8 @@ export class Frontend extends Construct {
       buildCommands: ["npm run bundle"],
       buildEnvironment: {
         VITE_BACKEND_API_URL: props.backendApi.apiEndpoint,
+        VITE_SHOP_URL: "https://fashionify.thangtrandev.net",
+        VITE_ADMIN_FRONTEND_URL: "https://fashionifyadmin.thangtrandev.net",
       },
       destinationBucket: assetBucket,
       distribution,
