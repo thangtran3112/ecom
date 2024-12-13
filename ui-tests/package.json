@@ -1,0 +1,21 @@
+{
+  "name": "aws-lambda-puppeteer-serverless",
+  "author": {
+    "name": "Thang Tran",
+    "email": "thangtran3112@gmail.com"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "scripts": {
+    "local": "node local-tests.js"
+  },
+  "dependencies": {
+    "@sparticuz/chromium": "^131.0.1",
+    "dotenv": "^16.4.7",
+    "puppeteer-core": "^23.10.4"
+  },
+  "devDependencies": {
+    "serverless": "^3.39.0"
+  }
+}
