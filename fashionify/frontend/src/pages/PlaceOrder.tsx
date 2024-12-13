@@ -7,8 +7,8 @@ import { assets } from "../assets/assets";
 import { cn } from "../lib/utils";
 import { toast } from "react-toastify";
 import axios from "axios";
-import { ProductOrderItem } from "../interfaces/Product";
-import { PaymentMethod } from "../common/constants";
+import { BACKEND_URL, PaymentMethod } from "../common/constants";
+import { IProductOrderItem } from "../interfaces/Product";
 
 interface IOrderForm {
   firstName: string;
@@ -26,7 +26,6 @@ const PlaceOrder = () => {
   const [method, setMethod] = useState<PaymentMethod>(PaymentMethod.Cod);
   const {
     navigate,
-    backendUrl,
     token,
     cartItems,
     setCartItems,
@@ -55,7 +54,7 @@ const PlaceOrder = () => {
   const onSubmitHandler = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
-      const orderItems: ProductOrderItem[] = [];
+      const orderItems: IProductOrderItem[] = [];
 
       for (const id in cartItems) {
         for (const item in cartItems[id]) {
@@ -64,7 +63,7 @@ const PlaceOrder = () => {
               products.find((product) => product._id === id)
             );
             if (itemInfo) {
-              const productOrderItem: ProductOrderItem = {
+              const productOrderItem: IProductOrderItem = {
                 ...itemInfo,
                 size: item,
                 quantity: cartItems[id][item],
@@ -85,7 +84,7 @@ const PlaceOrder = () => {
         // API Calls for COD
         case PaymentMethod.Cod: {
           const response = await axios.post(
-            backendUrl + "/api/order/place",
+            BACKEND_URL + "/api/order/place",
             orderData,
             { headers: { token } }
           );
@@ -100,7 +99,7 @@ const PlaceOrder = () => {
 
         case PaymentMethod.Stripe: {
           const responseStripe = await axios.post(
-            backendUrl + "/api/order/stripe",
+            BACKEND_URL + "/api/order/stripe",
             orderData,
             { headers: { token } }
           );

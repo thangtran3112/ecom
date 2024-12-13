@@ -23,3 +23,7 @@
 - (CAD$) 4000 0012 4000 0000
 - Use a valid future date, such as 12/34.
 - Use any three-digit CVC (four digits for American Express cards).
+
+## Admin Dashboard Login
+
+- User: `admin@fashionify.com`, Password: `Password123`
