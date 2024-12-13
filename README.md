@@ -1,28 +1,19 @@
-# Shopping Website for Fashion with MERN stacks
+# Multiple MERN implementation with different combined library
+* My Goals is to elaborate MERN stacks with various different combination of modern libraries
+  
+## Fullstack Fashion website
+* Techstacks: React, React Context API, Express, MongoDB, TailwindCSS, AWS CDK, AWS Lambda, AWS Cloudfront, AWS S3, Zod
+* Both Backend and Frontend deployments are on AWS
+* [Shopping Site Link](https://fashionify.thangtrandev.net)
+* [Admin Dashboard Link](https://fashionifyadmin.thangtrandev.net)
 
-## Installation
+## Fullstack Admin Dashboard Analytics
+* Techstacks: React, Express, MongoDB, MaterialUI, Redux Toolkit, Redux RTK Query, Backend and Frontend deployment on AWS
+* [Material UI Analytic](https://mernadmin.thangtrandev.net)
 
-- Following [Vite Tailwind guide](https://tailwindcss.com/docs/guides/vite). See belows:
-
-```bash
-  npm create vite@latest
-  npm install -D tailwindcss postcss autoprefixer
-  npx tailwindcss init -p
-```
-
-- Add `content` to `tailwind.config.js`:
-
-```js
-  content: [
-    "./index.html",
-    "./src/**/*.{js,ts,jsx,tsx}",
-  ],
-```
-
-- Add tailwind directives to `index.css`:
-
-```index.css
-  @tailwind base;
-  @tailwind components;
-  @tailwind utilities;
-```
+## TODO: Fullstack Custom Cake Shop (my wife is a custom cake artist)
+* Latest Techstacks: React v19, Express v5, PostgresSQL, Lucide React, Zustand, tRPC, @tanstack/react-query
+* Both Backend and Frontend deployments are on AWS
+* AI Infrastructure: AWS Bedrock, AWS Sagemaker, Pytorch, NLP, Transformer Neural Network.
+* Self-training Chatbot to learn about application, through API and SQL.
+* Both Backend and Frontend deployments are on AWS
