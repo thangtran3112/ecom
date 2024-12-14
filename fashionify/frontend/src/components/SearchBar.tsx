@@ -3,6 +3,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { ShopContext } from "../context/ShopContext";
 import { assets } from "../assets/assets";
 import { useLocation } from "react-router-dom";
+import { Search } from "lucide-react";
 
 const SearchBar = () => {
   const { search, setSearch, showSearch, setShowSearch } =
@@ -28,7 +29,7 @@ const SearchBar = () => {
           type="text"
           placeholder="Search"
         />
-        <img className="w-4" src={assets.search_icon} alt="" />
+        <Search className="w-6 h-6 text-slate-500" />
       </div>
       <img
         onClick={() => setShowSearch(false)}

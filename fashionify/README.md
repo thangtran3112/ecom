@@ -2,9 +2,30 @@
 
 - ![Serverless Architecture on AWS](./Architecture.png)
 
+## Admin Dashboard Login
+
+- User: `admin@fashionify.com`, Password: `Password123`
+
 ## Image sources
 
-- Credit to free images from [Pexel](https://www.pexels.com/search/fashion/)
+- Credit to free images from [Pexels](https://www.pexels.com/search/fashion/)
+
+## Deployment
+
+- Backend is not automatically built by CDK
+
+```bash
+  cd backend
+  npm i
+  npm run bundle
+```
+
+- Frontend and Admin Dashboard is built automatically by CDK
+
+```bash
+  cd cdk
+  npx cdk deploy
+```
 
 ## Notes
 
@@ -27,7 +48,3 @@
 - (CAD$) 4000 0012 4000 0000
 - Use a valid future date, such as 12/34.
 - Use any three-digit CVC (four digits for American Express cards).
-
-## Admin Dashboard Login
-
-- User: `admin@fashionify.com`, Password: `Password123`

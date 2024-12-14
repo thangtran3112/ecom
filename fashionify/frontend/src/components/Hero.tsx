@@ -1,4 +1,3 @@
-import React from "react";
 import { assets } from "../assets/assets";
 
 const Hero = () => {
@@ -12,9 +11,14 @@ const Hero = () => {
             <p className="font-medium text-sm md:text-base">OUR BESTSELLERS</p>
           </div>
 
-          <h1 className="prata-regular text-3xl sm:py-3 lg:text-5xl leading-relaxed">
-            Latest Arrivals
-          </h1>
+          <span className="text-3xl sm:py-3 lg:text-5xl leading-relaxed text-gray-500">
+            Designer
+          </span>
+
+          <span className="text-3xl sm:py-3 lg:text-5xl leading-relaxed text-gray-700">
+            {" "}
+            Collections
+          </span>
 
           <div className="flex items-center gap-2">
             <p className="font-semibold text-sm md:text-base">SHOP NOW</p>

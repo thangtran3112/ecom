@@ -4,7 +4,7 @@ import { ShopContext } from "../context/ShopContext";
 import { cn } from "../lib/utils";
 import { assets } from "../assets/assets";
 import Title from "../components/Title";
-import { Product } from "../interfaces/Product";
+import { IProduct } from "../interfaces/Product";
 import ProductItem from "../components/ProductItem";
 
 enum SortType {
@@ -20,7 +20,7 @@ const MIN_SEARCH_LENGTH = 3;
 const Collection = () => {
   const { products, search, showSearch } = useContext(ShopContext);
   const [showFilter, setShowFilter] = useState(false);
-  const [filterProducts, setFilterProducts] = useState<Product[]>([]);
+  const [filterProducts, setFilterProducts] = useState<IProduct[]>([]);
   const [category, setCategory] = useState<string[]>([]);
   const [subCategory, setSubCategory] = useState<string[]>([]);
   const [sortType, setSortType] = useState<SortType>(SortType.Relavent);
@@ -222,7 +222,7 @@ const Collection = () => {
           {filterProducts.map((item, index) => (
             <ProductItem
               key={index}
-              id={item._id}
+              id={item._id as string}
               image={item.image}
               name={item.name}
               price={item.price}

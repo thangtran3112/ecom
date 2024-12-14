@@ -136,3 +136,4 @@ fashionify/fullstack/backend/.env
 fashionify/fullstack/admin/.env
 fashionify/fullstack/backend/.env
 fashionify/cdk/.env
+/fashionify/backend/build

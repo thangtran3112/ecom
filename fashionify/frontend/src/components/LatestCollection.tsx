@@ -1,12 +1,12 @@
 import React, { useContext, useEffect, useState } from "react";
 import { ShopContext } from "../context/ShopContext";
 import Title from "./Title";
-import { Product } from "../interfaces/Product";
+import { IProduct } from "../interfaces/Product";
 import ProductItem from "./ProductItem";
 
 const LatestCollection = () => {
   const { products } = useContext(ShopContext);
-  const [latestProducts, setLatestProducts] = useState<Product[]>([]);
+  const [latestProducts, setLatestProducts] = useState<IProduct[]>([]);
 
   useEffect(() => {
     if (products.length === 0) return;
@@ -27,7 +27,7 @@ const LatestCollection = () => {
         {latestProducts.map((item, index) => (
           <ProductItem
             key={index}
-            id={item._id}
+            id={item._id as string}
             image={item.image}
             name={item.name}
             price={item.price}
