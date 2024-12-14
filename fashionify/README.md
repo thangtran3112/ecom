@@ -2,6 +2,10 @@
 
 - ![Serverless Architecture on AWS](./Architecture.png)
 
+## Image sources
+
+- Credit to free images from [Pexel](https://www.pexels.com/search/fashion/)
+
 ## Notes
 
 - Upgrade to Express v5 and React 19.
