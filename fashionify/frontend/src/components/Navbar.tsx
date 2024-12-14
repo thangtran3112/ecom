@@ -56,13 +56,11 @@ const Navbar = () => {
         </NavLink>
       </ul>
 
-      <div className="flex items-center gap-6">
+      <div className="flex items-center gap-3 sm:gap-6">
         <a
           href={ADMIN_DASHBOARD_URL}
           className="flex flex-row items-center gap-1 text-fuchsia-500 hover:-translate-y-1 hover:underline hover:text-sky-600 transition-all duration-500"
         >
-          {/* <img className="w-36" src={assets.admin_logo} alt="Logo" /> */}
-          <p>Admin</p>
           <Pencil />
         </a>
         {isCollectionPath && (
