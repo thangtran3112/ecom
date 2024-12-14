@@ -11,7 +11,7 @@
 * Techstacks: React, Express, MongoDB, MaterialUI, Redux Toolkit, Redux RTK Query, Backend and Frontend deployment on AWS
 * [Material UI Analytic](https://mernadmin.thangtrandev.net)
 
-## TODO: Fullstack Custom Cake Shop (my wife is a custom cake artist)
+## TODO: Fullstack Custom Cake Shop
 * Latest Techstacks: React v19, Express v5, PostgresSQL, Lucide React, Zustand, tRPC, @tanstack/react-query
 * Both Backend and Frontend deployments are on AWS
 * AI Infrastructure: AWS Bedrock, AWS Sagemaker, Pytorch, NLP, Transformer Neural Network.
