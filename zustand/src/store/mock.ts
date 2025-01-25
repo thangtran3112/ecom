@@ -15,4 +15,11 @@ export const mockHabits: Habit[] = [
         completedDates: [],
         createdAt: new Date().toISOString(),
     },
+    {
+        id: "3",
+        name: "Swimming",
+        frequency: "weekly",
+        completedDates: [],
+        createdAt: new Date().toISOString(),
+    },
 ];
