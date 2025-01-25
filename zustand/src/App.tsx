@@ -3,9 +3,16 @@ import "./App.css";
 import useHabitStore from "./store/store";
 import AddHabitForm from "./components/AddHabitForm";
 import HabitList from "./components/HabitList";
+import { useEffect } from "react";
+import HabitStats from "./components/HabitStats";
 
 function App() {
-    const store = useHabitStore();
+    const { fetchHabits } = useHabitStore();
+
+    useEffect(() => {
+        fetchHabits();
+    }, [fetchHabits]);
+
     return (
         <Container>
             <Box>
@@ -19,6 +26,7 @@ function App() {
                 </Typography>
                 <AddHabitForm />
                 <HabitList />
+                <HabitStats />
             </Box>
         </Container>
     );
