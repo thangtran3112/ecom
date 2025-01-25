@@ -1,38 +1,38 @@
 {
-  "name": "admin",
-  "private": true,
-  "version": "0.0.0",
-  "type": "module",
-  "scripts": {
-    "dev": "vite",
-    "build": "tsc -b && vite build",
-    "lint": "eslint .",
-    "preview": "vite preview",
-    "bundle": "vite build"
-  },
-  "dependencies": {
-    "axios": "^1.7.9",
-    "lucide-react": "^0.468.0",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "react-router-dom": "^6.26.2",
-    "react-toastify": "^10.0.6",
-    "tailwind-merge": "^2.5.5"
-  },
-  "devDependencies": {
-    "@eslint/js": "^9.9.0",
-    "@types/react": "^18.3.3",
-    "@types/react-dom": "^18.3.0",
-    "@vitejs/plugin-react": "^4.3.4",
-    "autoprefixer": "^10.4.20",
-    "eslint": "^9.9.0",
-    "eslint-plugin-react-hooks": "^5.1.0-rc.0",
-    "eslint-plugin-react-refresh": "^0.4.9",
-    "globals": "^15.13.0",
-    "postcss": "^8.4.49",
-    "tailwindcss": "^3.4.16",
-    "typescript": "^5.7.2",
-    "typescript-eslint": "^8.0.1",
-    "vite": "^5.4.1"
-  }
+    "name": "admin",
+    "private": true,
+    "version": "0.0.0",
+    "type": "module",
+    "scripts": {
+        "dev": "vite",
+        "build": "tsc -b && vite build",
+        "lint": "eslint .",
+        "preview": "vite preview",
+        "bundle": "vite build"
+    },
+    "dependencies": {
+        "axios": "^1.7.9",
+        "lucide-react": "^0.468.0",
+        "react": "^19.0.0",
+        "react-dom": "^19.0.0",
+        "react-router": "^7.1.3",
+        "react-toastify": "^10.0.6",
+        "tailwind-merge": "^2.5.5"
+    },
+    "devDependencies": {
+        "@eslint/js": "^9.9.0",
+        "@types/react": "^19.0.8",
+        "@types/react-dom": "^19.0.3",
+        "@vitejs/plugin-react": "^4.3.4",
+        "autoprefixer": "^10.4.20",
+        "eslint": "^9.9.0",
+        "eslint-plugin-react-hooks": "^5.1.0-rc.0",
+        "eslint-plugin-react-refresh": "^0.4.9",
+        "globals": "^15.13.0",
+        "postcss": "^8.4.49",
+        "tailwindcss": "^3.4.16",
+        "typescript": "^5.7.2",
+        "typescript-eslint": "^8.18.2",
+        "vite": "^6.0.5"
+    }
 }
