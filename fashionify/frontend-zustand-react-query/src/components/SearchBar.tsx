@@ -1,0 +1,43 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect, useState } from "react";
+import { assets } from "../assets/assets";
+import { useLocation } from "react-router";
+import { Search } from "lucide-react";
+import useProductsStore from "../stores/productsStore";
+
+const SearchBar = () => {
+    const { search, setSearch, showSearch, setShowSearch } = useProductsStore();
+    const [visible, setVisible] = useState(false);
+    const location = useLocation();
+
+    useEffect(() => {
+        if (location.pathname.includes("collection") && showSearch) {
+            setVisible(true);
+        } else {
+            setVisible(false);
+        }
+    }, [location]);
+
+    return showSearch && visible ? (
+        <div className="border-t border-b bg-slate-50 text-center">
+            <div className="inline-flex items-center justify-center border border-slate-500 px-5 py-2 my-3 mx-3 rounded-full w-3/4 sm:w-1/2">
+                <input
+                    className="flex-1 outline-none bg-inherit text-sm"
+                    onChange={(e) => setSearch(e.target.value)}
+                    value={search}
+                    type="text"
+                    placeholder="Search"
+                />
+                <Search className="w-6 h-6 text-slate-500" />
+            </div>
+            <img
+                onClick={() => setShowSearch(false)}
+                className="inline w-3 cursor-pointer"
+                src={assets.cross_icon}
+                alt=""
+            />
+        </div>
+    ) : null;
+};
+
+export default SearchBar;
