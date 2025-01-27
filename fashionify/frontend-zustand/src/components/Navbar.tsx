@@ -6,18 +6,21 @@ import { ADMIN_DASHBOARD_URL } from "../common/constants";
 import { Pencil, Search, ShoppingCart, UserRound } from "lucide-react";
 import useProductsStore from "../stores/productsStore";
 import useCartStore from "../stores/cartStore";
+import userPersistStore from "../stores/persistStore";
 
 const Navbar = () => {
     const [visible, setVisble] = useState(false);
     const { setShowSearch } = useProductsStore();
-    const { getCartCount, token, setToken, setCartItems } = useCartStore();
+    const { token, removeToken } = userPersistStore();
+    const { getCartCount, setCartItems } = useCartStore();
 
     const navigate = useNavigate();
 
     const logout = () => {
         navigate("/login");
-        localStorage.removeItem("token");
-        setToken("");
+        // localStorage.removeItem("token");
+        // setToken("");
+        removeToken();
         setCartItems({});
     };
 

@@ -17,18 +17,20 @@ import "react-toastify/dist/ReactToastify.css";
 import Verify from "./pages/Verify";
 import useProductsStore from "./stores/productsStore";
 import useCartStore from "./stores/cartStore";
+import userPersistStore from "./stores/persistStore";
 
 const App = () => {
     const { fetchProducts } = useProductsStore();
-    const { token, setToken, getUserCart } = useCartStore();
+    const { getUserCart } = useCartStore();
+    const { token, setToken } = userPersistStore();
 
     // better to migrate to react-query
     useEffect(() => {
         const init = async () => {
             await fetchProducts();
-            if (!token && localStorage.getItem("token")) {
-                setToken(localStorage.getItem("token") as string);
-            }
+            // if (!token && localStorage.getItem("token")) {
+            //     setToken(localStorage.getItem("token") as string);
+            // }
             await getUserCart();
         };
         init();

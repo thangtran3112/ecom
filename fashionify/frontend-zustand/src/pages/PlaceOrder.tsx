@@ -12,6 +12,7 @@ import useCartStore from "../stores/cartStore";
 import { getCartAmount } from "../common/utils";
 import { useNavigate } from "react-router";
 import { apiPlaceOrder, apiStripePayment } from "../api/orderApis";
+import userPersistStore from "../stores/persistStore";
 
 interface IOrderForm {
     firstName: string;
@@ -34,7 +35,8 @@ export interface IOrderData {
 const PlaceOrder = () => {
     const [method, setMethod] = useState<PaymentMethod>(PaymentMethod.Cod);
     const { products } = useProductsStore();
-    const { token, cartItems, setCartItems, delivery_fee } = useCartStore();
+    const { token } = userPersistStore();
+    const { cartItems, setCartItems, delivery_fee } = useCartStore();
     const navigate = useNavigate();
     const [formData, setFormData] = useState<IOrderForm>({
         firstName: "",

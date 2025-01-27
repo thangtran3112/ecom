@@ -5,13 +5,12 @@ import { toast } from "react-toastify";
 import { apiGetUserCart, apiSaveCart, apiUpdateCart } from "../api/cartApis";
 import { ICartItems } from "../common/utils";
 import { devtools } from "zustand/middleware";
+import userPersistStore from "./persistStore";
 
 interface CartState {
     cartItems: ICartItems;
     currency: string;
     delivery_fee: number;
-    token: string;
-    setToken: (token: string) => void;
     setCartItems: (value: ICartItems) => void;
     addToCart: (itemId: string, size: string) => Promise<void>;
     getCartCount: () => number;
@@ -29,11 +28,6 @@ const useCartStore = create<CartState>()(
             cartItems: {},
             currency: "$",
             delivery_fee: 10,
-            token: "",
-            setToken: (value) =>
-                set((state) => {
-                    state.token = value;
-                }),
             setCartItems: (value) =>
                 set((state) => {
                     state.cartItems = value;
@@ -57,7 +51,7 @@ const useCartStore = create<CartState>()(
                     cartData[itemId][size] = 1;
                 }
                 get().setCartItems(cartData);
-                const token = get().token;
+                const token = userPersistStore.getState().token;
                 if (token) {
                     try {
                         apiSaveCart(token, itemId, size);
@@ -90,7 +84,7 @@ const useCartStore = create<CartState>()(
                 cartData[itemId][size] = quantity;
 
                 get().setCartItems(cartData);
-                const token = get().token;
+                const token = userPersistStore.getState().token;
                 if (token) {
                     try {
                         apiUpdateCart(token, itemId, size, quantity);
@@ -102,7 +96,8 @@ const useCartStore = create<CartState>()(
             },
             getUserCart: async () => {
                 try {
-                    const response = await apiGetUserCart(get().token);
+                    const token = userPersistStore.getState().token;
+                    const response = await apiGetUserCart(token);
                     if (response.data.success) {
                         get().setCartItems(response.data.cartData);
                     }

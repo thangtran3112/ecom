@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import useCartStore from "../stores/cartStore";
 import { useNavigate } from "react-router";
 import { apiLogin, apiRegister } from "../api/authApis";
+import userPersistStore from "../stores/persistStore";
 
 enum AuthState {
     Login = "Login",
@@ -14,7 +14,7 @@ const Login = () => {
     const [currentState, setCurrentState] = useState<AuthState>(
         AuthState.Login
     );
-    const { token, setToken } = useCartStore();
+    const { token, setToken } = userPersistStore();
     const navigate = useNavigate();
     const [name, setName] = useState<string>("");
     const [password, setPasword] = useState<string>("");
@@ -27,7 +27,7 @@ const Login = () => {
                 const response = await apiRegister(name, email, password);
                 if (response.data.success) {
                     setToken(response.data.token);
-                    localStorage.setItem("token", response.data.token);
+                    // localStorage.setItem("token", response.data.token);
                 } else {
                     toast.error(response.data.message);
                 }
@@ -36,7 +36,7 @@ const Login = () => {
                 const response = await apiLogin(email, password);
                 if (response.data.success) {
                     setToken(response.data.token);
-                    localStorage.setItem("token", response.data.token);
+                    // localStorage.setItem("token", response.data.token);
                 } else {
                     toast.error(response.data.message);
                 }
@@ -51,6 +51,7 @@ const Login = () => {
         if (token) {
             navigate("/");
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [token]);
 
     return (

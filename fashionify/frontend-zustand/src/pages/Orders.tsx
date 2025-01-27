@@ -3,9 +3,11 @@ import Title from "../components/Title";
 import { IOrder, OrderProductItem } from "../interfaces/Order";
 import useCartStore from "../stores/cartStore";
 import { apiGetUserOrders } from "../api/orderApis";
+import userPersistStore from "../stores/persistStore";
 
 const Orders = () => {
-    const { token, currency } = useCartStore();
+    const { token } = userPersistStore();
+    const { currency } = useCartStore();
     const [orderData, setOrderData] = useState<OrderProductItem[]>([]);
 
     const loadOrderData = async () => {

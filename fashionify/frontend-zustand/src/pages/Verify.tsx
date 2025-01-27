@@ -5,9 +5,11 @@ import { useEffect } from "react";
 import { toast } from "react-toastify";
 import useCartStore from "../stores/cartStore";
 import { apiVerifyStripe } from "../api/orderApis";
+import userPersistStore from "../stores/persistStore";
 
 const Verify = () => {
-    const { token, setCartItems } = useCartStore();
+    const { token } = userPersistStore();
+    const { setCartItems } = useCartStore();
     const navigate = useNavigate();
     const [searchParams] = useSearchParams();
 
