@@ -11,6 +11,8 @@
         "bundle": "vite build"
     },
     "dependencies": {
+        "@tanstack/react-query": "^5.64.2",
+        "@tanstack/react-query-devtools": "^5.65.0",
         "axios": "^1.7.9",
         "clsx": "^2.1.1",
         "immer": "^10.1.1",

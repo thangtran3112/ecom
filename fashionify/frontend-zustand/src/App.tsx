@@ -18,8 +18,22 @@ import Verify from "./pages/Verify";
 import useProductsStore from "./stores/productsStore";
 import useCartStore from "./stores/cartStore";
 import userPersistStore from "./stores/persistStore";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 const App = () => {
+    const queryClient = new QueryClient({
+        defaultOptions: {
+            queries: {
+                staleTime: 1000 * 60, // 1 minute in ms
+                retry: 1,
+                retryDelay: (attempIndex) =>
+                    Math.min(1000 * 2 ** attempIndex, 30000),
+                refetchOnWindowFocus: true,
+            },
+        },
+    });
+
     const { fetchProducts } = useProductsStore();
     const { getUserCart } = useCartStore();
     const { token, setToken } = userPersistStore();
@@ -37,25 +51,28 @@ const App = () => {
     }, [fetchProducts, getUserCart, setToken, token]);
 
     return (
-        <div className="px-4 sm:px-[5vw] md:px-[7vw] lg:px-[9vw]">
-            <ToastContainer />
-            <Navbar />
-            <SearchBar />
-            <Routes>
-                {/* Routes go here */}
-                <Route path="/" element={<Home />} />
-                <Route path="/collection" element={<Collection />} />
-                <Route path="/about" element={<About />} />
-                <Route path="/contact" element={<Contact />} />
-                <Route path="/product/:productId" element={<Product />} />
-                <Route path="/cart" element={<Cart />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/place-order" element={<PlaceOrder />} />
-                <Route path="/orders" element={<Orders />} />
-                <Route path="/verify" element={<Verify />} />
-            </Routes>
-            <Footer />
-        </div>
+        <QueryClientProvider client={queryClient}>
+            <ReactQueryDevtools initialIsOpen={false} />
+            <div className="px-4 sm:px-[5vw] md:px-[7vw] lg:px-[9vw]">
+                <ToastContainer />
+                <Navbar />
+                <SearchBar />
+                <Routes>
+                    {/* Routes go here */}
+                    <Route path="/" element={<Home />} />
+                    <Route path="/collection" element={<Collection />} />
+                    <Route path="/about" element={<About />} />
+                    <Route path="/contact" element={<Contact />} />
+                    <Route path="/product/:productId" element={<Product />} />
+                    <Route path="/cart" element={<Cart />} />
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/place-order" element={<PlaceOrder />} />
+                    <Route path="/orders" element={<Orders />} />
+                    <Route path="/verify" element={<Verify />} />
+                </Routes>
+                <Footer />
+            </div>
+        </QueryClientProvider>
     );
 };
 
