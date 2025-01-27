@@ -1,6 +1,5 @@
-import React, { useContext } from "react";
-import { ShopContext } from "../context/ShopContext";
 import { Link } from "react-router";
+import useCartStore from "../stores/cartStore";
 
 interface ProductItemProps {
     id: string;
@@ -10,7 +9,7 @@ interface ProductItemProps {
 }
 
 const ProductItem = ({ id, image, name, price }: ProductItemProps) => {
-    const { currency } = useContext(ShopContext);
+    const { currency } = useCartStore();
 
     return (
         <Link

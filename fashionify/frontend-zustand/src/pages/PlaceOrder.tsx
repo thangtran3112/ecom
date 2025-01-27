@@ -1,15 +1,17 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { ChangeEvent, useContext, useState } from "react";
+import React, { ChangeEvent, useState } from "react";
 import Title from "../components/Title";
 import CartTotal from "../components/CartTotal";
-import { ShopContext } from "../context/ShopContext";
 import { assets } from "../assets/assets";
 import { cn } from "../lib/utils";
 import { toast } from "react-toastify";
-import axios from "axios";
-import { BACKEND_URL, PaymentMethod } from "../common/constants";
+import { PaymentMethod } from "../common/constants";
 import { IProductOrderItem } from "../interfaces/Product";
 import useProductsStore from "../stores/productsStore";
+import useCartStore from "../stores/cartStore";
+import { getCartAmount } from "../common/utils";
+import { useNavigate } from "react-router";
+import { apiPlaceOrder, apiStripePayment } from "../api/orderApis";
 
 interface IOrderForm {
     firstName: string;
@@ -23,17 +25,17 @@ interface IOrderForm {
     phone: string;
 }
 
+export interface IOrderData {
+    address: IOrderForm;
+    items: IProductOrderItem[];
+    amount: number;
+}
+
 const PlaceOrder = () => {
     const [method, setMethod] = useState<PaymentMethod>(PaymentMethod.Cod);
     const { products } = useProductsStore();
-    const {
-        navigate,
-        token,
-        cartItems,
-        setCartItems,
-        getCartAmount,
-        delivery_fee,
-    } = useContext(ShopContext);
+    const { token, cartItems, setCartItems, delivery_fee } = useCartStore();
+    const navigate = useNavigate();
     const [formData, setFormData] = useState<IOrderForm>({
         firstName: "",
         lastName: "",
@@ -75,20 +77,16 @@ const PlaceOrder = () => {
                 }
             }
 
-            const orderData = {
+            const orderData: IOrderData = {
                 address: formData,
                 items: orderItems,
-                amount: getCartAmount(products) + delivery_fee,
+                amount: getCartAmount(products, cartItems) + delivery_fee,
             };
 
             switch (method) {
                 // API Calls for COD
                 case PaymentMethod.Cod: {
-                    const response = await axios.post(
-                        BACKEND_URL + "/api/order/place",
-                        orderData,
-                        { headers: { token } }
-                    );
+                    const response = await apiPlaceOrder(token, orderData);
                     if (response.data.success) {
                         setCartItems({});
                         navigate("/orders");
@@ -99,10 +97,9 @@ const PlaceOrder = () => {
                 }
 
                 case PaymentMethod.Stripe: {
-                    const responseStripe = await axios.post(
-                        BACKEND_URL + "/api/order/stripe",
-                        orderData,
-                        { headers: { token } }
+                    const responseStripe = await apiStripePayment(
+                        token,
+                        orderData
                     );
                     if (responseStripe.data.success) {
                         const { session_url } = responseStripe.data;

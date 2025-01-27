@@ -1,15 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useCallback } from "react";
-import { useContext } from "react";
-import { ShopContext } from "../context/ShopContext";
-import { useSearchParams } from "react-router";
+import { useCallback } from "react";
+import { useNavigate, useSearchParams } from "react-router";
 import { useEffect } from "react";
 import { toast } from "react-toastify";
-import axios from "axios";
-import { BACKEND_URL } from "../common/constants";
+import useCartStore from "../stores/cartStore";
+import { apiVerifyStripe } from "../api/orderApis";
 
 const Verify = () => {
-    const { navigate, token, setCartItems } = useContext(ShopContext);
+    const { token, setCartItems } = useCartStore();
+    const navigate = useNavigate();
     const [searchParams] = useSearchParams();
 
     const success = searchParams.get("success");
@@ -21,11 +20,7 @@ const Verify = () => {
                 return null;
             }
 
-            const response = await axios.post(
-                BACKEND_URL + "/api/order/verifyStripe",
-                { success, orderId },
-                { headers: { token } }
-            );
+            const response = await apiVerifyStripe(token, success, orderId);
 
             if (response.data.success) {
                 setCartItems({});

@@ -1,19 +1,18 @@
-import React, { useContext } from "react";
-import { Link, NavLink, useLocation } from "react-router";
+import { Link, NavLink, useLocation, useNavigate } from "react-router";
 import { assets } from "../assets/assets";
 import { useState } from "react";
 import { cn } from "../lib/utils";
-import { ShopContext } from "../context/ShopContext";
 import { ADMIN_DASHBOARD_URL } from "../common/constants";
 import { Pencil, Search, ShoppingCart, UserRound } from "lucide-react";
 import useProductsStore from "../stores/productsStore";
+import useCartStore from "../stores/cartStore";
 
 const Navbar = () => {
     const [visible, setVisble] = useState(false);
     const { setShowSearch } = useProductsStore();
+    const { getCartCount, token, setToken, setCartItems } = useCartStore();
 
-    const { getCartCount, navigate, token, setToken, setCartItems } =
-        useContext(ShopContext);
+    const navigate = useNavigate();
 
     const logout = () => {
         navigate("/login");

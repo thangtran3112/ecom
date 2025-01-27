@@ -16,14 +16,23 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Verify from "./pages/Verify";
 import useProductsStore from "./stores/productsStore";
+import useCartStore from "./stores/cartStore";
 
 const App = () => {
     const { fetchProducts } = useProductsStore();
+    const { token, setToken, getUserCart } = useCartStore();
 
     // better to migrate to react-query
     useEffect(() => {
-        fetchProducts();
-    }, [fetchProducts]);
+        const init = async () => {
+            await fetchProducts();
+            if (!token && localStorage.getItem("token")) {
+                setToken(localStorage.getItem("token") as string);
+            }
+            await getUserCart();
+        };
+        init();
+    }, [fetchProducts, getUserCart, setToken, token]);
 
     return (
         <div className="px-4 sm:px-[5vw] md:px-[7vw] lg:px-[9vw]">

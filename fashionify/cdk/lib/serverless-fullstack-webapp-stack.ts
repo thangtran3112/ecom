@@ -4,10 +4,10 @@ import { BackendApi } from "./constructs/backend-api";
 import { Construct } from "constructs";
 import { Frontend } from "./constructs/frontend";
 import {
-  BlockPublicAccess,
-  Bucket,
-  BucketEncryption,
-  ObjectOwnership,
+    BlockPublicAccess,
+    Bucket,
+    BucketEncryption,
+    ObjectOwnership,
 } from "aws-cdk-lib/aws-s3";
 
 import * as dotenv from "dotenv";
@@ -16,57 +16,57 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 export class ServerlessWebappStack extends Stack {
-  constructor(scope: Construct, id: string, props?: StackProps) {
-    super(scope, id, {
-      description: "Serverless fullstack webapp stack",
-      ...props,
-    });
+    constructor(scope: Construct, id: string, props?: StackProps) {
+        super(scope, id, {
+            description: "Serverless fullstack webapp stack",
+            ...props,
+        });
 
-    const frontEndaccessLogBucket = new Bucket(
-      this,
-      `${id}FrontendAccessLogs`,
-      {
-        encryption: BucketEncryption.S3_MANAGED,
-        blockPublicAccess: BlockPublicAccess.BLOCK_ALL,
-        enforceSSL: true,
-        removalPolicy: RemovalPolicy.DESTROY,
-        objectOwnership: ObjectOwnership.OBJECT_WRITER,
-        autoDeleteObjects: true,
-      }
-    );
+        const frontEndaccessLogBucket = new Bucket(
+            this,
+            `${id}FrontendAccessLogs`,
+            {
+                encryption: BucketEncryption.S3_MANAGED,
+                blockPublicAccess: BlockPublicAccess.BLOCK_ALL,
+                enforceSSL: true,
+                removalPolicy: RemovalPolicy.DESTROY,
+                objectOwnership: ObjectOwnership.OBJECT_WRITER,
+                autoDeleteObjects: true,
+            }
+        );
 
-    const adminDashboardAccessLog = new Bucket(
-      this,
-      `${id}AdminDashboardAccessLogs`,
-      {
-        encryption: BucketEncryption.S3_MANAGED,
-        blockPublicAccess: BlockPublicAccess.BLOCK_ALL,
-        enforceSSL: true,
-        removalPolicy: RemovalPolicy.DESTROY,
-        objectOwnership: ObjectOwnership.OBJECT_WRITER,
-        autoDeleteObjects: true,
-      }
-    );
+        const adminDashboardAccessLog = new Bucket(
+            this,
+            `${id}AdminDashboardAccessLogs`,
+            {
+                encryption: BucketEncryption.S3_MANAGED,
+                blockPublicAccess: BlockPublicAccess.BLOCK_ALL,
+                enforceSSL: true,
+                removalPolicy: RemovalPolicy.DESTROY,
+                objectOwnership: ObjectOwnership.OBJECT_WRITER,
+                autoDeleteObjects: true,
+            }
+        );
 
-    const backend = new BackendApi(this, `${id}BackendApi`, {});
-    // const lambdaUrlApi = new LambdaUrlStack(this, "AdminDashboard");
-    const frontend = new Frontend(this, `${id}Frontend`, {
-      backendApi: backend.api,
-      accessLogBucket: frontEndaccessLogBucket,
-      relativePath: "../frontend",
-    });
+        const backend = new BackendApi(this, `${id}BackendApi`, {});
+        // const lambdaUrlApi = new LambdaUrlStack(this, "AdminDashboard");
+        const frontend = new Frontend(this, `${id}Frontend`, {
+            backendApi: backend.api,
+            accessLogBucket: frontEndaccessLogBucket,
+            relativePath: "../frontend-zustand",
+        });
 
-    new CfnOutput(this, `${id}FrontendDomainName`, {
-      value: `https://${frontend.cloudFrontWebDistribution.distributionDomainName}`,
-    });
+        new CfnOutput(this, `${id}FrontendDomainName`, {
+            value: `https://${frontend.cloudFrontWebDistribution.distributionDomainName}`,
+        });
 
-    const adminDashboard = new Frontend(this, `${id}AdminDashboard`, {
-      backendApi: backend.api,
-      accessLogBucket: adminDashboardAccessLog,
-      relativePath: "../admin",
-    });
-    new CfnOutput(this, `${id}AdminDashboardDomainName`, {
-      value: `https://${adminDashboard.cloudFrontWebDistribution.distributionDomainName}`,
-    });
-  }
+        const adminDashboard = new Frontend(this, `${id}AdminDashboard`, {
+            backendApi: backend.api,
+            accessLogBucket: adminDashboardAccessLog,
+            relativePath: "../admin",
+        });
+        new CfnOutput(this, `${id}AdminDashboardDomainName`, {
+            value: `https://${adminDashboard.cloudFrontWebDistribution.distributionDomainName}`,
+        });
+    }
 }

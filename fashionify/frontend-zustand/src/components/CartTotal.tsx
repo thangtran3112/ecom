@@ -1,11 +1,13 @@
-import { useContext } from "react";
-import { ShopContext } from "../context/ShopContext";
 import Title from "./Title";
 import useProductsStore from "../stores/productsStore";
+import useCartStore from "../stores/cartStore";
+import { getCartAmount } from "../common/utils";
 
 const CartTotal = () => {
     const { products } = useProductsStore();
-    const { currency, delivery_fee, getCartAmount } = useContext(ShopContext);
+    const { currency, delivery_fee, cartItems } = useCartStore();
+
+    const cartAmount = getCartAmount(products, cartItems);
     return (
         <div className="w-full">
             <div className="text-2xl">
@@ -15,7 +17,7 @@ const CartTotal = () => {
                 <div className="flex justify-between">
                     <p>Subtotal</p>
                     <p>
-                        {currency} {getCartAmount(products)}.00
+                        {currency} {cartAmount}.00
                     </p>
                 </div>
 
@@ -32,9 +34,7 @@ const CartTotal = () => {
                     <b>Total</b>
                     <b>
                         {currency}{" "}
-                        {getCartAmount(products) === 0
-                            ? 0
-                            : getCartAmount(products) + delivery_fee}
+                        {cartAmount === 0 ? 0 : cartAmount + delivery_fee}
                         .00
                     </b>
                 </div>

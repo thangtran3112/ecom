@@ -1,9 +1,10 @@
-import React, { useContext, useEffect, useState } from "react";
-import { ShopContext } from "../context/ShopContext";
+import { useEffect, useState } from "react";
 import Title from "../components/Title";
 import { assets } from "../assets/assets";
 import CartTotal from "../components/CartTotal";
 import useProductsStore from "../stores/productsStore";
+import useCartStore from "../stores/cartStore";
+import { useNavigate } from "react-router";
 
 interface CartDataProps {
     _id: string;
@@ -13,8 +14,8 @@ interface CartDataProps {
 
 const Cart = () => {
     const { products } = useProductsStore();
-    const { currency, cartItems, updateQuantity, navigate } =
-        useContext(ShopContext);
+    const { currency, cartItems, updateQuantity } = useCartStore();
+    const navigate = useNavigate();
 
     const [cartData, setCartData] = useState<CartDataProps[]>([]);
 
