@@ -2,10 +2,22 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { apiGetProducts } from "../api/productApis";
 import { PRODUCTS_KEY } from "./cache-keys";
+import { toast } from "react-toastify";
+import { IProduct } from "../interfaces/Product";
 
-const apiGetProductsWithErrorHandling = async () => {
+export const apiGetProductsWithErrorHandling = async () => {
     try {
-        return await apiGetProducts();
+        try {
+            const response = await apiGetProducts();
+            if (response.data.success) {
+                return response.data.products.reverse() as IProduct[];
+            } else {
+                toast.error(response.data.message);
+            }
+        } catch (error: any) {
+            console.log(error);
+            toast.error(error.message);
+        }
     } catch (error: any) {
         throw new Error("Failed to fetch products: " + error?.message);
     }

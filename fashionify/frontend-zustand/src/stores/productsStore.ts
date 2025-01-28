@@ -1,11 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-
 import { devtools } from "zustand/middleware";
 import { IProduct } from "../interfaces/Product";
 import { create } from "zustand";
-import { toast } from "react-toastify";
 import { immer } from "zustand/middleware/immer";
-import { fetchProducts } from "../api/productApis";
+import { apiGetProductsWithErrorHandling } from "../hooks/useProducts";
 
 interface ProductState {
     products: IProduct[];
@@ -27,17 +25,9 @@ const useProductsStore = create<ProductState>()(
             setShowSearch: (value) => set({ showSearch: value }),
             setProducts: (arr) => set({ products: arr }),
             fetchProducts: async () => {
-                try {
-                    const response = await fetchProducts();
-                    if (response.data.success) {
-                        set({ products: response.data.products.reverse() });
-                    } else {
-                        toast.error(response.data.message);
-                    }
-                } catch (error: any) {
-                    console.log(error);
-                    toast.error(error.message);
-                }
+                // this can be used, if we are not using react query.
+                const products = await apiGetProductsWithErrorHandling();
+                set({ products: products });
             },
         }))
     )
