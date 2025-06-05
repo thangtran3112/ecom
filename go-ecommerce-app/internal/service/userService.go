@@ -1,13 +1,20 @@
 package service
 
-import "go-ecommerce-app/internal/domain"
+import (
+	"go-ecommerce-app/internal/domain"
+	"go-ecommerce-app/internal/dto"
+	"log"
+)
 
 type UserService struct {
 
 }
 
-func (s UserService) Signup(input any) (string, error){
-	return "", nil
+func (s UserService) Signup(input dto.UserSignup) (string, error){
+	log.Println("signup", input)
+
+	// call to db to create user
+	return "this-is-my-token-for-now", nil
 }
 
 // Most Go Database ORM return a pointer to the model, so we will use a pointer here as well.
