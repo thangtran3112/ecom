@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"go-ecommerce-app/internal/api/rest"
+	"go-ecommerce-app/internal/service"
 	"net/http"
 
 	"github.com/gofiber/fiber/v2"
@@ -9,13 +10,17 @@ import (
 
 type UserHandler struct {
 	// svc UserService
+	svc service.UserService
 }
 
 func SetupUserRoutes(rh *rest.RestHandler) {
 	app := rh.App
 
+	svc := service.UserService{}
 	// create an instance of user service & inject to handler
-	handler := UserHandler{}
+	handler := UserHandler{
+		svc: svc,
+	}
 
 	// Public endpoints
 	app.Post("/register", handler.Register)
