@@ -7,6 +7,8 @@ import (
 	"go-ecommerce-app/internal/helper"
 	"go-ecommerce-app/internal/repository"
 	"log"
+	"strconv"
+	"time"
 )
 
 type UserService struct {
@@ -56,9 +58,37 @@ func (s UserService) Login(email string, password string) (string, error) {
 	return s.Auth.GenerateToken(user.ID, user.Email, user.UserType)
 }
 
-func (s UserService) GetVerificationCode(e domain.User) error {
-	// This method should retrieve the verification code for a user.
-	return nil
+func (userService UserService) isVerifiedUser(id uint) bool {
+
+	currentUser, err := userService.Repo.FindUserById(id)
+
+	return err == nil && currentUser.Verified
+}
+
+func (s UserService) GetVerificationCode(user domain.User) (int, error) {
+	// if user is already verified, return an error
+	if s.isVerifiedUser(user.ID) {
+		return 0, errors.New("user is already verified")
+	}
+
+	// generate verification code
+	code, err := s.Auth.GenerateCode()
+	if err != nil {
+		return 0, err
+	}
+
+	// update user with verification code
+	updatedUserInfo := domain.User{
+		Expiry: time.Now().Add(time.Minute * 30),
+		Code: code,
+	}
+
+	_, err = s.Repo.UpdateUser(user.ID, updatedUserInfo)
+	if err != nil {
+		return 0, errors.New("unable to update verification code")
+	}
+	
+	return strconv.Atoi(code)
 }
 
 func (s UserService) VerifyCode(id uint, code int) error {
