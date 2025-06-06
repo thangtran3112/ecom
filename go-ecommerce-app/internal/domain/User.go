@@ -1,6 +1,8 @@
 package domain
+
 import "time"
 
+// Use GORM annotations to map the struct to the database table
 type User struct {
 	ID        uint      `json:"id" gorm:"PrimaryKey"`
 	FirstName string    `json:"first_name"`
@@ -12,4 +14,6 @@ type User struct {
 	Expiry    time.Time `json:"expiry"`
 	Verified  bool      `json:"verified" gorm:"default:false"`
 	UserType  string    `json:"user_type" gorm:"default:buyer"`
+	CreatedAt time.Time `json:"created_at" gorm:"default:current_timestamp"`
+	UpdatedAt time.Time `json:"updated_at" gorm:"default:current_timestamp"`
 }
