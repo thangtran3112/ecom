@@ -67,31 +67,29 @@ type Auth struct {
 	return nil
  }
 
- func (a Auth) VerifyToken(t string) (domain.User, error) {
-	// Bearer <token>
+ func (auth Auth) VerifyToken(t string) (domain.User, error) {
 	tokenArr := strings.Split(t, " ")
 	if len(tokenArr) != 2 {
-		return domain.User{}, errors.New("token must be in the format of Bearer <token>")
+		return domain.User{}, nil
 	}
 
 	tokenStr := tokenArr[1]
 
 	if tokenArr[0] != "Bearer" {
-		return domain.User{}, errors.New("token must be in the format of Bearer <token>")
+		return domain.User{}, errors.New("invalid token")
 	}
 
-	token, err := jwt.Parse(tokenStr, func(token *jwt.Token) (any, error) {
+	token, err := jwt.Parse(tokenStr, func(token *jwt.Token) (interface{}, error) {
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 			return nil, fmt.Errorf("unknown signing method %v", token.Header)
 		}
-		return []byte(a.Secret), nil
+		return []byte(auth.Secret), nil
 	})
 
 	if err != nil {
 		return domain.User{}, errors.New("invalid signing method")
 	}
 
-	// If the token claims can be converted to the expected map format and the token is valid
 	if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
 
 		if float64(time.Now().Unix()) > claims["exp"].(float64) {
@@ -109,9 +107,17 @@ type Auth struct {
 }
 
 func (a Auth) Authorize(ctx *fiber.Ctx) error {
-	authHeader := ctx.GetReqHeaders()["Authorization"]
-	user, err := a.VerifyToken(authHeader[0])
-
+	authHeader := ctx.Get("Authorization")
+	
+	if authHeader == "" {
+		return ctx.Status(401).JSON(&fiber.Map{
+			"message": "authorization failed",
+			"reason":  "Authorization header is missing",
+		})
+	}
+	
+	user, err := a.VerifyToken(authHeader)
+	
 	if err == nil && user.ID > 0 {
 		ctx.Locals("user", user)
 		return ctx.Next()

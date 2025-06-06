@@ -27,25 +27,29 @@ func SetupUserRoutes(restHandler *rest.RestHandler) {
 		svc: svc,
 	}
 
+	pubRoutes := app.Group("/")
+
 	// Public endpoints
-	app.Post("/register", handler.Register)
-	app.Post("/login", handler.Login)
+	pubRoutes.Post("/register", handler.Register)
+	pubRoutes.Post("/login", handler.Login)
+
+	privateRoutes := app.Group("/users", restHandler.Auth.Authorize)
 
 	// Protected endpoints
-	app.Get("/verify", handler.GetVerificationCode)
-	app.Post("/verify", handler.Verify)
+	privateRoutes.Get("/verify", handler.GetVerificationCode)
+	privateRoutes.Post("/verify", handler.Verify)
 
-	app.Post("/profile", handler.CreateProfile)
-	app.Get("/profile", handler.GetProfile)
-	app.Patch("/profile", handler.UpdateProfile)
+	privateRoutes.Post("/profile", handler.CreateProfile)
+	privateRoutes.Get("/profile", handler.GetProfile)
+	privateRoutes.Patch("/profile", handler.UpdateProfile)
 
-	app.Post("/cart", handler.AddToCart)
-	app.Get("/cart", handler.GetCart)
+	privateRoutes.Post("/cart", handler.AddToCart)
+	privateRoutes.Get("/cart", handler.GetCart)
 
-	app.Get("/order", handler.GetOrders)
-	app.Get("/order/:id", handler.GetOrder)
+	privateRoutes.Get("/order", handler.GetOrders)
+	privateRoutes.Get("/order/:id", handler.GetOrder)
 
-	app.Post("/become-seller", handler.BecomeSeller)
+	privateRoutes.Post("/become-seller", handler.BecomeSeller)
 
 }
 
