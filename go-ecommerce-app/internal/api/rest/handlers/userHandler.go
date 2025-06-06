@@ -118,8 +118,28 @@ func (h *UserHandler) GetVerificationCode(ctx *fiber.Ctx) error {
 }
 
 func (h *UserHandler) Verify(ctx *fiber.Ctx) error {
+
+	user := h.svc.Auth.GetCurrentUser(ctx)
+
+	//request
+	var req dto.VerificationCodeInput
+
+	if err := ctx.BodyParser(&req); err != nil {
+		return ctx.Status(http.StatusBadRequest).JSON(&fiber.Map{
+			"message": "please provide valid inputs",
+		})
+	}
+
+	err := h.svc.VerifyCode(user.ID, req.Code)
+
+	if err != nil {
+		return ctx.Status(http.StatusBadRequest).JSON(&fiber.Map{
+			"message": "invalid verification code",
+		})
+	}
+
 	return ctx.Status(http.StatusOK).JSON(&fiber.Map{
-		"message": "verify successful",
+		"message": "verify successfully",
 	})
 }
 

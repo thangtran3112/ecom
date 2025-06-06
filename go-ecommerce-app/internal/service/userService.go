@@ -7,7 +7,6 @@ import (
 	"go-ecommerce-app/internal/helper"
 	"go-ecommerce-app/internal/repository"
 	"log"
-	"strconv"
 	"time"
 )
 
@@ -28,6 +27,7 @@ func (userService UserService) Signup(input dto.UserSignup) (string, error){
 		Email:    input.Email,
 		Password: hashedPassword,
 		Phone:    input.Phone,
+		Verified: false, // Explicitly set to false
 	})
 
 	if err != nil {
@@ -65,16 +65,16 @@ func (userService UserService) isVerifiedUser(id uint) bool {
 	return err == nil && currentUser.Verified
 }
 
-func (s UserService) GetVerificationCode(user domain.User) (int, error) {
+func (s UserService) GetVerificationCode(user domain.User) (string, error) {
 	// if user is already verified, return an error
 	if s.isVerifiedUser(user.ID) {
-		return 0, errors.New("user is already verified")
+		return "", errors.New("user is already verified")
 	}
 
 	// generate verification code
 	code, err := s.Auth.GenerateCode()
 	if err != nil {
-		return 0, err
+		return "", err
 	}
 
 	// update user with verification code
@@ -85,13 +85,44 @@ func (s UserService) GetVerificationCode(user domain.User) (int, error) {
 
 	_, err = s.Repo.UpdateUser(user.ID, updatedUserInfo)
 	if err != nil {
-		return 0, errors.New("unable to update verification code")
+		return "", errors.New("unable to update verification code")
 	}
 	
-	return strconv.Atoi(code)
+	return code, nil
 }
 
-func (s UserService) VerifyCode(id uint, code int) error {
+func (s UserService) VerifyCode(id uint, code string) error {
+	
+	// if user already verified
+	if s.isVerifiedUser(id) {
+		log.Println("verified...")
+		return errors.New("user already verified")
+	}
+
+	user, err := s.Repo.FindUserById(id)
+
+	if err != nil {
+		return err
+	}
+
+	if user.Code != code {
+		return errors.New("verification code does not match")
+	}
+
+	if !time.Now().Before(user.Expiry) {
+		return errors.New("verification code expired")
+	}
+
+	updateUser := domain.User{
+		Verified: true,
+	}
+
+	_, err = s.Repo.UpdateUser(id, updateUser)
+
+	if err != nil {
+		return errors.New("unable to verify user")
+	}
+
 	return nil
 }
 

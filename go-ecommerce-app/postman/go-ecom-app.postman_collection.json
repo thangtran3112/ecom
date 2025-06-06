@@ -38,6 +38,71 @@
 					"response": []
 				},
 				{
+					"name": "GetVerificationCode",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{user_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/users/verify",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"users",
+								"verify"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PostVerifyUser",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{user_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"code\" : \"242198\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/users/verify",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"users",
+								"verify"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "GetProfile",
 					"request": {
 						"method": "GET",

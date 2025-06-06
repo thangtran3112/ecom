@@ -1,0 +1,14 @@
+{
+  "sqltools.connections": [
+    {
+      "previewLimit": 50,
+      "server": "localhost",
+      "port": 5428,
+      "driver": "PostgreSQL",
+      "database": "online-shopping",
+      "name": "go-ecom-local",
+      "username": "root",
+      "password": "root"
+    }
+  ]
+}
