@@ -5,6 +5,7 @@ import (
 	"go-ecommerce-app/internal/dto"
 	"go-ecommerce-app/internal/repository"
 	"go-ecommerce-app/internal/service"
+	"log"
 	"net/http"
 
 	"github.com/gofiber/fiber/v2"
@@ -115,11 +116,26 @@ func (h *UserHandler) CreateProfile(ctx *fiber.Ctx) error {
 		"message": "profile created successfully",
 	})
 }
+
 func (h *UserHandler) GetProfile(ctx *fiber.Ctx) error {
+
+	user := h.svc.Auth.GetCurrentUser(ctx)
+	log.Println(user)
+
+	// call user service and perform get profile
+	profile, err := h.svc.GetProfile(user.ID)
+	if err != nil {
+		return ctx.Status(http.StatusInternalServerError).JSON(&fiber.Map{
+			"message": "unable to get profile",
+		})
+	}
+
 	return ctx.Status(http.StatusOK).JSON(&fiber.Map{
-		"message": "profile retrieved successfully",
+		"message": "get profile",
+		"profile": profile,
 	})
 }
+
 func (h *UserHandler) UpdateProfile(ctx *fiber.Ctx) error {
 	return ctx.Status(http.StatusOK).JSON(&fiber.Map{
 		"message": "profile updated successfully",

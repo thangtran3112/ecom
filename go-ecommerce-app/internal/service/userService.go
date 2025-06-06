@@ -73,8 +73,14 @@ func (s UserService) UpdateProfile(id uint, input any) error {
 	return nil
 }
 
-func (s UserService) GetProfile(id uint) (*domain.User, error) {
-	return nil, nil
+func (userService UserService) GetProfile(id uint) (*domain.User, error) {
+
+	user, err := userService.Repo.FindUserById(id)
+	if err != nil {
+		return nil, err
+	}
+
+	return &user, nil
 }
 
 func (s UserService) BecomeSeller(id uint, input any) (string, error) {
