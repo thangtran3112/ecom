@@ -5,6 +5,7 @@ import (
 	"go-ecommerce-app/internal/api/rest"
 	"go-ecommerce-app/internal/api/rest/handlers"
 	"go-ecommerce-app/internal/domain"
+	"go-ecommerce-app/internal/helper"
 	"log"
 	"net/http"
 
@@ -26,12 +27,15 @@ func StartServer(config config.AppConfig) {
 
 	// run the migrations
 	db.AutoMigrate(&domain.User{})
+
+	auth := helper.SetupAuth(config.AppSecret)
 	
 	// modify the Fiber app (like adding routes) and ensures working with 
 	// the same app instance when using &
 	restHandler := &rest.RestHandler{
 		App: app,
 		DB: db,
+		Auth: auth,
 	}
 	setupRoutes(restHandler)
 	app.Listen(config.ServerPort)

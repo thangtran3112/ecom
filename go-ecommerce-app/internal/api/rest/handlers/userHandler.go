@@ -20,6 +20,7 @@ func SetupUserRoutes(restHandler *rest.RestHandler) {
 
 	svc := service.UserService{
 		Repo: repository.NewUserRepository(restHandler.DB),
+		Auth: restHandler.Auth,
 	}
 	// create an instance of user service & inject to handler
 	handler := UserHandler{
@@ -67,7 +68,8 @@ func (h *UserHandler) Register(ctx *fiber.Ctx) error {
 	}
 	
 	return ctx.Status(http.StatusOK).JSON(&fiber.Map{
-		"message": token,
+		"message": "register",
+		"token": token,
 	})
 }
 
