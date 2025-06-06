@@ -107,7 +107,7 @@ func (h *UserHandler) GetVerificationCode(ctx *fiber.Ctx) error {
 
 	if err != nil {
 		return ctx.Status(http.StatusInternalServerError).JSON(&fiber.Map{
-			"message": "unable to generate verification code",
+			"message": "user already verified or unable to generate verification code",
 		})
 	}
 
@@ -134,7 +134,7 @@ func (h *UserHandler) Verify(ctx *fiber.Ctx) error {
 
 	if err != nil {
 		return ctx.Status(http.StatusBadRequest).JSON(&fiber.Map{
-			"message": "invalid verification code",
+			"message": err.Error(),
 		})
 	}
 
