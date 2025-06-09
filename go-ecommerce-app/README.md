@@ -21,3 +21,8 @@
     go get -u gorm.io/driver/postgres
     go get github.com/golang-jwt/jwt/v4
 ```
+
+## Architecture
+
+![PostgresSQL Design](./DatabaseDesign.png)
+![Architecture](./MultiSellerDesign.png)

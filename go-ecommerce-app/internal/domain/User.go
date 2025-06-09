@@ -2,6 +2,11 @@ package domain
 
 import "time"
 
+const (
+	SELLER = "seller"
+	BUYER  = "buyer"
+)
+
 // Use GORM annotations to map the struct to the database table
 type User struct {
 	ID        uint      `json:"id" gorm:"PrimaryKey"`
