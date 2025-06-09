@@ -22,6 +22,7 @@ func SetupUserRoutes(restHandler *rest.RestHandler) {
 	svc := service.UserService{
 		Repo: repository.NewUserRepository(restHandler.DB),
 		Auth: restHandler.Auth,
+		Config: restHandler.Config,
 	}
 	// create an instance of user service & inject to handler
 	handler := UserHandler{
@@ -112,7 +113,7 @@ func (h *UserHandler) GetVerificationCode(ctx *fiber.Ctx) error {
 	}
 
 	return ctx.Status(http.StatusOK).JSON(&fiber.Map{
-		"message": "get verification code",
+		"message": "verification code sent successfully",
 		"data": code,
 	})
 }

@@ -2,10 +2,13 @@ package service
 
 import (
 	"errors"
+	"fmt"
+	"go-ecommerce-app/config"
 	"go-ecommerce-app/internal/domain"
 	"go-ecommerce-app/internal/dto"
 	"go-ecommerce-app/internal/helper"
 	"go-ecommerce-app/internal/repository"
+	"go-ecommerce-app/pkg/notification"
 	"log"
 	"time"
 )
@@ -13,6 +16,7 @@ import (
 type UserService struct {
 	Repo repository.UserRepository
 	Auth helper.Auth
+	Config config.AppConfig
 }
 
 func (userService UserService) Signup(input dto.UserSignup) (string, error){
@@ -65,11 +69,18 @@ func (userService UserService) isVerifiedUser(id uint) bool {
 	return err == nil && currentUser.Verified
 }
 
-func (s UserService) GetVerificationCode(user domain.User) (string, error) {
+func (s UserService) GetVerificationCode(user domain.User) (string,error) {
 	// if user is already verified, return an error
 	if s.isVerifiedUser(user.ID) {
 		return "", errors.New("user is already verified")
 	}
+
+	dbUser, _ := s.Repo.FindUserById(user.ID)
+
+	if dbUser.Phone == "" {
+		return "", errors.New("phone number is not set")
+	}
+	phone := dbUser.Phone
 
 	// generate verification code
 	code, err := s.Auth.GenerateCode()
@@ -87,7 +98,15 @@ func (s UserService) GetVerificationCode(user domain.User) (string, error) {
 	if err != nil {
 		return "", errors.New("unable to update verification code")
 	}
-	
+
+	// send SMS
+	notificationClient := notification.NewNotificationClient(s.Config)
+	msg := fmt.Sprintf("Your verification code is %v", code)
+	err = notificationClient.SendSMS(phone, msg)
+	if err != nil {
+		return "", errors.New("error on sending sms")
+	}
+
 	return code, nil
 }
 
