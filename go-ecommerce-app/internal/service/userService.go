@@ -228,4 +228,3 @@ func (s UserService) GetOrders(u domain.User) ([]any, error) {
 func (s UserService) GetOrderById(id uint, uId uint) ([]any, error) {
 	return nil, nil
 }
-
