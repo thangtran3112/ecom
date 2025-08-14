@@ -29,31 +29,39 @@ func (service CatalogService) CreateCategory(input dto.CreateCategoryRequest) er
 
 func (s CatalogService) EditCategory(id int, input dto.CreateCategoryRequest) (*domain.Category, error) {
 
-	exitCat, err := s.Repo.FindCategoryById(id)
+	existingCategory, err := s.Repo.FindCategoryById(id)
 	if err != nil {
 		return nil, errors.New("category does not exist")
 
 	}
 
 	if len(input.Name) > 0 {
-		exitCat.Name = input.Name
+		existingCategory.Name = input.Name
 	}
 
 	if input.ParentId > 0 {
-		exitCat.ParentId = input.ParentId
+		existingCategory.ParentId = input.ParentId
 	}
 
 	if len(input.ImageUrl) > 0 {
-		exitCat.ImageUrl = input.ImageUrl
+		existingCategory.ImageUrl = input.ImageUrl
 	}
 
 	if input.DisplayOrder > 0 {
-		exitCat.DisplayOrder = input.DisplayOrder
+		existingCategory.DisplayOrder = input.DisplayOrder
 	}
 
-	updatedCat, err := s.Repo.EditCategory(exitCat)
+	updatedCat, err := s.Repo.EditCategory(existingCategory)
 
 	return updatedCat, err
+}
+
+func (service CatalogService) DeleteCategory(id int) error {
+	err := service.Repo.DeleteCategory(id)
+	if err != nil {
+		return errors.New("category does not exist")
+	}
+	return nil
 }
 
 func (service CatalogService) GetCategories() ([]*domain.Category, error) {
@@ -67,11 +75,27 @@ func (service CatalogService) GetCategories() ([]*domain.Category, error) {
 
 }
 
-func (s CatalogService) GetCategory(id int) (*domain.Category, error) {
-	category_pointer, err := s.Repo.FindCategoryById(id)
+func (service CatalogService) GetCategory(id int) (*domain.Category, error) {
+	category_pointer, err := service.Repo.FindCategoryById(id)
 	if err != nil {
 		return nil, errors.New("category does not exist")
 
 	}
 	return category_pointer, nil
+}
+
+// we do not use pointers here because we are not modifying the product reference
+// copying input and user are relatively cheap
+func (service CatalogService) CreateProduct(input dto.CreateProductRequest, user domain.User) error {
+	err := service.Repo.CreateProduct(&domain.Product{
+		Name:        input.Name,
+		Description: input.Description,
+		Price:       input.Price,
+		CategoryId:  input.CategoryId,
+		ImageUrl:    input.ImageUrl,
+		UserId:      int(user.ID),
+		Stock:       uint(input.Stock),
+	})
+
+	return err
 }

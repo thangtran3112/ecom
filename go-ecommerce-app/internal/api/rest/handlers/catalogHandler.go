@@ -40,7 +40,7 @@ func SetupCatalogRoutes(restHandler *rest.RestHandler) {
 	selRoutes := app.Group("/seller", restHandler.Auth.AuthorizeSeller)
 	// Categories
 	selRoutes.Post("/categories", handler.CreateCategories)
-	selRoutes.Patch("/categories/:id", handler.EditCategory)
+	selRoutes.Put("/categories/:id", handler.EditCategory)
 	selRoutes.Delete("/categories/:id", handler.DeleteCategory)
 
 	// Products
@@ -72,10 +72,28 @@ func (catalogHandler CatalogHandler) CreateCategories(ctx *fiber.Ctx) error {
 }
 
 func (catalogHandler CatalogHandler) EditCategory(ctx *fiber.Ctx) error {
-	return rest.SuccessResponse(ctx, "category updated successfully", nil)
+	id, _ := strconv.Atoi(ctx.Params("id"))
+	req := dto.CreateCategoryRequest{}
+
+	err := ctx.BodyParser(&req)
+	if err != nil {
+		return rest.BadRequestError(ctx, "update category request is not valid")
+	}
+
+	updatedCat, err := catalogHandler.svc.EditCategory(id, req)
+	if err != nil {
+		return rest.InternalError(ctx, err)
+	}
+
+	return rest.SuccessResponse(ctx, "category updated successfully", updatedCat)
 }
 
 func (catalogHandler CatalogHandler) DeleteCategory(ctx *fiber.Ctx) error {
+	id, _ := strconv.Atoi(ctx.Params("id"))
+	err := catalogHandler.svc.DeleteCategory(id)
+	if err != nil {
+		return rest.InternalError(ctx, err)
+	}
 	return rest.SuccessResponse(ctx, "category deleted successfully", nil)
 }
 

@@ -1,0 +1,1474 @@
+{
+	"info": {
+		"_postman_id": "be6175b2-d8fa-4bc9-8cbc-2afe7ca2151c",
+		"name": "Go Ecommerce",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "20378199"
+	},
+	"item": [
+		{
+			"name": "User Service",
+			"item": [
+				{
+					"name": "Seller",
+					"item": [
+						{
+							"name": "Join Seller Program",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var jsonData = JSON.parse(responseBody)",
+											"postman.setEnvironmentVariable(\"user_token\", jsonData.data.token)"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n \"first_name\": \"Jay\",\n \"last_name\": \"Gogoi\",\n \"phone_number\": \"9090909090\",\n \"bankAccountNumber\": 123456789,\n \"swiftCode\":\"DB120029\",\n \"paymentType\": \"regular\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/users/become-seller",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"users",
+										"become-seller"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Edit Payment Method",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n \"bankAccountNumber\": \"123456789\",\n \"swiftCode\":\"DB120029\",\n \"paymentType\": \"regular\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/payment-methods/1",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"payment-methods",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Payment Methods",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{USER_URL}}/payment-methods",
+									"host": [
+										"{{USER_URL}}"
+									],
+									"path": [
+										"payment-methods"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Product by ID",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/products/5",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"products",
+										"5"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Seller Products",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/seller/products",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"seller",
+										"products"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Edit Product",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\":\"MacbookPro 16 inch\",\n    \"description\":\"refurbished laptop \",\n    \"category_id\": 2,\n    \"image_url\":\"https://www.bosch-ebike.com/fileadmin/_processed_/2/0/csm_Stage_P03_normal_252b4ca311.jpg?_=1591798783\",\n    \"price\":1400\n }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/seller/products/2",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"seller",
+										"products",
+										"2"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Stock",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"stock\":10\n }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/seller/products/1",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"seller",
+										"products",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "UploadFile",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "file",
+									"file": {
+										"src": ""
+									}
+								},
+								"url": {
+									"raw": ""
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Product",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/seller/products/2",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"seller",
+										"products",
+										"2"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create Category",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\":\"Smart TVs\",\n    \"parent_id\": null,\n    \"image_url\":\"48c867b9-09a6-4d7b-b8d6-7244c049965f__Scaling_1.jpg\",\n    \"display_order\": 1\n }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/seller/categories",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"seller",
+										"categories"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Edit Category",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\":\"Smart TVS\",\n    \"parent_id\": null,\n    \"image_url\":\"48c867b9-09a6-4d7b-b8d6-7244c049965f__Scaling_1.jpg\",\n    \"display_order\": 1\n }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/seller/categories/4",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"seller",
+										"categories",
+										"4"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Category",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/seller/categories/1",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"seller",
+										"categories",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create Product",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\":\"Google Pixel 2\",\n    \"description\":\"Mobile Phone \",\n    \"category_id\": 1,\n    \"image_url\":\"48c867b9-09a6-4d7b-b8d6-7244c049965f__Scaling_1.jpg\",\n    \"price\":400,\n    \"stock\": 1\n }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/seller/products",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"seller",
+										"products"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "UploadRequest",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://qb0woteuv8.execute-api.eu-central-1.amazonaws.com/prod/uploader?file=Scaling_1.jpg",
+									"protocol": "https",
+									"host": [
+										"qb0woteuv8",
+										"execute-api",
+										"eu-central-1",
+										"amazonaws",
+										"com"
+									],
+									"path": [
+										"prod",
+										"uploader"
+									],
+									"query": [
+										{
+											"key": "file",
+											"value": "Scaling_1.jpg"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "User Signup",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"jay22@test.com\",\n    \"password\": \"123456\",\n    \"phone\": \"+491700000000\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/register",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "User  Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody)",
+									"postman.setEnvironmentVariable(\"user_token\", jsonData.token)"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"jay22@test.com\",\n    \"password\": \"123456\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/login",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Me",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody)",
+									"postman.setEnvironmentVariable(\"user_token\", jsonData.token)"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImpheTIyQHRlc3QuY29tIiwiZXhwIjoxNzQ3NjAxMzQ4LCJyb2xlIjoidXNlciIsInVzZXJfaWQiOjF9.tZ3G7Z-HqW7gypnxqfGj4HR1851dg0VxR9o0gPdyJ0Q",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/me",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"me"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "User  Verify",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/users/verify",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"users",
+								"verify"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "User  Verify Code",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n \"code\": 271698\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/users/verify",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"users",
+								"verify"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Profile",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n \"first_name\": \"Jay\",\n \"last_name\": \"Gogoi\",\n \"address\": {\n     \"address_line1\": \"my address 1\",\n     \"address_line2\": \"my address line 2\",\n     \"city\": \"Berlin\",\n     \"post_code\": 10785,\n     \"country\": \"DE\"\n }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/users/profile",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"users",
+								"profile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Profile",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n \"first_name\": \"Jay\",\n \"last_name\": \"Go\",\n \"address\": {\n     \"address_line1\": \"my address\",\n     \"address_line2\": \"my address line\",\n     \"city\": \"Berlin\",\n     \"post_code\": 10785,\n     \"country\": \"DE\"\n }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/users/profile",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"users",
+								"profile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Profile",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/users/profile",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"users",
+								"profile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Payment Methods",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{USER_URL}}/payment-methods",
+							"host": [
+								"{{USER_URL}}"
+							],
+							"path": [
+								"payment-methods"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Cart",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n \"qty\": 1,\n \"product_id\": 8\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/users/cart",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"users",
+								"cart"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Order",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/users/order",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"users",
+								"order"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Orders",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/users/order/1",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"users",
+								"order",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Order By Id",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/users/order",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"users",
+								"order"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Cart Items",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/users/cart",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"users",
+								"cart"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Cart Items Copy",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/users/cart",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"users",
+								"cart"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Payment",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/buyer/payment",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"buyer",
+								"payment"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Verify_Payment",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/buyer/verify",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"buyer",
+								"verify"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Cart",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n \"qty\": 2\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/users/cart/1",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"users",
+								"cart",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Cart",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{USER_URL}}/cart/1",
+							"host": [
+								"{{USER_URL}}"
+							],
+							"path": [
+								"cart",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{user_token}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Product Service",
+			"item": [
+				{
+					"name": "Get Products",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/products",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Product by ID",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/products/1",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"products",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Categories",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/categories",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"categories"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Top Categories",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{PRODUCT_URL}}/category?type=top",
+							"host": [
+								"{{PRODUCT_URL}}"
+							],
+							"path": [
+								"category"
+							],
+							"query": [
+								{
+									"key": "type",
+									"value": "top"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Category by id",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/categories/1",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"categories",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Product from Queue URL",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"action\": \"GET_PRODUCT\",\n    \"productId\": \"63dfc53017f0c77b678b8d0c\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{PRODUCT_URL}}/products-queue",
+							"host": [
+								"{{PRODUCT_URL}}"
+							],
+							"path": [
+								"products-queue"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Transaction Service",
+			"item": [
+				{
+					"name": "Get Order",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/seller/orders",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"seller",
+								"orders"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get seller order details",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/seller/orders/2",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"seller",
+								"orders",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Place Order",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "https://053l6v6ew1.execute-api.eu-central-1.amazonaws.com/prod/transaction",
+							"protocol": "https",
+							"host": [
+								"053l6v6ew1",
+								"execute-api",
+								"eu-central-1",
+								"amazonaws",
+								"com"
+							],
+							"path": [
+								"prod",
+								"transaction"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Confirm Order",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiMiIsImVtYWlsIjoidGVzdDFAdGVzdC5jb20iLCJwaG9uZSI6Iis0OTE3MDAwMDAwMDAiLCJpYXQiOjE2ODUxODI2ODQsImV4cCI6MTY4Nzc3NDY4NH0.tP2PKHQzWWFhjzaDSOnjd6kGQQHV_kETKKKuJk1pEFI",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "https://i9zuzpsxp2.execute-api.eu-central-1.amazonaws.com/order",
+							"protocol": "https",
+							"host": [
+								"i9zuzpsxp2",
+								"execute-api",
+								"eu-central-1",
+								"amazonaws",
+								"com"
+							],
+							"path": [
+								"order"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Orders",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"Message\": {\n        \"userId\": 1,\n        \"items\": [\n            {\n                \"cart_id\": \"1\",\n                \"item_id\": \"1\",\n                \"product_id\": \"63dfc53017f0c77b678b8d0c\",\n                \"name\": \"Macbook Pro 16 inch\",\n                \"price\": \"1200\",\n                \"item_qty\": 1,\n                \"image_url\": \"https://www.bosch-ebike.com/fileadmin/_processed_/2/0/csm_Stage_P03_normal_252b4ca311.jpg?_=1591798783\",\n                \"created_at\": \"2023-05-01T11:52:55.259Z\"\n            }\n        ],\n        \"transaction\": {\n            \"id\": \"pi_3N8kuJIP7Vashcue0eai2G4R\",\n            \"object\": \"payment_intent\",\n            \"amount\": 125308,\n            \"amount_capturable\": 0,\n            \"amount_details\": {\n                \"tip\": {}\n            },\n            \"amount_received\": 125308,\n            \"application\": null,\n            \"application_fee_amount\": null,\n            \"automatic_payment_methods\": null,\n            \"canceled_at\": null,\n            \"cancellation_reason\": null,\n            \"capture_method\": \"automatic\",\n            \"client_secret\": \"pi_3N8kuJIP7Vashcue0eai2G4R_secret_TY2cMM0kbG2qNb1wD87oSC355\",\n            \"confirmation_method\": \"automatic\",\n            \"created\": 1684332047,\n            \"currency\": \"usd\",\n            \"customer\": \"cus_NoYghpAVue65a9\",\n            \"description\": null,\n            \"invoice\": null,\n            \"last_payment_error\": null,\n            \"latest_charge\": \"ch_3N8kuJIP7Vashcue0TvmA7GY\",\n            \"livemode\": false,\n            \"metadata\": {},\n            \"next_action\": null,\n            \"on_behalf_of\": null,\n            \"payment_method\": \"pm_1N8kuWIP7VashcueG8ugtP2h\",\n            \"payment_method_options\": {\n                \"card\": {\n                    \"installments\": null,\n                    \"mandate_options\": null,\n                    \"network\": null,\n                    \"request_three_d_secure\": \"automatic\"\n                }\n            },\n            \"payment_method_types\": [\n                \"card\"\n            ],\n            \"processing\": null,\n            \"receipt_email\": null,\n            \"review\": null,\n            \"setup_future_usage\": null,\n            \"shipping\": null,\n            \"source\": null,\n            \"statement_descriptor\": null,\n            \"statement_descriptor_suffix\": null,\n            \"status\": \"succeeded\",\n            \"transfer_data\": null,\n            \"transfer_group\": null\n        }\n    },\n    \"TopicArn\": \"[object Object]\",\n    \"MessageAttributes\": {\n        \"actionType\": {\n            \"DataType\": \"String\",\n            \"StringValue\": \"place_order\"\n        }\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:3000/orders",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "3000",
+							"path": [
+								"orders"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Transactions",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"Message\": {\n        \"userId\": 1,\n        \"items\": [\n            {\n                \"cart_id\": \"1\",\n                \"item_id\": \"1\",\n                \"product_id\": \"63dfc53017f0c77b678b8d0c\",\n                \"name\": \"Macbook Pro 16 inch\",\n                \"price\": \"1200\",\n                \"item_qty\": 1,\n                \"image_url\": \"https://www.bosch-ebike.com/fileadmin/_processed_/2/0/csm_Stage_P03_normal_252b4ca311.jpg?_=1591798783\",\n                \"created_at\": \"2023-05-01T11:52:55.259Z\"\n            }\n        ],\n        \"transaction\": {\n            \"id\": \"pi_3N8kuJIP7Vashcue0eai2G4R\",\n            \"object\": \"payment_intent\",\n            \"amount\": 125308,\n            \"amount_capturable\": 0,\n            \"amount_details\": {\n                \"tip\": {}\n            },\n            \"amount_received\": 125308,\n            \"application\": null,\n            \"application_fee_amount\": null,\n            \"automatic_payment_methods\": null,\n            \"canceled_at\": null,\n            \"cancellation_reason\": null,\n            \"capture_method\": \"automatic\",\n            \"client_secret\": \"pi_3N8kuJIP7Vashcue0eai2G4R_secret_TY2cMM0kbG2qNb1wD87oSC355\",\n            \"confirmation_method\": \"automatic\",\n            \"created\": 1684332047,\n            \"currency\": \"usd\",\n            \"customer\": \"cus_NoYghpAVue65a9\",\n            \"description\": null,\n            \"invoice\": null,\n            \"last_payment_error\": null,\n            \"latest_charge\": \"ch_3N8kuJIP7Vashcue0TvmA7GY\",\n            \"livemode\": false,\n            \"metadata\": {},\n            \"next_action\": null,\n            \"on_behalf_of\": null,\n            \"payment_method\": \"pm_1N8kuWIP7VashcueG8ugtP2h\",\n            \"payment_method_options\": {\n                \"card\": {\n                    \"installments\": null,\n                    \"mandate_options\": null,\n                    \"network\": null,\n                    \"request_three_d_secure\": \"automatic\"\n                }\n            },\n            \"payment_method_types\": [\n                \"card\"\n            ],\n            \"processing\": null,\n            \"receipt_email\": null,\n            \"review\": null,\n            \"setup_future_usage\": null,\n            \"shipping\": null,\n            \"source\": null,\n            \"statement_descriptor\": null,\n            \"statement_descriptor_suffix\": null,\n            \"status\": \"succeeded\",\n            \"transfer_data\": null,\n            \"transfer_group\": null\n        }\n    },\n    \"TopicArn\": \"[object Object]\",\n    \"MessageAttributes\": {\n        \"actionType\": {\n            \"DataType\": \"String\",\n            \"StringValue\": \"place_order\"\n        }\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:3000/transaction",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "3000",
+							"path": [
+								"transaction"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{user_token}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
