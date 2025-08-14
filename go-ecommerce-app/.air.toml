@@ -1,0 +1,21 @@
+root = "."
+
+tmp_dir = "tmp"
+
+[build]
+  bin = "./tmp/main"
+  cmd = "go build -o ./tmp/main ."
+  include_ext = ["go"]
+  exclude_dir = ["vendor", "tmp"]
+
+[log]
+  time = true
+
+[color]
+  main = "yellow"
+  watcher = "cyan"
+  build = "green"
+  runner = "magenta"
+
+[runner]
+  cmd = "APP_ENV=dev ./tmp/main"

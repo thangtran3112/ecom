@@ -12,6 +12,10 @@
 ## Starting watched server
 
 ```zsh
+    # Install Air once (adds to GOPATH/bin):
+    go install github.com/air-verse/air@latest
+
+    # Start dev server with live reload
     make server
 ```
 
