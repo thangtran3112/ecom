@@ -2,6 +2,11 @@ package domain
 
 import "time"
 
+/**
+json:"name" is used to serialize the field to json
+gorm:"PrimaryKey" is used to make the field a primary key
+db.AutoMigrate(&Product{}) will create the table with the fields
+*/
 type Product struct {
 	ID          uint      `json:"id" gorm:"PrimaryKey"`
 	Name        string    `json:"name" gorm:"index;"`

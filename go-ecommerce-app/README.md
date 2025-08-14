@@ -5,6 +5,7 @@
 ```zsh
     go mod init <Module_Name>
     go mod tidy
+    go mod download
     go run *.go
 ```
 
