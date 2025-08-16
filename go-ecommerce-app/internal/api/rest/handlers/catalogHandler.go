@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"go-ecommerce-app/internal/api/rest"
+	"go-ecommerce-app/internal/domain"
 	"go-ecommerce-app/internal/dto"
 	"go-ecommerce-app/internal/repository"
 	"go-ecommerce-app/internal/service"
@@ -44,7 +45,7 @@ func SetupCatalogRoutes(restHandler *rest.RestHandler) {
 	selRoutes.Delete("/categories/:id", handler.DeleteCategory)
 
 	// Products
-	selRoutes.Post("/products", handler.CreateProducts)
+	selRoutes.Post("/products", handler.CreateProduct)
 	selRoutes.Get("/products", handler.GetProducts)
 	selRoutes.Get("/products/:id", handler.GetProduct)
 	selRoutes.Put("/products/:id", handler.EditProduct)
@@ -97,27 +98,6 @@ func (catalogHandler CatalogHandler) DeleteCategory(ctx *fiber.Ctx) error {
 	return rest.SuccessResponse(ctx, "category deleted successfully", nil)
 }
 
-func (catalogHandler CatalogHandler) CreateProducts(ctx *fiber.Ctx) error {
-	return rest.SuccessResponse(ctx, "product created successfully", nil)
-}
-
-func (catalogHandler CatalogHandler) GetProducts(ctx *fiber.Ctx) error {
-	return rest.SuccessResponse(ctx, "products fetched successfully", nil)
-}
-
-func (catalogHandler CatalogHandler) GetProduct(ctx *fiber.Ctx) error {
-	return rest.SuccessResponse(ctx, "product fetched successfully", nil)
-}
-func (catalogHandler CatalogHandler) EditProduct(ctx *fiber.Ctx) error {
-	return rest.SuccessResponse(ctx, "product updated successfully", nil)
-}
-func (catalogHandler CatalogHandler) UpdateStock(ctx *fiber.Ctx) error {
-	return rest.SuccessResponse(ctx, "product stock updated successfully", nil)
-}
-func (catalogHandler CatalogHandler) DeleteProduct(ctx *fiber.Ctx) error {
-	return rest.SuccessResponse(ctx, "product deleted successfully", nil)
-}
-
 func (catalogHandler CatalogHandler) GetCategories(ctx *fiber.Ctx) error {
 	categories, err := catalogHandler.svc.GetCategories()
 	if err != nil {
@@ -133,4 +113,89 @@ func (catalogHandler CatalogHandler) GetCategoryById(ctx *fiber.Ctx) error {
 		return rest.ErrorMessage(ctx, 404, err)
 	}
 	return rest.SuccessResponse(ctx, "category", category)
+}
+
+
+func (catalogHandler CatalogHandler) CreateProduct(ctx *fiber.Ctx) error {
+	req := dto.CreateProductRequest{}
+
+	err := ctx.BodyParser(&req)
+	if err != nil {
+		return rest.BadRequestError(ctx, "create product request is not valid")
+	}
+
+	user := catalogHandler.svc.Auth.GetCurrentUser(ctx)
+	product, err := catalogHandler.svc.CreateProduct(req, user)
+	if err != nil {
+		return rest.InternalError(ctx, err)
+	}
+
+	return rest.SuccessResponse(ctx, "product created successfully", product)
+}
+
+func (h CatalogHandler) GetProducts(ctx *fiber.Ctx) error {
+
+	products, err := h.svc.GetProducts()
+	if err != nil {
+		return rest.ErrorMessage(ctx, 404, err)
+	}
+
+	return rest.SuccessResponse(ctx, "products", products)
+}
+
+func (h CatalogHandler) GetProduct(ctx *fiber.Ctx) error {
+
+	id, _ := strconv.Atoi(ctx.Params("id"))
+
+	product, err := h.svc.GetProductById(id)
+	if err != nil {
+		return rest.BadRequestError(ctx, "product not found")
+	}
+
+	return rest.SuccessResponse(ctx, "product", product)
+}
+
+func (catalogHandler CatalogHandler) EditProduct(ctx *fiber.Ctx) error {
+	id, _ := strconv.Atoi(ctx.Params("id"))
+	req := dto.CreateProductRequest{}
+	err := ctx.BodyParser(&req)
+	if err != nil {
+		return rest.BadRequestError(ctx, "edit product request is not valid")
+	}
+	user := catalogHandler.svc.Auth.GetCurrentUser(ctx)
+	product, err := catalogHandler.svc.EditProduct(id, req, user)
+	if err != nil {
+		return rest.InternalError(ctx, err)
+	}
+	return rest.SuccessResponse(ctx, "edit product", product)
+}
+
+func (h CatalogHandler) UpdateStock(ctx *fiber.Ctx) error {
+	id, _ := strconv.Atoi(ctx.Params("id"))
+	req := dto.UpdateStockRequest{}
+	err := ctx.BodyParser(&req)
+	if err != nil {
+		return rest.BadRequestError(ctx, "update stock request is not valid")
+	}
+	user := h.svc.Auth.GetCurrentUser(ctx)
+
+	product := domain.Product{
+		ID:     uint(id),
+		Stock:  uint(req.Stock),
+		UserId: int(user.ID),
+	}
+
+	updatedProduct, _ := h.svc.UpdateProductStock(product)
+
+	return rest.SuccessResponse(ctx, "update stock ", updatedProduct)
+}
+
+func (h CatalogHandler) DeleteProduct(ctx *fiber.Ctx) error {
+
+	id, _ := strconv.Atoi(ctx.Params("id"))
+	// need to provide user id to verify ownership
+	user := h.svc.Auth.GetCurrentUser(ctx)
+	err := h.svc.DeleteProduct(id, user)
+
+	return rest.SuccessResponse(ctx, "Delete product ", err)
 }

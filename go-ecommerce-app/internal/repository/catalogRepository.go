@@ -15,7 +15,7 @@ type CatalogRepository interface {
 	EditCategory(e *domain.Category) (*domain.Category, error)
 	DeleteCategory(id int) error
 
-	CreateProduct(e *domain.Product) error
+	CreateProduct(e *domain.Product) (*domain.Product, error)
 	FindProducts() ([]*domain.Product, error)
 	FindProductById(id int) (*domain.Product, error)
 	FindSellerProducts(id int) ([]*domain.Product, error)
@@ -27,13 +27,13 @@ type catalogRepository struct {
 	db *gorm.DB
 }
 
-func (repo catalogRepository) CreateProduct(product *domain.Product) error {
+func (repo catalogRepository) CreateProduct(product *domain.Product) (*domain.Product, error) {
 	err := repo.db.Model(&domain.Product{}).Create(product).Error
 	if err != nil {
 		log.Printf("err: %v", err)
-		return errors.New("cannot create product")
+		return nil, errors.New("cannot create product")
 	}
-	return nil
+	return product, nil
 }
 
 func (repo catalogRepository) FindProducts() ([]*domain.Product, error) {
@@ -55,17 +55,17 @@ func (repo catalogRepository) FindProductById(id int) (*domain.Product, error) {
 	return product, nil
 }
 
-func (c catalogRepository) FindSellerProducts(id int) ([]*domain.Product, error) {
+func (repo catalogRepository) FindSellerProducts(id int) ([]*domain.Product, error) {
 	var products []*domain.Product
-	err := c.db.Where("user_id=?", id).Find(&products).Error
+	err := repo.db.Where("user_id=?", id).Find(&products).Error
 	if err != nil {
 		return nil, err
 	}
 	return products, nil
 }
 
-func (c catalogRepository) EditProduct(e *domain.Product) (*domain.Product, error) {
-	err := c.db.Save(&e).Error
+func (repo catalogRepository) EditProduct(e *domain.Product) (*domain.Product, error) {
+	err := repo.db.Save(&e).Error
 	if err != nil {
 		log.Printf("db_err: %v", err)
 		return nil, errors.New("fail to update product")
@@ -73,8 +73,8 @@ func (c catalogRepository) EditProduct(e *domain.Product) (*domain.Product, erro
 	return e, nil
 }
 
-func (c catalogRepository) DeleteProduct(e *domain.Product) error {
-	err := c.db.Delete(&domain.Product{}, e.ID).Error
+func (repo catalogRepository) DeleteProduct(e *domain.Product) error {
+	err := repo.db.Delete(&domain.Product{}, e.ID).Error
 	if err != nil {
 		return errors.New("product cannot delete")
 	}
