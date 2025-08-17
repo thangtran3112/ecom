@@ -23,6 +23,10 @@ type UserRepository interface {
 	UpdateCart(c domain.Cart) error
 	DeleteCartById(id uint) error
 	DeleteCartItems(uId uint) error
+
+	// Profile
+	CreateProfile(e domain.Address) error
+	UpdateProfile(e domain.Address) error
 }
 
 type userRepository struct {
@@ -47,10 +51,12 @@ func (repository userRepository) CreateUser(usr domain.User) (domain.User, error
 	return usr, nil
 }
 
-func (repository userRepository) FindUser(email string) (domain.User, error) {
+func (r userRepository) FindUser(email string) (domain.User, error) {
+
 	var user domain.User
 
-	err := repository.db.First(&user, "email = ?", email).Error
+	// Preload is used to load related Address data
+	err := r.db.Preload("Address").First(&user, "email=?", email).Error
 
 	if err != nil {
 		log.Printf("find user error %v", err)
@@ -64,7 +70,11 @@ func (r userRepository) FindUserById(id uint) (domain.User, error) {
 
 	var user domain.User
 
-	err := r.db.First(&user, id).Error
+	// Preload is used to load related data before returning the user
+	err := r.db.Preload("Address").
+		Preload("Cart").
+		Preload("Orders").
+		First(&user, id).Error
 
 	if err != nil {
 		log.Printf("find user error %v", err)
@@ -133,4 +143,24 @@ func (r userRepository) DeleteCartById(id uint) error {
 func (r userRepository) DeleteCartItems(uId uint) error {
 	err := r.db.Where("user_id=?", uId).Delete(&domain.Cart{}).Error
 	return err
+}
+
+func (r userRepository) CreateProfile(e domain.Address) error {
+	err := r.db.Create(&e).Error
+	if err != nil {
+		log.Printf("error on creating profile with address %v", err)
+		return errors.New("failed to create profile")
+	}
+	return nil
+}
+
+func (r userRepository) UpdateProfile(e domain.Address) error {
+
+	err := r.db.Where("user_id=?", e.UserId).Updates(e).Error
+	if err != nil {
+		log.Printf("error on update profile with address %v", err)
+		return errors.New("failed to create profile")
+	}
+	return nil
+
 }

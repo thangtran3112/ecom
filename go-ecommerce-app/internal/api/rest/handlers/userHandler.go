@@ -43,6 +43,8 @@ func SetupUserRoutes(restHandler *rest.RestHandler) {
 	privateRoutes.Get("/verify", handler.GetVerificationCode)
 	privateRoutes.Post("/verify", handler.Verify)
 
+	// Only allow update first name, last name, address when user is logged in
+	// This is different from the register endpoint, where we only need user email and password
 	privateRoutes.Post("/profile", handler.CreateProfile)
 	privateRoutes.Get("/profile", handler.GetProfile)
 	privateRoutes.Patch("/profile", handler.UpdateProfile)
@@ -144,19 +146,36 @@ func (h *UserHandler) Verify(ctx *fiber.Ctx) error {
 	})
 }
 
-func (h *UserHandler) CreateProfile(ctx *fiber.Ctx) error {
+func (userHandler *UserHandler) CreateProfile(ctx *fiber.Ctx) error {
+	user := userHandler.svc.Auth.GetCurrentUser(ctx)
+	req := dto.ProfileInput{}
+
+	err := ctx.BodyParser(&req)
+	if err != nil {
+		return ctx.Status(http.StatusBadRequest).JSON(&fiber.Map{
+			"message": "please provide valid inputs",
+		})
+	}
+
+	err = userHandler.svc.CreateProfile(user.ID, req)
+	if err != nil {
+		return ctx.Status(http.StatusInternalServerError).JSON(&fiber.Map{
+			"message": "unable to create profile",
+		})
+	}
+
 	return ctx.Status(http.StatusOK).JSON(&fiber.Map{
 		"message": "profile created successfully",
 	})
 }
 
-func (h *UserHandler) GetProfile(ctx *fiber.Ctx) error {
+func (userHandler *UserHandler) GetProfile(ctx *fiber.Ctx) error {
 
-	user := h.svc.Auth.GetCurrentUser(ctx)
+	user := userHandler.svc.Auth.GetCurrentUser(ctx)
 	log.Println(user)
 
 	// call user service and perform get profile
-	profile, err := h.svc.GetProfile(user.ID)
+	profile, err := userHandler.svc.GetProfile(user.ID)
 	if err != nil {
 		return ctx.Status(http.StatusInternalServerError).JSON(&fiber.Map{
 			"message": "unable to get profile",
@@ -169,11 +188,27 @@ func (h *UserHandler) GetProfile(ctx *fiber.Ctx) error {
 	})
 }
 
-func (h *UserHandler) UpdateProfile(ctx *fiber.Ctx) error {
+func (userHandler *UserHandler) UpdateProfile(ctx *fiber.Ctx) error {
+	user := userHandler.svc.Auth.GetCurrentUser(ctx)
+	req := dto.ProfileInput{}
+	if err := ctx.BodyParser(&req); err != nil {
+		return ctx.Status(http.StatusBadRequest).JSON(&fiber.Map{
+			"message": "please provide a valid input",
+		})
+	}
+
+	err := userHandler.svc.UpdateProfile(user.ID, req)
+	if err != nil {
+		return ctx.Status(http.StatusInternalServerError).JSON(&fiber.Map{
+			"message": "unable to update profile",
+		})
+	}
+
 	return ctx.Status(http.StatusOK).JSON(&fiber.Map{
 		"message": "profile updated successfully",
 	})
 }
+
 func (h *UserHandler) GetOrders(ctx *fiber.Ctx) error {
 	return ctx.Status(http.StatusOK).JSON(&fiber.Map{
 		"message": "orders retrieved successfully",

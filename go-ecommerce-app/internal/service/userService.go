@@ -146,7 +146,44 @@ func (s UserService) VerifyCode(id uint, code string) error {
 	return nil
 }
 
-func (s UserService) CreateProfile(id uint, input any) error {
+func (userService UserService) CreateProfile(id uint, input dto.ProfileInput) error {
+	// update user with profile info
+	user, err := userService.Repo.FindUserById(id)
+
+	if err != nil {
+		return err
+	}
+	
+	if input.FirstName != "" {
+		user.FirstName = input.FirstName
+	}
+
+	if input.LastName != "" {
+		user.LastName = input.LastName
+	}
+
+	_, err = userService.Repo.UpdateUser(id, user)
+
+	if err != nil {
+		return err
+	}
+
+	// create address
+	address := domain.Address{
+		AddressLine1: input.AddressInput.AddressLine1,
+		AddressLine2: input.AddressInput.AddressLine2,
+		City:         input.AddressInput.City,
+		Country:      input.AddressInput.Country,
+		PostCode:     input.AddressInput.PostCode,
+		UserId:       id,
+	}
+
+	err = userService.Repo.CreateProfile(address)
+
+	if err != nil {
+		return err
+	}
+
 	return nil
 }
 
