@@ -56,26 +56,24 @@ func SetupUserRoutes(restHandler *rest.RestHandler) {
 }
 
 func (h *UserHandler) Register(ctx *fiber.Ctx) error {
-	// to create user
 	user := dto.UserSignup{}
-	// parse the request body into the user pointer struct
 	err := ctx.BodyParser(&user)
 	if err != nil {
 		return ctx.Status(http.StatusBadRequest).JSON(&fiber.Map{
 			"message": "please provide valid inputs",
 		})
 	}
-	
+
 	token, err := h.svc.Signup(user)
 	if err != nil {
 		return ctx.Status(http.StatusInternalServerError).JSON(&fiber.Map{
-			"message": "server error on signup",
+			"message": "error on signup",
 		})
 	}
-	
+
 	return ctx.Status(http.StatusOK).JSON(&fiber.Map{
 		"message": "register",
-		"token": token,
+		"token":   token,
 	})
 }
 

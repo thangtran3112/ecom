@@ -101,9 +101,9 @@ const VerifyPage: React.FC<LoginProps> = ({}) => {
   const FetchProfile = async () => {
     const token = localStorage.getItem("token");
     if (token !== null) {
-      const { user, message } = await GetProfile(token as string);
-      if (user) {
-        const auth = user as UserModel;
+      const { profile, message } = await GetProfile(token as string);
+      if (profile) {
+        const auth = profile as UserModel;
         dispatch(userLogin(auth));
       } else {
         console.log(`Error: ${message}`);

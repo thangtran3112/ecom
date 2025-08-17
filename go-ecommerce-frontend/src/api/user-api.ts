@@ -5,7 +5,7 @@ import { axiosAuth } from "./common";
 
 export const LoginAPI = async (email: string, password: string) => {
   try {
-    const response = await axios.post(`${BASE_URL}/users/login`, {
+    const response = await axios.post(`${BASE_URL}/login`, {
       email,
       password,
     });
@@ -24,7 +24,7 @@ export const RegisterApi = async ({
   password,
 }: RegisterModel) => {
   try {
-    const response = await axios.post(`${BASE_URL}/users/register`, {
+    const response = await axios.post(`${BASE_URL}/register`, {
       email: email,
       password: password,
       phone: phone,

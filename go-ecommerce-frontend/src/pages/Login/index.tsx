@@ -44,13 +44,16 @@ const LoginPage: React.FC<LoginProps> = ({}) => {
 
   const FetchProfile = async () => {
     const token = localStorage.getItem("token");
+    console.log("Login FetchProfile - Token:", token);
     if (token !== null) {
-      const { user, message } = await GetProfile(token as string);
-      if (user) {
-        const auth = user as UserModel;
+      const { profile, message } = await GetProfile(token as string);
+      console.log("Login FetchProfile - API Response:", { profile, message });
+      if (profile) {
+        const auth = profile as UserModel;
+        console.log("Login FetchProfile - Setting user profile:", auth);
         dispatch(userLogin(auth));
       } else {
-        console.log(`Error: ${message}`);
+        console.log(`Login FetchProfile - Error: ${message}`);
       }
     }
   };

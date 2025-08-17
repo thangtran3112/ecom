@@ -1,12 +1,7 @@
 package notification
 
 import (
-	"encoding/json"
-	"fmt"
 	"go-ecommerce-app/config"
-
-	"github.com/twilio/twilio-go"
-	twilioApi "github.com/twilio/twilio-go/rest/api/v2010"
 )
 
 type NotificationClient interface {
@@ -17,28 +12,31 @@ type notificationClient struct {
 	config config.AppConfig
 }
 
-// Twilio
+/**
+* I have not subscribed to twilio yet, so I am not able to send SMS.
+* See the verification code in the database
+*/
 func (n *notificationClient) SendSMS(phone string, message string) error {
-	accountSid := n.config.TwilioAccountSid
-	authToken := n.config.TwilioAuthToken
+	// accountSid := n.config.TwilioAccountSid
+	// authToken := n.config.TwilioAuthToken
 
-	client := twilio.NewRestClientWithParams(twilio.ClientParams{
-		Username: accountSid,
-		Password: authToken,
-	})
+	// client := twilio.NewRestClientWithParams(twilio.ClientParams{
+	// 	Username: accountSid,
+	// 	Password: authToken,
+	// })
 
-	params := &twilioApi.CreateMessageParams{}
-	params.SetTo(phone)
-	params.SetFrom(n.config.TwilioFromPhoneNumber)
-	params.SetBody(message)
+	// params := &twilioApi.CreateMessageParams{}
+	// params.SetTo(phone)
+	// params.SetFrom(n.config.TwilioFromPhoneNumber)
+	// params.SetBody(message)
 
-	resp, err := client.Api.CreateMessage(params)
-	if err != nil {
-		fmt.Println("Error sending SMS message: " + err.Error())
-	} else {
-		response, _ := json.Marshal(*resp)
-		fmt.Println("Response: " + string(response))
-	}
+	// resp, err := client.Api.CreateMessage(params)
+	// if err != nil {
+	// 	fmt.Println("Error sending SMS message: " + err.Error())
+	// } else {
+	// 	response, _ := json.Marshal(*resp)
+	// 	fmt.Println("Response: " + string(response))
+	// }
 	return nil
 }
 

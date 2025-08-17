@@ -252,13 +252,16 @@ export const NavBar = () => {
 
   const FetchProfile = async () => {
     const token = localStorage.getItem("token");
+    console.log("NavBar FetchProfile - Token:", token);
     if (token !== null) {
-      const { user, message } = await GetProfile(token as string);
-      if (user) {
-        const auth = user as UserModel;
+      const { profile, message } = await GetProfile(token as string);
+      console.log("NavBar FetchProfile - API Response:", { profile, message });
+      if (profile) {
+        const auth = profile as UserModel;
+        console.log("NavBar FetchProfile - Setting user profile:", auth);
         dispatch(userLogin(auth));
       } else {
-        console.log(`Error: ${message}`);
+        console.log(`NavBar FetchProfile - Error: ${message}`);
       }
     }
   };
@@ -266,6 +269,10 @@ export const NavBar = () => {
   const navigate = useNavigate();
 
   const profile = useAppSelector((state) => state.userReducer.userProfile);
+
+  // Debug profile state
+  console.log("NavBar - Current profile state:", profile);
+  console.log("NavBar - Profile.id exists?", !!profile.id);
 
   const sellerOptions = () => {
     if (profile && profile.user_type) {
