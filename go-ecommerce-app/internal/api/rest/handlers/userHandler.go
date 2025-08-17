@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"errors"
 	"go-ecommerce-app/internal/api/rest"
 	"go-ecommerce-app/internal/dto"
 	"go-ecommerce-app/internal/repository"
@@ -173,12 +174,6 @@ func (h *UserHandler) UpdateProfile(ctx *fiber.Ctx) error {
 		"message": "profile updated successfully",
 	})
 }
-
-func (h *UserHandler) GetCart(ctx *fiber.Ctx) error {
-	return ctx.Status(http.StatusOK).JSON(&fiber.Map{
-		"message": "cart retrieved successfully",
-	})
-}
 func (h *UserHandler) GetOrders(ctx *fiber.Ctx) error {
 	return ctx.Status(http.StatusOK).JSON(&fiber.Map{
 		"message": "orders retrieved successfully",
@@ -234,8 +229,15 @@ func (userHandler *UserHandler) AddToCart(ctx *fiber.Ctx) error {
 	return rest.SuccessResponse(ctx, "cart created successfully", cartItems)
 }
 
-func GetCart(ctx *fiber.Ctx) error {
+func (userHandler *UserHandler) GetCart(ctx *fiber.Ctx) error {
+	user := userHandler.svc.Auth.GetCurrentUser(ctx)
+
+	cart, _, err := userHandler.svc.FindCart(user.ID)
+	if err != nil {
+		return rest.InternalError(ctx, errors.New("cart does not exist"))
+	}
 	return ctx.Status(http.StatusOK).JSON(&fiber.Map{
-		"message": "cart retrieved successfully",
+		"message": "get cart",
+		"cart":    cart,
 	})
 }

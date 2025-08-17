@@ -254,8 +254,10 @@ func (userService UserService) CreateCart(input dto.CreateCartRequest, user doma
 		}
 	} else {
 		// check if product exist
-		product, _ := userService.CatalogRepo.FindProductById(int(input.ProductId))
-		if product.ID < 1 {
+		product, productErr := userService.CatalogRepo.FindProductById(int(input.ProductId))
+
+		// same like checking for error from previous statement
+		if productErr != nil || product.ID < 1 {
 			return nil, errors.New("product not found to create cart item")
 		}
 		// create cart
