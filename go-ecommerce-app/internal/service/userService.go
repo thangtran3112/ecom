@@ -187,8 +187,40 @@ func (userService UserService) CreateProfile(id uint, input dto.ProfileInput) er
 	return nil
 }
 
-func (s UserService) UpdateProfile(id uint, input any) error {
-	return nil
+func (s UserService) UpdateProfile(id uint, input dto.ProfileInput) error {
+		// find the user
+		user, err := s.Repo.FindUserById(id)
+
+		if err != nil {
+			return err
+		}
+		if input.FirstName != "" {
+			user.FirstName = input.FirstName
+		}
+		if input.LastName != "" {
+			user.LastName = input.LastName
+		}
+	
+		_, err = s.Repo.UpdateUser(id, user)
+
+		if err != nil {
+			return err
+		}
+		
+		address := domain.Address{
+			AddressLine1: input.AddressInput.AddressLine1,
+			AddressLine2: input.AddressInput.AddressLine2,
+			City:         input.AddressInput.City,
+			Country:      input.AddressInput.Country,
+			PostCode:     input.AddressInput.PostCode,
+			UserId:       id,
+		}
+	
+		err = s.Repo.UpdateProfile(address)
+		if err != nil {
+			return err
+		}
+		return nil
 }
 
 func (userService UserService) GetProfile(id uint) (*domain.User, error) {
