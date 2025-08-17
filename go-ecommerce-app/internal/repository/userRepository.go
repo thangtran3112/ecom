@@ -15,6 +15,14 @@ type UserRepository interface {
 	FindUserById(id uint) (domain.User, error)
 	UpdateUser(id uint, u domain.User) (domain.User, error)
 	CreateBankAccount(bankAccount domain.BankAccount) error
+
+	// Cart
+	FindCartItems(uId uint) ([]domain.Cart, error)
+	FindCartItem(uId uint, pId uint) (domain.Cart, error)
+	CreateCart(c domain.Cart) error
+	UpdateCart(c domain.Cart) error
+	DeleteCartById(id uint) error
+	DeleteCartItems(uId uint) error
 }
 
 type userRepository struct {
@@ -91,4 +99,38 @@ func (r userRepository) UpdateUser(id uint, inputUser domain.User) (domain.User,
 
 func (r userRepository) CreateBankAccount(bankAccount domain.BankAccount) error {
 	return r.db.Create(&bankAccount).Error
+}
+
+// FindCartItems is used to find all cart items by user id
+func (r userRepository) FindCartItems(uId uint) ([]domain.Cart, error) {
+	var carts []domain.Cart
+	err := r.db.Where("user_id=?", uId).Find(&carts).Error
+	return carts, err
+}
+
+// FindCartItem is used to find a cart item by user id and product id
+func (r userRepository) FindCartItem(userId uint, productId uint) (domain.Cart, error) {
+	cartItem := domain.Cart{}
+	err := r.db.Where("user_id=? AND product_id=?", userId, productId).First(&cartItem).Error
+	return cartItem, err
+}
+
+func (repo userRepository) CreateCart(cart domain.Cart) error {
+	return repo.db.Model(&domain.Cart{}).Create(&cart).Error
+}
+
+func (r userRepository) UpdateCart(c domain.Cart) error {
+	var cart domain.Cart
+	err := r.db.Model(&cart).Clauses(clause.Returning{}).Where("id=?", c.ID).Updates(c).Error
+	return err
+}
+
+func (r userRepository) DeleteCartById(id uint) error {
+	err := r.db.Delete(&domain.Cart{}, id).Error
+	return err
+}
+
+func (r userRepository) DeleteCartItems(uId uint) error {
+	err := r.db.Where("user_id=?", uId).Delete(&domain.Cart{}).Error
+	return err
 }
