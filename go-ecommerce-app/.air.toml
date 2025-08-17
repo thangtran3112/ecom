@@ -3,8 +3,8 @@ root = "."
 tmp_dir = "tmp"
 
 [build]
-  bin = "./tmp/main"
-  cmd = "go build -o ./tmp/main ."
+  bin = "./tmp/application"
+  cmd = "go build -o ./tmp/application ."
   include_ext = ["go"]
   exclude_dir = ["vendor", "tmp"]
 
@@ -18,4 +18,4 @@ tmp_dir = "tmp"
   runner = "magenta"
 
 [runner]
-  cmd = "APP_ENV=dev ./tmp/main"
+  cmd = "APP_ENV=dev ./tmp/application"
