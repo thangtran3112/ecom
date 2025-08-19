@@ -24,6 +24,11 @@ type UserRepository interface {
 	DeleteCartById(id uint) error
 	DeleteCartItems(uId uint) error
 
+	// Order
+	CreateOrder(o domain.Order) error
+	FindOrders(uId uint) ([]domain.Order, error)
+	FindOrderById(id uint, uId uint) (domain.Order, error)
+
 	// Profile
 	CreateProfile(e domain.Address) error
 	UpdateProfile(e domain.Address) error
@@ -37,6 +42,35 @@ func NewUserRepository(db *gorm.DB) UserRepository {
 	return &userRepository{
 		db: db,
 	}
+}
+
+func (r userRepository) CreateOrder(o domain.Order) error {
+	err := r.db.Create(&o).Error
+	if err != nil {
+		log.Printf("error on creating order %v", err)
+		return errors.New("failed to create order")
+	}
+	return nil
+}
+
+func (r userRepository) FindOrders(uId uint) ([]domain.Order, error) {
+	var orders []domain.Order
+	err := r.db.Where("user_id=?", uId).Find(&orders).Error
+	if err != nil {
+		log.Printf("error on fetching orders %v", err)
+		return nil, errors.New("failed to fetch orders")
+	}
+	return orders, nil
+}
+
+func (r userRepository) FindOrderById(id uint, uId uint) (domain.Order, error) {
+	var order domain.Order
+	err := r.db.Preload("Items").Where("id=? AND user_id=?", id, uId).First(&order).Error
+	if err != nil {
+		log.Printf("error on fetching order %v", err)
+		return domain.Order{}, errors.New("failed to fetch order")
+	}
+	return order, nil
 }
 
 func (repository userRepository) CreateUser(usr domain.User) (domain.User, error) {
@@ -66,6 +100,8 @@ func (r userRepository) FindUser(email string) (domain.User, error) {
 	return user, nil
 }
 
+// Notes:this would be chunky if we return all orders
+// We may need to remove the orders from the response
 func (r userRepository) FindUserById(id uint) (domain.User, error) {
 
 	var user domain.User
