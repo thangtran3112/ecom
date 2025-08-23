@@ -15,34 +15,34 @@ type TransactionRepository interface {
 	FindOrderById(uId uint, id uint) (dto.SellerOrderDetails, error)
 }
 
-type transactionStorage struct {
+type TransactionStorage struct {
 	db *gorm.DB
 }
 
 func NewTransactionRepository(db *gorm.DB) TransactionRepository {
-	return &transactionStorage{db: db}
+	return &TransactionStorage{db: db}
 }
 
-func (t transactionStorage) UpdatePayment(payment *domain.Payment) error {
-	return t.db.Save(payment).Error
+func (trasactionRepo TransactionStorage) UpdatePayment(payment *domain.Payment) error {
+	return trasactionRepo.db.Save(payment).Error
 }
 
-func (t transactionStorage) FindInitialPayment(uId uint) (*domain.Payment, error) {
+func (trasactionRepo TransactionStorage) FindInitialPayment(uId uint) (*domain.Payment, error) {
 	var payment *domain.Payment
-	err := t.db.First(&payment, "user_id=? AND status=?", uId, "initial").Order("created_at desc").Error
+	err := trasactionRepo.db.First(&payment, "user_id=? AND status=?", uId, "initial").Order("created_at desc").Error
 	return payment, err
 }
 
-func (t transactionStorage) CreatePayment(payment *domain.Payment) error {
-	return t.db.Create(payment).Error
+func (trasactionRepo TransactionStorage) CreatePayment(payment *domain.Payment) error {
+	return trasactionRepo.db.Create(payment).Error
 }
 
-func (t transactionStorage) FindOrders(uId uint) ([]domain.OrderItem, error) {
+func (trasactionRepo TransactionStorage) FindOrders(uId uint) ([]domain.OrderItem, error) {
 	//TODO implement me
 	panic("implement me")
 }
 
-func (t transactionStorage) FindOrderById(uId uint, id uint) (dto.SellerOrderDetails, error) {
+func (trasactionRepo TransactionStorage) FindOrderById(uId uint, id uint) (dto.SellerOrderDetails, error) {
 	//TODO implement me
 	panic("implement me")
 }

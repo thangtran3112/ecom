@@ -10,6 +10,7 @@ type Payment struct {
 	OrderId       string        `json:"order_id"`
 	CustomerId    string        `json:"customer_id"` // stripe customer if
 	PaymentId     string        `json:"payment_id"`  // payment id
+	PaymentUrl    string        `json:"payment_url"` // will be removed, as this is used for frontend only
 	ClientSecret  string        `json:"client_secret"`
 	Status        PaymentStatus `json:"status" gorm:"default:initial"` // initial, success, failed
 	Response      string        `json:"response"`

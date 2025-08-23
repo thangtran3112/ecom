@@ -1,9 +1,12 @@
 package handlers
 
 import (
+	"encoding/json"
 	"errors"
+	"fmt"
 	"go-ecommerce-app/config"
 	"go-ecommerce-app/internal/api/rest"
+	"go-ecommerce-app/internal/domain"
 	"go-ecommerce-app/internal/dto"
 	"go-ecommerce-app/internal/helper"
 	"go-ecommerce-app/internal/repository"
@@ -63,6 +66,9 @@ func (transactionHandler *TransactionHandler) MakePayment(ctx *fiber.Ctx) error 
 	
 		// 2. Check if user has an active payment session then return the payment url
 		activePayment, _ := transactionHandler.TransactionSvc.GetActivePayment(user.ID)
+		// if active payment is found, print out the payment url
+		// TODO: remove this. Frontend will handle the payment url as we wants customize the payment form
+		fmt.Println("activePayment", activePayment.PaymentUrl)
 		if activePayment.ID > 0 {
 			return ctx.Status(http.StatusOK).JSON(&fiber.Map{
 				"message": "create payment",
@@ -101,14 +107,46 @@ func (transactionHandler *TransactionHandler) MakePayment(ctx *fiber.Ctx) error 
 		})
 }
 
-func (h *TransactionHandler) VerifyPayment(c *fiber.Ctx) error {
-	return nil
+func (transactionHandler *TransactionHandler) VerifyPayment(ctx *fiber.Ctx) error {
+	// grab authorized user
+	user := transactionHandler.TransactionSvc.Auth.GetCurrentUser(ctx)
+
+	// do we have active payment session to verify?
+	activePayment, err := transactionHandler.TransactionSvc.GetActivePayment(user.ID)
+	if err != nil || activePayment.ID == 0 {
+		return ctx.Status(400).JSON(errors.New("no active payment exist"))
+	}
+
+	// fetch payment status from stripe
+	paymentRes, err := transactionHandler.PaymentClient.GetPaymentStatus(activePayment.PaymentId)
+	paymentJson, _ := json.Marshal(paymentRes)
+	paymentLogs := string(paymentJson)
+	paymentStatus := domain.PaymentStatusFailed
+
+	// if payment then create order
+	if domain.PaymentStatus(paymentRes.Status) == domain.PaymentStatusSuccess {
+		// create Order
+		paymentStatus = domain.PaymentStatusSuccess
+		err = transactionHandler.UserSvc.CreateOrder(user.ID, activePayment.OrderId, activePayment.PaymentId, activePayment.Amount)
+	}
+
+	if err != nil {
+		return rest.InternalError(ctx, err)
+	}
+
+	// update payment status
+	transactionHandler.TransactionSvc.UpdatePayment(user.ID, paymentStatus, paymentLogs)
+
+	return ctx.Status(http.StatusOK).JSON(&fiber.Map{
+		"message":  "create payment",
+		"response": paymentRes,
+	})
 }
 
-func (h *TransactionHandler) GetOrders(c *fiber.Ctx) error {
-	return nil
+func (h *TransactionHandler) GetOrders(ctx *fiber.Ctx) error {
+	return ctx.Status(200).JSON("success")
 }
 
-func (h *TransactionHandler) GetOrderDetails(c *fiber.Ctx) error {
-	return nil
+func (h *TransactionHandler) GetOrderDetails(ctx *fiber.Ctx) error {
+	return ctx.Status(200).JSON("success")
 }

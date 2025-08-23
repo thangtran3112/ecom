@@ -10,7 +10,6 @@ import (
 	"go-ecommerce-app/internal/repository"
 	"go-ecommerce-app/pkg/notification"
 	"log"
-	"strconv"
 	"time"
 )
 
@@ -351,15 +350,15 @@ func (userService UserService) CreateCart(input dto.CreateCartRequest, user doma
 	return userService.Repo.FindCartItems(user.ID)
 }
 
-func (userService UserService) CreateOrder(u domain.User) (int, error) {
+func (userService UserService) CreateOrder(uId uint, orderRef string, pId string, amount float64) error {
 	// find cart items for the user
-	cartItems, amount, err := userService.FindCart(u.ID)
+	cartItems, _, err := userService.FindCart(uId)
 	if err != nil {
-		return 0, errors.New("error on finding cart items")
+		return errors.New("error on finding cart items")
 	}
 
 	if len(cartItems) == 0 {
-		return 0, errors.New("cart is empty cannot create the order")
+		return errors.New("cart is empty cannot create the order")
 	}
 
 	// create order with generated OrderNumber
@@ -376,20 +375,9 @@ func (userService UserService) CreateOrder(u domain.User) (int, error) {
 		})
 	}
 
-	paymentId := "PAY12345"
-	txnId := "TXN12345"
-	orderRef, err := helper.RandomNumbers(6)
-	if err != nil {
-		return 0, err
-	}
-
-	orderRefInt, _ := strconv.Atoi(orderRef)
-
-	// create order
 	order := domain.Order{
-		UserId:         u.ID,
-		PaymentId:      paymentId,
-		TransactionId:  txnId,
+		UserId:         uId,
+		PaymentId:      pId,
 		OrderRefNumber: orderRef,
 		Amount:         amount,
 		Items:          orderItems,
@@ -397,17 +385,16 @@ func (userService UserService) CreateOrder(u domain.User) (int, error) {
 
 	err = userService.Repo.CreateOrder(order)
 	if err != nil {
-		return 0, err
+		return err
 	}
 	// send email to user with order details
 
 	// remove cart items from the cart
-	err = userService.Repo.DeleteCartItems(u.ID)
-	if err != nil {
-		log.Printf("Error deleting cart items: %v", err)
-	}
+	err = userService.Repo.DeleteCartItems(uId)
+	log.Printf("Deleting cart items Error %v", err)
 
-	return orderRefInt, err
+	// return order number
+	return err
 }
 
 func (s UserService) GetOrders(u domain.User) ([]domain.Order, error) {

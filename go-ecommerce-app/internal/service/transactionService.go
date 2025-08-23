@@ -12,27 +12,27 @@ type TransactionService struct {
 	Auth helper.Auth
 }
 
-func (s TransactionService) GetOrders(u domain.User) ([]domain.OrderItem, error) {
-	orders, err := s.Repo.FindOrders(u.ID)
+func (transactionService TransactionService) GetOrders(u domain.User) ([]domain.OrderItem, error) {
+	orders, err := transactionService.Repo.FindOrders(u.ID)
 	if err != nil {
 		return nil, err
 	}
 	return orders, nil
 }
 
-func (s TransactionService) GetOrderDetails(u domain.User, id uint) (dto.SellerOrderDetails, error) {
-	order, err := s.Repo.FindOrderById(u.ID, id)
+func (transactionService TransactionService) GetOrderDetails(u domain.User, id uint) (dto.SellerOrderDetails, error) {
+	order, err := transactionService.Repo.FindOrderById(u.ID, id)
 	if err != nil {
 		return dto.SellerOrderDetails{}, err
 	}
 	return order, nil
 }
 
-func (s TransactionService) GetActivePayment(uId uint) (*domain.Payment, error) {
-	return s.Repo.FindInitialPayment(uId)
+func (transactionService TransactionService) GetActivePayment(uId uint) (*domain.Payment, error) {
+	return transactionService.Repo.FindInitialPayment(uId)
 }
 
-func (s TransactionService) StoreCreatedPayment(input dto.CreatePaymentRequest) error {
+func (transactionService TransactionService) StoreCreatedPayment(input dto.CreatePaymentRequest) error {
 	payment := domain.Payment{
 		UserId:       input.UserId,
 		Amount:       input.Amount,
@@ -42,22 +42,22 @@ func (s TransactionService) StoreCreatedPayment(input dto.CreatePaymentRequest) 
 		OrderId:      input.OrderId,
 	}
 
-	return s.Repo.CreatePayment(&payment)
+	return transactionService.Repo.CreatePayment(&payment)
 }
 
-func (s TransactionService) UpdatePayment(userId uint, status string, paymentLog string) error {
-	p, err := s.GetActivePayment(userId)
+func (transactionService TransactionService) UpdatePayment(userId uint, status domain.PaymentStatus, paymentLog string) error {
+	payment, err := transactionService.GetActivePayment(userId)
 	if err != nil {
 		return err
 	}
-	p.Status = domain.PaymentStatus(status)
-	p.Response = paymentLog
-	return s.Repo.UpdatePayment(p)
+	payment.Status = domain.PaymentStatus(status)
+	payment.Response = paymentLog
+	return transactionService.Repo.UpdatePayment(payment)
 }
 
-func NewTransactionService(r repository.TransactionRepository, auth helper.Auth) *TransactionService {
+func NewTransactionService(transactionRepo repository.TransactionRepository, auth helper.Auth) *TransactionService {
 	return &TransactionService{
-		Repo: r,
+		Repo: transactionRepo,
 		Auth: auth,
 	}
 }

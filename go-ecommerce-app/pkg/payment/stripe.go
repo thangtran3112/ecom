@@ -3,9 +3,10 @@ package payment
 import (
 	"errors"
 	"fmt"
+	"log"
+
 	"github.com/stripe/stripe-go/v78"
 	"github.com/stripe/stripe-go/v78/paymentintent"
-	"log"
 )
 
 type PaymentClient interface {
@@ -17,6 +18,10 @@ type payment struct {
 	stripeSecretKey string
 }
 
+/*
+	We also have the option to use default payment url from stripe.
+	But most ecommerce apps will customize the payment form.
+*/
 func (p payment) CreatePayment(amount float64, userId uint, orderId string) (*stripe.PaymentIntent, error) {
 
 	stripe.Key = p.stripeSecretKey
