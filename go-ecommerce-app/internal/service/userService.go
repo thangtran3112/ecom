@@ -353,7 +353,7 @@ func (userService UserService) CreateCart(input dto.CreateCartRequest, user doma
 
 func (userService UserService) CreateOrder(u domain.User) (int, error) {
 	// find cart items for the user
-	cartItems, _, err := userService.FindCart(u.ID)
+	cartItems, amount, err := userService.FindCart(u.ID)
 	if err != nil {
 		return 0, errors.New("error on finding cart items")
 	}
@@ -376,7 +376,6 @@ func (userService UserService) CreateOrder(u domain.User) (int, error) {
 		})
 	}
 
-	amount := 0.0
 	paymentId := "PAY12345"
 	txnId := "TXN12345"
 	orderRef, err := helper.RandomNumbers(6)

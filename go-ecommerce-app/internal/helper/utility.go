@@ -20,5 +20,6 @@ func RandomNumbers(length int) (string, error) {
 		buffer[i] = numbers[int(buffer[i])%numLength]
 	}
 
+	// Note: leading 0s will be removed if we return int directly
 	return string(buffer), nil
 }

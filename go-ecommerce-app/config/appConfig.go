@@ -14,6 +14,10 @@ type AppConfig struct {
 	TwilioAccountSid      string
 	TwilioAuthToken       string
 	TwilioFromPhoneNumber string
+	StripeSecretKey       string
+	SuccessUrl            string
+	CancelUrl             string
+	PubKey                string
 }
 
 func SetupEnv() (cfg AppConfig, err error) {
@@ -42,5 +46,10 @@ func SetupEnv() (cfg AppConfig, err error) {
 		ServerPort: httpPort, Dsn: Dsn, AppSecret: appSecret, 
 		TwilioAccountSid:      os.Getenv("TWILIO_ACCOUNT_SID"),
 		TwilioAuthToken:       os.Getenv("TWILIO_AUTH_TOKEN"),
-		TwilioFromPhoneNumber: os.Getenv("TWILIO_FROM_PHONE_NUMBER")}, nil
+		TwilioFromPhoneNumber: os.Getenv("TWILIO_FROM_PHONE_NUMBER"),
+		StripeSecretKey:       os.Getenv("STRIPE_SECRET_KEY"),
+		SuccessUrl:            os.Getenv("SUCCESS_URL"),
+		CancelUrl:             os.Getenv("CANCEL_URL"),
+		PubKey:                os.Getenv("PUB_KEY"),
+	}, nil
 }

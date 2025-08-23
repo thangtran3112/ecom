@@ -6,6 +6,7 @@ import (
 	"go-ecommerce-app/internal/api/rest/handlers"
 	"go-ecommerce-app/internal/domain"
 	"go-ecommerce-app/internal/helper"
+	"go-ecommerce-app/pkg/payment"
 	"log"
 	"net/http"
 
@@ -54,6 +55,9 @@ func StartServer(config config.AppConfig) {
 	app.Use(corsConfig)
 
 	auth := helper.SetupAuth(config.AppSecret)
+
+	paymentClient := payment.NewPaymentClient(config.StripeSecretKey)
+
 	
 	// modify the Fiber app (like adding routes) and ensures working with 
 	// the same app instance when using &
@@ -62,6 +66,7 @@ func StartServer(config config.AppConfig) {
 		DB: db,
 		Auth: auth,
 		Config: config,
+		PaymentClient: paymentClient,
 	}
 	setupRoutes(restHandler)
 	app.Listen(config.ServerPort)
