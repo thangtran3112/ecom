@@ -77,10 +77,11 @@ func HealthCheck(ctx *fiber.Ctx) error {
 	})
 }
 
-func setupRoutes(rh *rest.RestHandler) {
+func setupRoutes(restHandler *rest.RestHandler) {
 	// user handler
-	handlers.SetupUserRoutes(rh)
+	handlers.SetupUserRoutes(restHandler)
 	// transactions
+	handlers.SetupTransactionRoutes(restHandler)
 	// catalog
-	handlers.SetupCatalogRoutes(rh)
+	handlers.SetupCatalogRoutes(restHandler)
 }

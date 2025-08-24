@@ -53,7 +53,6 @@ func SetupUserRoutes(restHandler *rest.RestHandler) {
 	privateRoutes.Post("/cart", handler.AddToCart)
 	privateRoutes.Get("/cart", handler.GetCart)
 
-	privateRoutes.Post("/order", handler.CreateOrder)
 	privateRoutes.Get("/order", handler.GetOrders)
 	privateRoutes.Get("/order/:id", handler.GetOrder)
 
@@ -209,18 +208,6 @@ func (userHandler *UserHandler) UpdateProfile(ctx *fiber.Ctx) error {
 
 	return ctx.Status(http.StatusOK).JSON(&fiber.Map{
 		"message": "profile updated successfully",
-	})
-}
-
-func (userHandler *UserHandler) CreateOrder(ctx *fiber.Ctx) error {
-	user := userHandler.svc.Auth.GetCurrentUser(ctx)
-	orderRef, err := userHandler.svc.CreateOrder(user)
-	if err != nil {
-		return rest.InternalError(ctx, errors.New("unable to create order"))
-	}
-	return ctx.Status(http.StatusOK).JSON(&fiber.Map{
-		"message": "order created successfully",
-		"order": orderRef,
 	})
 }
 

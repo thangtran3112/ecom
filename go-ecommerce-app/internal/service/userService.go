@@ -350,9 +350,9 @@ func (userService UserService) CreateCart(input dto.CreateCartRequest, user doma
 	return userService.Repo.FindCartItems(user.ID)
 }
 
-func (userService UserService) CreateOrder(uId uint, orderRef string, pId string, amount float64) error {
+func (userService UserService) CreateOrder(userId uint, orderRef string, paymentId string, amount float64) error {
 	// find cart items for the user
-	cartItems, _, err := userService.FindCart(uId)
+	cartItems, _, err := userService.FindCart(userId)
 	if err != nil {
 		return errors.New("error on finding cart items")
 	}
@@ -376,8 +376,8 @@ func (userService UserService) CreateOrder(uId uint, orderRef string, pId string
 	}
 
 	order := domain.Order{
-		UserId:         uId,
-		PaymentId:      pId,
+		UserId:         userId,
+		PaymentId:      paymentId,
 		OrderRefNumber: orderRef,
 		Amount:         amount,
 		Items:          orderItems,
@@ -390,23 +390,23 @@ func (userService UserService) CreateOrder(uId uint, orderRef string, pId string
 	// send email to user with order details
 
 	// remove cart items from the cart
-	err = userService.Repo.DeleteCartItems(uId)
+	err = userService.Repo.DeleteCartItems(userId)
 	log.Printf("Deleting cart items Error %v", err)
 
 	// return order number
 	return err
 }
 
-func (s UserService) GetOrders(u domain.User) ([]domain.Order, error) {
-	orders, err := s.Repo.FindOrders(u.ID)
+func (userService UserService) GetOrders(user domain.User) ([]domain.Order, error) {
+	orders, err := userService.Repo.FindOrders(user.ID)
 	if err != nil {
 		return nil, err
 	}
 	return orders, nil
 }
 
-func (s UserService) GetOrderById(id uint, uId uint) (domain.Order, error) {
-	order, err := s.Repo.FindOrderById(id, uId)
+func (userService UserService) GetOrderById(id uint, userId uint) (domain.Order, error) {
+	order, err := userService.Repo.FindOrderById(id, userId)
 	if err != nil {
 		return order, err
 	}
