@@ -214,14 +214,14 @@
 									}
 								},
 								"url": {
-									"raw": "{{BASE_URL}}/seller/products/1",
+									"raw": "{{BASE_URL}}/seller/products/5",
 									"host": [
 										"{{BASE_URL}}"
 									],
 									"path": [
 										"seller",
 										"products",
-										"1"
+										"5"
 									]
 								}
 							},
@@ -317,14 +317,14 @@
 									}
 								},
 								"url": {
-									"raw": "{{BASE_URL}}/seller/categories/4",
+									"raw": "{{BASE_URL}}/seller/categories/1",
 									"host": [
 										"{{BASE_URL}}"
 									],
 									"path": [
 										"seller",
 										"categories",
-										"4"
+										"1"
 									]
 								}
 							},
@@ -365,7 +365,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"name\":\"Google Pixel 2\",\n    \"description\":\"Mobile Phone \",\n    \"category_id\": 1,\n    \"image_url\":\"48c867b9-09a6-4d7b-b8d6-7244c049965f__Scaling_1.jpg\",\n    \"price\":400,\n    \"stock\": 1\n }",
+									"raw": "{\n    \"name\":\"Google Pixel 10\",\n    \"description\":\"Mobile Phone \",\n    \"category_id\": 2,\n    \"image_url\":\"48c867b9-09a6-4d7b-b8d6-7244c049965f__Scaling_1.jpg\",\n    \"price\":400,\n    \"stock\": 1\n }",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -429,7 +429,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"email\": \"jay22@test.com\",\n    \"password\": \"123456\",\n    \"phone\": \"+491700000000\"\n}",
+							"raw": "{\n    \"email\": \"test1@test1.com\",\n    \"password\": \"123456\",\n    \"phone\": \"+4253902078\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -471,7 +471,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"email\": \"jay22@test.com\",\n    \"password\": \"123456\"\n}",
+							"raw": "{\n    \"email\": \"test@test.com\",\n    \"password\": \"123456\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -594,7 +594,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n \"first_name\": \"Jay\",\n \"last_name\": \"Gogoi\",\n \"address\": {\n     \"address_line1\": \"my address 1\",\n     \"address_line2\": \"my address line 2\",\n     \"city\": \"Berlin\",\n     \"post_code\": 10785,\n     \"country\": \"DE\"\n }\n}",
+							"raw": "{\n \"first_name\": \"Toby\",\n \"last_name\": \"Tran\",\n \"address\": {\n     \"address_line1\": \"my address 1\",\n     \"address_line2\": \"my address line 2\",\n     \"city\": \"Berlin\",\n     \"post_code\": 10785,\n     \"country\": \"DE\"\n }\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -621,7 +621,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n \"first_name\": \"Jay\",\n \"last_name\": \"Go\",\n \"address\": {\n     \"address_line1\": \"my address\",\n     \"address_line2\": \"my address line\",\n     \"city\": \"Berlin\",\n     \"post_code\": 10785,\n     \"country\": \"DE\"\n }\n}",
+							"raw": "{\n \"first_name\": \"Toby\",\n \"last_name\": \"Go\",\n \"address\": {\n     \"address_line1\": \"my address\",\n     \"address_line2\": \"my address line\",\n     \"city\": \"Berlin\",\n     \"post_code\": 10785,\n     \"country\": \"DE\"\n }\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -701,13 +701,13 @@
 					"response": []
 				},
 				{
-					"name": "Create Cart",
+					"name": "Create or Update Cart",
 					"request": {
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n \"qty\": 1,\n \"product_id\": 8\n}",
+							"raw": "{\n \"qty\": 10,\n \"product_id\": 4\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -772,14 +772,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{BASE_URL}}/users/order/1",
+							"raw": "{{BASE_URL}}/users/order",
 							"host": [
 								"{{BASE_URL}}"
 							],
 							"path": [
 								"users",
-								"order",
-								"1"
+								"order"
 							]
 						}
 					},
@@ -803,13 +802,14 @@
 							}
 						},
 						"url": {
-							"raw": "{{BASE_URL}}/users/order",
+							"raw": "{{BASE_URL}}/users/order/1",
 							"host": [
 								"{{BASE_URL}}"
 							],
 							"path": [
 								"users",
-								"order"
+								"order",
+								"1"
 							]
 						}
 					},
@@ -817,36 +817,6 @@
 				},
 				{
 					"name": "Get Cart Items",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{BASE_URL}}/users/cart",
-							"host": [
-								"{{BASE_URL}}"
-							],
-							"path": [
-								"users",
-								"cart"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get Cart Items Copy",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},

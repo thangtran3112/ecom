@@ -6,7 +6,7 @@ tmp_dir = "tmp"
   bin = "./tmp/application"
   cmd = "go build -o ./tmp/application ."
   include_ext = ["go"]
-  exclude_dir = ["vendor", "tmp"]
+  exclude_dir = ["vendor", "tmp", "cdk", "@cdk"]
 
 [log]
   time = true

@@ -2,6 +2,7 @@ package config
 
 import (
 	"errors"
+	"fmt"
 	"os"
 
 	"github.com/joho/godotenv"
@@ -15,8 +16,6 @@ type AppConfig struct {
 	TwilioAuthToken       string
 	TwilioFromPhoneNumber string
 	StripeSecretKey       string
-	SuccessUrl            string
-	CancelUrl             string
 	PubKey                string
 }
 
@@ -30,7 +29,8 @@ func SetupEnv() (cfg AppConfig, err error) {
 		return AppConfig{}, errors.New("SERVER_PORT is not set")
 	}
 
-	Dsn := os.Getenv("DSN")
+	Dsn := fmt.Sprintf("host=%v user=%v password=%v dbname=%v port=%v", os.Getenv("DB_HOST"), os.Getenv("DB_USER"), os.Getenv("DB_PASSWORD"), os.Getenv("DB_NAME"), os.Getenv("DB_PORT"))
+
 
 	if len(Dsn) < 1 {
 		return AppConfig{}, errors.New("DSN is not set")
@@ -48,8 +48,6 @@ func SetupEnv() (cfg AppConfig, err error) {
 		TwilioAuthToken:       os.Getenv("TWILIO_AUTH_TOKEN"),
 		TwilioFromPhoneNumber: os.Getenv("TWILIO_FROM_PHONE_NUMBER"),
 		StripeSecretKey:       os.Getenv("STRIPE_SECRET_KEY"),
-		SuccessUrl:            os.Getenv("SUCCESS_URL"),
-		CancelUrl:             os.Getenv("CANCEL_URL"),
 		PubKey:                os.Getenv("PUB_KEY"),
 	}, nil
 }

@@ -1,0 +1,25 @@
+{
+  "name": "go-lambda-cdk",
+  "version": "0.1.0",
+  "bin": {
+    "go-lambda-cdk": "bin/go-lambda-cdk.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc -w",
+    "cdk": "cdk",
+    "synth": "cdk synth",
+    "deploy": "cdk deploy",
+    "destroy": "cdk destroy"
+  },
+  "devDependencies": {
+    "aws-cdk": "2.152.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.5"
+  },
+  "dependencies": {
+    "aws-cdk-lib": "^2.152.0",
+    "constructs": "^10.3.0",
+    "dotenv": "^16.4.5"
+  }
+}

@@ -17,6 +17,11 @@ import (
 )
 
 func StartServer(config config.AppConfig) {
+	app := BuildApp(config)
+	app.Listen(config.ServerPort)
+}
+// BuildApp constructs and configures the Fiber app (DB, routes, middleware) without starting the listener.
+func BuildApp(config config.AppConfig) *fiber.App {
 	// Initialize the Fiber app
 	app := fiber.New()
 
@@ -45,7 +50,7 @@ func StartServer(config config.AppConfig) {
 
 	log.Println("Database migrated successfully")
 
-		// cors configuration
+	// cors configuration
 	corsConfig := cors.New(cors.Config{
 		AllowOrigins: "*",
 		AllowHeaders: "Content-Type, Accept, Authorization",
@@ -58,7 +63,6 @@ func StartServer(config config.AppConfig) {
 
 	paymentClient := payment.NewPaymentClient(config.StripeSecretKey)
 
-	
 	// modify the Fiber app (like adding routes) and ensures working with 
 	// the same app instance when using &
 	restHandler := &rest.RestHandler{
@@ -69,7 +73,7 @@ func StartServer(config config.AppConfig) {
 		PaymentClient: paymentClient,
 	}
 	setupRoutes(restHandler)
-	app.Listen(config.ServerPort)
+	return app
 }
 func HealthCheck(ctx *fiber.Ctx) error {
 	return ctx.Status(http.StatusOK).JSON(&fiber.Map{
