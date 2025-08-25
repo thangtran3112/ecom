@@ -26,7 +26,7 @@ export class GoLambdaStack extends cdk.Stack {
                         tryBundle: (outputDir: string) => {
                             try {
                                 execSync(
-                                    `GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -o ${outputDir}/bootstrap ./cmd/lambda`,
+                                    `GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -o ${outputDir}/bootstrap ./lambda`,
                                     { stdio: 'inherit', cwd: projectRoot }
                                 );
                                 return true;
@@ -41,7 +41,7 @@ export class GoLambdaStack extends cdk.Stack {
                         'bash', '-lc',
                         [
                             'set -euo pipefail',
-                            'GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -o /asset-output/bootstrap ./cmd/lambda',
+                            'GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -o /asset-output/bootstrap ./lambda',
                         ].join(' && '),
                     ],
                     workingDirectory: '/asset-input',
